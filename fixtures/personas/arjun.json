@@ -1,0 +1,1394 @@
+{
+ "schema_version": "1.0",
+ "persona_id": "PSC-ARJUN-002",
+ "display_name": "Arjun Mehta (fictional)",
+ "synthetic": true,
+ "currency": "INR",
+ "as_of_date": "2026-10-01",
+ "profile": {
+  "city": "Bengaluru",
+  "business_type": "Freelance UX design",
+  "description": "Arjun is a freelance UX designer invoicing overseas clients through PayPal. Project-based work makes his monthly income lumpy, but he has been active for over two years.",
+  "business_start_date": "2024-08-01",
+  "age_years": 29,
+  "employment_type": "freelancer",
+  "income_note": "Average personal withdrawals; the remainder of profit is kept for taxes and gaps between projects."
+ },
+ "scenario": {
+  "headline": "Equipment upgrade with income-gap cushion",
+  "loan_purpose": "Replace workstation and monitors, and keep a few months of runway between projects",
+  "requested_amount_inr": 250000,
+  "requested_term_months": 12,
+  "narrative": "Arjun's earnings swing from slow months to big project payments. A fixed monthly instalment needs checking against that volatility, so he is a case that shows why revenue stability matters."
+ },
+ "monthly_summary": [
+  {
+   "month": "2025-10",
+   "sales_inr": 95000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 95000,
+   "expenses_inr": 33203,
+   "sale_count": 5
+  },
+  {
+   "month": "2025-11",
+   "sales_inr": 40000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 40000,
+   "expenses_inr": 13471,
+   "sale_count": 3
+  },
+  {
+   "month": "2025-12",
+   "sales_inr": 180000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 180000,
+   "expenses_inr": 64174,
+   "sale_count": 10
+  },
+  {
+   "month": "2026-01",
+   "sales_inr": 60000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 60000,
+   "expenses_inr": 20369,
+   "sale_count": 3
+  },
+  {
+   "month": "2026-02",
+   "sales_inr": 210000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 210000,
+   "expenses_inr": 74036,
+   "sale_count": 12
+  },
+  {
+   "month": "2026-03",
+   "sales_inr": 85000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 85000,
+   "expenses_inr": 28886,
+   "sale_count": 5
+  },
+  {
+   "month": "2026-04",
+   "sales_inr": 140000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 140000,
+   "expenses_inr": 50958,
+   "sale_count": 8
+  },
+  {
+   "month": "2026-05",
+   "sales_inr": 55000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 55000,
+   "expenses_inr": 19996,
+   "sale_count": 3
+  },
+  {
+   "month": "2026-06",
+   "sales_inr": 190000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 190000,
+   "expenses_inr": 66440,
+   "sale_count": 11
+  },
+  {
+   "month": "2026-07",
+   "sales_inr": 70000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 70000,
+   "expenses_inr": 23521,
+   "sale_count": 4
+  },
+  {
+   "month": "2026-08",
+   "sales_inr": 160000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 160000,
+   "expenses_inr": 57946,
+   "sale_count": 9
+  },
+  {
+   "month": "2026-09",
+   "sales_inr": 100000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 100000,
+   "expenses_inr": 33403,
+   "sale_count": 6
+  }
+ ],
+ "transactions": [
+  {
+   "txn_id": "SYN-ARJUN-00001",
+   "date": "2025-10-06",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8659,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00002",
+   "date": "2025-10-09",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6307,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00003",
+   "date": "2025-10-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 15150,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00004",
+   "date": "2025-10-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 45820,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00005",
+   "date": "2025-10-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 12860,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00006",
+   "date": "2025-10-16",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3954,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00007",
+   "date": "2025-10-17",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10188,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00008",
+   "date": "2025-10-26",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4095,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00009",
+   "date": "2025-10-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10410,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00010",
+   "date": "2025-10-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10760,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00011",
+   "date": "2025-11-01",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3101,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00012",
+   "date": "2025-11-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9400,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00013",
+   "date": "2025-11-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2457,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00014",
+   "date": "2025-11-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2508,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00015",
+   "date": "2025-11-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14380,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00016",
+   "date": "2025-11-21",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2335,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00017",
+   "date": "2025-11-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3070,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00018",
+   "date": "2025-11-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 16220,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00019",
+   "date": "2025-12-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 21570,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00020",
+   "date": "2025-12-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 21515,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00021",
+   "date": "2025-12-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 15960,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00022",
+   "date": "2025-12-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9110,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00023",
+   "date": "2025-12-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 15520,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00024",
+   "date": "2025-12-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 18650,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00025",
+   "date": "2025-12-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8102,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00026",
+   "date": "2025-12-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 15363,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00027",
+   "date": "2025-12-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4260,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00028",
+   "date": "2025-12-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 32320,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00029",
+   "date": "2025-12-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 24370,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00030",
+   "date": "2025-12-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 27680,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00031",
+   "date": "2025-12-16",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13490,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00032",
+   "date": "2025-12-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10560,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00033",
+   "date": "2025-12-20",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5704,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00034",
+   "date": "2026-01-01",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3395,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00035",
+   "date": "2026-01-13",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4092,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00036",
+   "date": "2026-01-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 25780,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00037",
+   "date": "2026-01-18",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6481,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00038",
+   "date": "2026-01-21",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4039,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00039",
+   "date": "2026-01-26",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2362,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00040",
+   "date": "2026-01-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10500,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00041",
+   "date": "2026-01-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 23720,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00042",
+   "date": "2026-02-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 22540,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00043",
+   "date": "2026-02-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 18180,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00044",
+   "date": "2026-02-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 21663,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00045",
+   "date": "2026-02-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8740,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00046",
+   "date": "2026-02-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14670,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00047",
+   "date": "2026-02-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 18150,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00048",
+   "date": "2026-02-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 25230,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00049",
+   "date": "2026-02-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 26110,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00050",
+   "date": "2026-02-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8080,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00051",
+   "date": "2026-02-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 18190,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00052",
+   "date": "2026-02-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 30550,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00053",
+   "date": "2026-02-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 15688,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00054",
+   "date": "2026-02-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 17320,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00055",
+   "date": "2026-02-26",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13505,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00056",
+   "date": "2026-02-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9270,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00057",
+   "date": "2026-02-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5000,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00058",
+   "date": "2026-02-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11150,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00059",
+   "date": "2026-03-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9180,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00060",
+   "date": "2026-03-08",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5524,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00061",
+   "date": "2026-03-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 19000,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00062",
+   "date": "2026-03-18",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2783,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00063",
+   "date": "2026-03-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8480,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00064",
+   "date": "2026-03-21",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9142,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00065",
+   "date": "2026-03-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 18570,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00066",
+   "date": "2026-03-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 29770,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00067",
+   "date": "2026-03-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9319,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00068",
+   "date": "2026-03-30",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2118,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00069",
+   "date": "2026-04-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 29170,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00070",
+   "date": "2026-04-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7330,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00071",
+   "date": "2026-04-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9670,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00072",
+   "date": "2026-04-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 26780,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00073",
+   "date": "2026-04-08",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13891,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00074",
+   "date": "2026-04-25",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9904,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00075",
+   "date": "2026-04-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14060,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00076",
+   "date": "2026-04-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14050,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00077",
+   "date": "2026-04-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 18660,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00078",
+   "date": "2026-04-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5377,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00079",
+   "date": "2026-04-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 14456,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00080",
+   "date": "2026-04-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8160,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00081",
+   "date": "2026-04-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 19450,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00082",
+   "date": "2026-05-03",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6365,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00083",
+   "date": "2026-05-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2690,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00084",
+   "date": "2026-05-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8940,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00085",
+   "date": "2026-05-20",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3768,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00086",
+   "date": "2026-05-20",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5231,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00087",
+   "date": "2026-05-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 23180,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00088",
+   "date": "2026-05-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 22880,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00089",
+   "date": "2026-05-31",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 1942,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00090",
+   "date": "2026-06-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10170,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00091",
+   "date": "2026-06-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 17260,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00092",
+   "date": "2026-06-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 16300,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00093",
+   "date": "2026-06-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10020,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00094",
+   "date": "2026-06-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5530,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00095",
+   "date": "2026-06-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11450,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00096",
+   "date": "2026-06-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 18980,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00097",
+   "date": "2026-06-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 30970,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00098",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 20860,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00099",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 30410,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00100",
+   "date": "2026-06-17",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5448,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00101",
+   "date": "2026-06-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10353,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00102",
+   "date": "2026-06-21",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 25041,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00103",
+   "date": "2026-06-23",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9298,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00104",
+   "date": "2026-06-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 22570,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00105",
+   "date": "2026-06-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11780,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00106",
+   "date": "2026-07-01",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3547,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00107",
+   "date": "2026-07-08",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6374,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00108",
+   "date": "2026-07-14",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4450,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00109",
+   "date": "2026-07-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 17010,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00110",
+   "date": "2026-07-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4140,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00111",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8120,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00112",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 40730,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00113",
+   "date": "2026-07-26",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 1375,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00114",
+   "date": "2026-07-29",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7775,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00115",
+   "date": "2026-08-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 12270,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00116",
+   "date": "2026-08-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 18176,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00117",
+   "date": "2026-08-05",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8131,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00118",
+   "date": "2026-08-06",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 22678,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00119",
+   "date": "2026-08-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6820,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00120",
+   "date": "2026-08-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 36130,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00121",
+   "date": "2026-08-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 12490,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00122",
+   "date": "2026-08-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 25930,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00123",
+   "date": "2026-08-21",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4563,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00124",
+   "date": "2026-08-23",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4398,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00125",
+   "date": "2026-08-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 27010,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00126",
+   "date": "2026-08-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9770,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00127",
+   "date": "2026-08-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14630,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00128",
+   "date": "2026-08-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14950,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00129",
+   "date": "2026-09-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11270,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00130",
+   "date": "2026-09-05",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4243,
+   "category": "professional_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00131",
+   "date": "2026-09-08",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4727,
+   "category": "hardware",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00132",
+   "date": "2026-09-10",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7877,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00133",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14690,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00134",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 26630,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00135",
+   "date": "2026-09-14",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 12191,
+   "category": "internet_phone",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00136",
+   "date": "2026-09-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5560,
+   "category": "international_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00137",
+   "date": "2026-09-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 23200,
+   "category": "domestic_client",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00138",
+   "date": "2026-09-16",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4365,
+   "category": "coworking",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ARJUN-00139",
+   "date": "2026-09-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 18650,
+   "category": "international_client",
+   "status": "completed"
+  }
+ ],
+ "model_input": {
+  "applicant_id": "PSC-ARJUN-002",
+  "age_years": 29,
+  "employment_type": "freelancer",
+  "business_age_months": 26,
+  "monthly_income_inr": 65000,
+  "existing_monthly_debt_payments_inr": 8000,
+  "prior_defaults_count": 0,
+  "avg_monthly_revenue_inr": 119166.67,
+  "avg_monthly_expenses_inr": 42044.0,
+  "revenue_volatility_cv": 0.4057,
+  "txn_count_90d": 19,
+  "avg_txn_value_inr": 17368.42,
+  "active_months_12m": 12,
+  "refund_rate_90d": 0.0,
+  "dispute_rate_12m": 0.0,
+  "requested_loan_amount_inr": 250000,
+  "requested_term_months": 12
+ }
+}

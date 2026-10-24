@@ -1,0 +1,249 @@
+{
+  "$defs": {
+    "EmploymentType": {
+      "enum": [
+        "salaried",
+        "self_employed",
+        "freelancer",
+        "business_owner",
+        "other"
+      ],
+      "title": "EmploymentType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Normalised model input. Optional fields may be omitted or null.",
+  "examples": [
+    {
+      "active_months_12m": 12,
+      "age_years": 34,
+      "applicant_id": "PSC-EXAMPLE-001",
+      "avg_monthly_expenses_inr": 84000,
+      "avg_monthly_revenue_inr": 140000,
+      "avg_txn_value_inr": 4500,
+      "business_age_months": 38,
+      "dispute_rate_12m": 0.0,
+      "employment_type": "self_employed",
+      "existing_monthly_debt_payments_inr": 6000,
+      "monthly_income_inr": 55000,
+      "prior_defaults_count": 0,
+      "refund_rate_90d": 0.02,
+      "requested_loan_amount_inr": 400000,
+      "requested_term_months": 18,
+      "revenue_volatility_cv": 0.08,
+      "txn_count_90d": 95
+    }
+  ],
+  "properties": {
+    "applicant_id": {
+      "description": "Pseudonymous ID (letters, digits, '_' or '-'). Never use a real name/email.",
+      "maxLength": 64,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "Applicant Id",
+      "type": "string"
+    },
+    "age_years": {
+      "description": "Age in whole years.",
+      "maximum": 100,
+      "minimum": 18,
+      "title": "Age Years",
+      "type": "integer"
+    },
+    "employment_type": {
+      "$ref": "#/$defs/EmploymentType"
+    },
+    "monthly_income_inr": {
+      "description": "Self-declared total monthly personal income, all sources (INR).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Monthly Income Inr",
+      "type": "number"
+    },
+    "requested_loan_amount_inr": {
+      "exclusiveMinimum": 0,
+      "maximum": 1000000000,
+      "title": "Requested Loan Amount Inr",
+      "type": "number"
+    },
+    "requested_term_months": {
+      "maximum": 360,
+      "minimum": 1,
+      "title": "Requested Term Months",
+      "type": "integer"
+    },
+    "business_age_months": {
+      "anyOf": [
+        {
+          "maximum": 1200,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Business Age Months"
+    },
+    "avg_monthly_revenue_inr": {
+      "anyOf": [
+        {
+          "maximum": 1000000000,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Mean net revenue/month, last 6 months.",
+      "title": "Avg Monthly Revenue Inr"
+    },
+    "avg_monthly_expenses_inr": {
+      "anyOf": [
+        {
+          "maximum": 1000000000,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Mean expenses/month, last 6 months.",
+      "title": "Avg Monthly Expenses Inr"
+    },
+    "revenue_volatility_cv": {
+      "anyOf": [
+        {
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Std-dev / mean of monthly net revenue over the last 6 months.",
+      "title": "Revenue Volatility Cv"
+    },
+    "txn_count_90d": {
+      "anyOf": [
+        {
+          "maximum": 1000000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Completed sales, last 90 days.",
+      "title": "Txn Count 90D"
+    },
+    "avg_txn_value_inr": {
+      "anyOf": [
+        {
+          "maximum": 1000000000,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Mean sale value, last 90 days.",
+      "title": "Avg Txn Value Inr"
+    },
+    "active_months_12m": {
+      "anyOf": [
+        {
+          "maximum": 12,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Months with >=1 sale, last 12.",
+      "title": "Active Months 12M"
+    },
+    "refund_rate_90d": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Refunds / sales (count), last 90 days.",
+      "title": "Refund Rate 90D"
+    },
+    "dispute_rate_12m": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Disputes / sales (count), last 12 months.",
+      "title": "Dispute Rate 12M"
+    },
+    "existing_monthly_debt_payments_inr": {
+      "anyOf": [
+        {
+          "maximum": 1000000000,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Existing Monthly Debt Payments Inr"
+    },
+    "prior_defaults_count": {
+      "anyOf": [
+        {
+          "maximum": 50,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Prior Defaults Count"
+    }
+  },
+  "required": [
+    "applicant_id",
+    "age_years",
+    "employment_type",
+    "monthly_income_inr",
+    "requested_loan_amount_inr",
+    "requested_term_months"
+  ],
+  "title": "ScoreRequest",
+  "type": "object"
+}

@@ -1,0 +1,3712 @@
+{
+ "schema_version": "1.0",
+ "persona_id": "PSC-ROHAN-003",
+ "display_name": "Rohan Kulkarni (fictional)",
+ "synthetic": true,
+ "currency": "INR",
+ "as_of_date": "2026-10-01",
+ "profile": {
+  "city": "Nagpur",
+  "business_type": "Online tea and spice reseller",
+  "description": "Rohan started reselling regional teas and spices online seven months ago. Sales are growing quickly from a small base, with thin margins, a few refunds and one payment dispute.",
+  "business_start_date": "2026-03-01",
+  "age_years": 24,
+  "employment_type": "business_owner",
+  "income_note": "About Rs 14,000 from part-time work at a family shop plus business profit; self-declared."
+ },
+ "scenario": {
+  "headline": "Large expansion loan on a thin track record",
+  "loan_purpose": "Rent a small warehouse and buy bulk stock to double sales volume",
+  "requested_amount_inr": 600000,
+  "requested_term_months": 36,
+  "narrative": "Rohan wants a loan far larger than his current monthly profit comfortably supports, with a short history, informal buy-now-pay-later debt and one earlier missed instalment. This is a thin-file case where any offer should be cautious."
+ },
+ "monthly_summary": [
+  {
+   "month": "2026-03",
+   "sales_inr": 30000,
+   "refunds_inr": 3770,
+   "net_revenue_inr": 26230,
+   "expenses_inr": 26868,
+   "sale_count": 27
+  },
+  {
+   "month": "2026-04",
+   "sales_inr": 41000,
+   "refunds_inr": 600,
+   "net_revenue_inr": 40400,
+   "expenses_inr": 36576,
+   "sale_count": 37
+  },
+  {
+   "month": "2026-05",
+   "sales_inr": 48000,
+   "refunds_inr": 4830,
+   "net_revenue_inr": 43170,
+   "expenses_inr": 41796,
+   "sale_count": 44
+  },
+  {
+   "month": "2026-06",
+   "sales_inr": 57000,
+   "refunds_inr": 3170,
+   "net_revenue_inr": 53830,
+   "expenses_inr": 49630,
+   "sale_count": 52
+  },
+  {
+   "month": "2026-07",
+   "sales_inr": 62000,
+   "refunds_inr": 4000,
+   "net_revenue_inr": 58000,
+   "expenses_inr": 55635,
+   "sale_count": 56
+  },
+  {
+   "month": "2026-08",
+   "sales_inr": 70000,
+   "refunds_inr": 550,
+   "net_revenue_inr": 69450,
+   "expenses_inr": 61868,
+   "sale_count": 64
+  },
+  {
+   "month": "2026-09",
+   "sales_inr": 72000,
+   "refunds_inr": 9040,
+   "net_revenue_inr": 62960,
+   "expenses_inr": 63333,
+   "sale_count": 65
+  }
+ ],
+ "transactions": [
+  {
+   "txn_id": "SYN-ROHAN-00001",
+   "date": "2026-03-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 730,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00002",
+   "date": "2026-03-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 820,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00003",
+   "date": "2026-03-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1490,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00004",
+   "date": "2026-03-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2690,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00005",
+   "date": "2026-03-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1410,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00006",
+   "date": "2026-03-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00007",
+   "date": "2026-03-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1410,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00008",
+   "date": "2026-03-06",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 1490,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00009",
+   "date": "2026-03-08",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6200,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00010",
+   "date": "2026-03-11",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4061,
+   "category": "ads",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00011",
+   "date": "2026-03-13",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9161,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00012",
+   "date": "2026-03-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 220,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00013",
+   "date": "2026-03-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00014",
+   "date": "2026-03-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 990,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00015",
+   "date": "2026-03-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00016",
+   "date": "2026-03-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 700,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00017",
+   "date": "2026-03-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1160,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00018",
+   "date": "2026-03-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00019",
+   "date": "2026-03-22",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4488,
+   "category": "inventory",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00020",
+   "date": "2026-03-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00021",
+   "date": "2026-03-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1250,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00022",
+   "date": "2026-03-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1750,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00023",
+   "date": "2026-03-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2310,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00024",
+   "date": "2026-03-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00025",
+   "date": "2026-03-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 690,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00026",
+   "date": "2026-03-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1850,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00027",
+   "date": "2026-03-26",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 530,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00028",
+   "date": "2026-03-26",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 1750,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00029",
+   "date": "2026-03-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 770,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00030",
+   "date": "2026-03-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00031",
+   "date": "2026-03-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1000,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00032",
+   "date": "2026-03-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 2958,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00033",
+   "date": "2026-03-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1030,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00034",
+   "date": "2026-03-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 660,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00035",
+   "date": "2026-03-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 710,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00036",
+   "date": "2026-04-01",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9706,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00037",
+   "date": "2026-04-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00038",
+   "date": "2026-04-03",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6963,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00039",
+   "date": "2026-04-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4383,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00040",
+   "date": "2026-04-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00041",
+   "date": "2026-04-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 840,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00042",
+   "date": "2026-04-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 760,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00043",
+   "date": "2026-04-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00044",
+   "date": "2026-04-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00045",
+   "date": "2026-04-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1220,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00046",
+   "date": "2026-04-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00047",
+   "date": "2026-04-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 600,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00048",
+   "date": "2026-04-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 660,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00049",
+   "date": "2026-04-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 790,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00050",
+   "date": "2026-04-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1520,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00051",
+   "date": "2026-04-16",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8570,
+   "category": "ads",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00052",
+   "date": "2026-04-16",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 600,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00053",
+   "date": "2026-04-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1250,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00054",
+   "date": "2026-04-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1480,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00055",
+   "date": "2026-04-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00056",
+   "date": "2026-04-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2390,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00057",
+   "date": "2026-04-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 590,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00058",
+   "date": "2026-04-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1940,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00059",
+   "date": "2026-04-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00060",
+   "date": "2026-04-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1360,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00061",
+   "date": "2026-04-20",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6954,
+   "category": "inventory",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00062",
+   "date": "2026-04-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 520,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00063",
+   "date": "2026-04-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00064",
+   "date": "2026-04-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 930,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00065",
+   "date": "2026-04-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00066",
+   "date": "2026-04-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1960,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00067",
+   "date": "2026-04-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00068",
+   "date": "2026-04-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 850,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00069",
+   "date": "2026-04-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00070",
+   "date": "2026-04-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00071",
+   "date": "2026-04-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1160,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00072",
+   "date": "2026-04-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00073",
+   "date": "2026-04-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1640,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00074",
+   "date": "2026-04-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 740,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00075",
+   "date": "2026-04-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 510,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00076",
+   "date": "2026-04-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1170,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00077",
+   "date": "2026-04-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00078",
+   "date": "2026-04-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1020,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00079",
+   "date": "2026-05-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 790,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00080",
+   "date": "2026-05-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 830,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00081",
+   "date": "2026-05-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1560,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00082",
+   "date": "2026-05-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2130,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00083",
+   "date": "2026-05-02",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5116,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00084",
+   "date": "2026-05-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00085",
+   "date": "2026-05-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00086",
+   "date": "2026-05-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00087",
+   "date": "2026-05-05",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3788,
+   "category": "inventory",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00088",
+   "date": "2026-05-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00089",
+   "date": "2026-05-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 480,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00090",
+   "date": "2026-05-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1320,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00091",
+   "date": "2026-05-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00092",
+   "date": "2026-05-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 310,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00093",
+   "date": "2026-05-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 900,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00094",
+   "date": "2026-05-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 540,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00095",
+   "date": "2026-05-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1150,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00096",
+   "date": "2026-05-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00097",
+   "date": "2026-05-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1300,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00098",
+   "date": "2026-05-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 410,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00099",
+   "date": "2026-05-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00100",
+   "date": "2026-05-13",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 17713,
+   "category": "ads",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00101",
+   "date": "2026-05-13",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 610,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00102",
+   "date": "2026-05-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 750,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00103",
+   "date": "2026-05-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00104",
+   "date": "2026-05-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00105",
+   "date": "2026-05-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00106",
+   "date": "2026-05-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 650,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00107",
+   "date": "2026-05-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00108",
+   "date": "2026-05-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1110,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00109",
+   "date": "2026-05-17",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6716,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00110",
+   "date": "2026-05-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 960,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00111",
+   "date": "2026-05-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2430,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00112",
+   "date": "2026-05-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8463,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00113",
+   "date": "2026-05-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1110,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00114",
+   "date": "2026-05-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1080,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00115",
+   "date": "2026-05-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1220,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00116",
+   "date": "2026-05-22",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 1110,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00117",
+   "date": "2026-05-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00118",
+   "date": "2026-05-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 340,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00119",
+   "date": "2026-05-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 780,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00120",
+   "date": "2026-05-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00121",
+   "date": "2026-05-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00122",
+   "date": "2026-05-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00123",
+   "date": "2026-05-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 740,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00124",
+   "date": "2026-05-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1630,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00125",
+   "date": "2026-05-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00126",
+   "date": "2026-05-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3110,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00127",
+   "date": "2026-05-31",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 3110,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00128",
+   "date": "2026-05-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 390,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00129",
+   "date": "2026-05-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 400,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00130",
+   "date": "2026-05-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00131",
+   "date": "2026-06-01",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10446,
+   "category": "inventory",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00132",
+   "date": "2026-06-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1520,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00133",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 780,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00134",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 910,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00135",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00136",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00137",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1130,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00138",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1210,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00139",
+   "date": "2026-06-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00140",
+   "date": "2026-06-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 670,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00141",
+   "date": "2026-06-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 760,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00142",
+   "date": "2026-06-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 790,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00143",
+   "date": "2026-06-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2590,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00144",
+   "date": "2026-06-06",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7162,
+   "category": "ads",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00145",
+   "date": "2026-06-06",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 910,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00146",
+   "date": "2026-06-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00147",
+   "date": "2026-06-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00148",
+   "date": "2026-06-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00149",
+   "date": "2026-06-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 460,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00150",
+   "date": "2026-06-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 480,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00151",
+   "date": "2026-06-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1180,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00152",
+   "date": "2026-06-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1020,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00153",
+   "date": "2026-06-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00154",
+   "date": "2026-06-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00155",
+   "date": "2026-06-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1600,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00156",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 960,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00157",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1060,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00158",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1110,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00159",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1680,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00160",
+   "date": "2026-06-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2170,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00161",
+   "date": "2026-06-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1090,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00162",
+   "date": "2026-06-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1360,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00163",
+   "date": "2026-06-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1190,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00164",
+   "date": "2026-06-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 690,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00165",
+   "date": "2026-06-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 780,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00166",
+   "date": "2026-06-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 830,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00167",
+   "date": "2026-06-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00168",
+   "date": "2026-06-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 640,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00169",
+   "date": "2026-06-23",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10371,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00170",
+   "date": "2026-06-23",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 780,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00171",
+   "date": "2026-06-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 520,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00172",
+   "date": "2026-06-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 780,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00173",
+   "date": "2026-06-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 960,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00174",
+   "date": "2026-06-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00175",
+   "date": "2026-06-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00176",
+   "date": "2026-06-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1330,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00177",
+   "date": "2026-06-26",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10970,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00178",
+   "date": "2026-06-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 890,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00179",
+   "date": "2026-06-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 900,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00180",
+   "date": "2026-06-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1210,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00181",
+   "date": "2026-06-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1430,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00182",
+   "date": "2026-06-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1480,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00183",
+   "date": "2026-06-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1510,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00184",
+   "date": "2026-06-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10681,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00185",
+   "date": "2026-06-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1580,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00186",
+   "date": "2026-06-30",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 1480,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00187",
+   "date": "2026-06-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 630,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00188",
+   "date": "2026-06-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 950,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00189",
+   "date": "2026-06-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1190,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00190",
+   "date": "2026-06-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2240,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00191",
+   "date": "2026-07-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 700,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00192",
+   "date": "2026-07-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2940,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00193",
+   "date": "2026-07-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00194",
+   "date": "2026-07-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 660,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00195",
+   "date": "2026-07-04",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 2940,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00196",
+   "date": "2026-07-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 390,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00197",
+   "date": "2026-07-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00198",
+   "date": "2026-07-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 480,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00199",
+   "date": "2026-07-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 910,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00200",
+   "date": "2026-07-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 300,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00201",
+   "date": "2026-07-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 310,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00202",
+   "date": "2026-07-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 690,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00203",
+   "date": "2026-07-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00204",
+   "date": "2026-07-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1520,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00205",
+   "date": "2026-07-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1080,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00206",
+   "date": "2026-07-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1210,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00207",
+   "date": "2026-07-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00208",
+   "date": "2026-07-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1840,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00209",
+   "date": "2026-07-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00210",
+   "date": "2026-07-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 630,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00211",
+   "date": "2026-07-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1260,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00212",
+   "date": "2026-07-11",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 370,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00213",
+   "date": "2026-07-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 660,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00214",
+   "date": "2026-07-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00215",
+   "date": "2026-07-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00216",
+   "date": "2026-07-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2260,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00217",
+   "date": "2026-07-12",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 690,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00218",
+   "date": "2026-07-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 950,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00219",
+   "date": "2026-07-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 980,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00220",
+   "date": "2026-07-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 870,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00221",
+   "date": "2026-07-15",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5473,
+   "category": "ads",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00222",
+   "date": "2026-07-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 380,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00223",
+   "date": "2026-07-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1050,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00224",
+   "date": "2026-07-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 850,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00225",
+   "date": "2026-07-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 930,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00226",
+   "date": "2026-07-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1940,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00227",
+   "date": "2026-07-20",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8382,
+   "category": "inventory",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00228",
+   "date": "2026-07-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 910,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00229",
+   "date": "2026-07-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00230",
+   "date": "2026-07-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00231",
+   "date": "2026-07-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00232",
+   "date": "2026-07-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00233",
+   "date": "2026-07-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 900,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00234",
+   "date": "2026-07-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1030,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00235",
+   "date": "2026-07-24",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5705,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00236",
+   "date": "2026-07-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00237",
+   "date": "2026-07-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00238",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 780,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00239",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00240",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1050,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00241",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1090,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00242",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1320,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00243",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1340,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00244",
+   "date": "2026-07-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 910,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00245",
+   "date": "2026-07-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1210,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00246",
+   "date": "2026-07-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00247",
+   "date": "2026-07-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00248",
+   "date": "2026-07-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00249",
+   "date": "2026-07-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00250",
+   "date": "2026-07-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1180,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00251",
+   "date": "2026-07-29",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 16193,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00252",
+   "date": "2026-07-30",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 19882,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00253",
+   "date": "2026-07-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 270,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00254",
+   "date": "2026-07-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00255",
+   "date": "2026-08-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1080,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00256",
+   "date": "2026-08-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1310,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00257",
+   "date": "2026-08-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00258",
+   "date": "2026-08-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 970,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00259",
+   "date": "2026-08-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1130,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00260",
+   "date": "2026-08-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1230,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00261",
+   "date": "2026-08-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00262",
+   "date": "2026-08-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00263",
+   "date": "2026-08-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1280,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00264",
+   "date": "2026-08-05",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7506,
+   "category": "ads",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00265",
+   "date": "2026-08-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00266",
+   "date": "2026-08-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00267",
+   "date": "2026-08-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 870,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00268",
+   "date": "2026-08-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 910,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00269",
+   "date": "2026-08-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 950,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00270",
+   "date": "2026-08-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00271",
+   "date": "2026-08-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 380,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00272",
+   "date": "2026-08-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00273",
+   "date": "2026-08-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1210,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00274",
+   "date": "2026-08-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00275",
+   "date": "2026-08-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 910,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00276",
+   "date": "2026-08-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1840,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00277",
+   "date": "2026-08-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00278",
+   "date": "2026-08-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00279",
+   "date": "2026-08-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1250,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00280",
+   "date": "2026-08-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1170,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00281",
+   "date": "2026-08-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1020,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00282",
+   "date": "2026-08-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3360,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00283",
+   "date": "2026-08-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 300,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00284",
+   "date": "2026-08-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 770,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00285",
+   "date": "2026-08-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 990,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00286",
+   "date": "2026-08-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00287",
+   "date": "2026-08-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1390,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00288",
+   "date": "2026-08-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1740,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00289",
+   "date": "2026-08-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 850,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00290",
+   "date": "2026-08-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00291",
+   "date": "2026-08-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1130,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00292",
+   "date": "2026-08-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1700,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00293",
+   "date": "2026-08-16",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8437,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00294",
+   "date": "2026-08-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 550,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00295",
+   "date": "2026-08-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1460,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00296",
+   "date": "2026-08-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1000,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00297",
+   "date": "2026-08-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1300,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00298",
+   "date": "2026-08-18",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 550,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00299",
+   "date": "2026-08-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 710,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00300",
+   "date": "2026-08-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1170,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00301",
+   "date": "2026-08-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10080,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00302",
+   "date": "2026-08-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 20251,
+   "category": "inventory",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00303",
+   "date": "2026-08-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 740,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00304",
+   "date": "2026-08-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00305",
+   "date": "2026-08-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1430,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00306",
+   "date": "2026-08-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1890,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00307",
+   "date": "2026-08-21",
+   "type": "dispute",
+   "direction": "outflow",
+   "amount_inr": 1100,
+   "category": "buyer_dispute",
+   "status": "open"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00308",
+   "date": "2026-08-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00309",
+   "date": "2026-08-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1440,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00310",
+   "date": "2026-08-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00311",
+   "date": "2026-08-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 380,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00312",
+   "date": "2026-08-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 870,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00313",
+   "date": "2026-08-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1250,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00314",
+   "date": "2026-08-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 700,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00315",
+   "date": "2026-08-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 740,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00316",
+   "date": "2026-08-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 740,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00317",
+   "date": "2026-08-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00318",
+   "date": "2026-08-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1890,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00319",
+   "date": "2026-08-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 15594,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00320",
+   "date": "2026-08-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 650,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00321",
+   "date": "2026-08-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 820,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00322",
+   "date": "2026-08-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 990,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00323",
+   "date": "2026-08-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1380,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00324",
+   "date": "2026-08-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00325",
+   "date": "2026-08-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1130,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00326",
+   "date": "2026-09-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 400,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00327",
+   "date": "2026-09-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1250,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00328",
+   "date": "2026-09-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1520,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00329",
+   "date": "2026-09-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 410,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00330",
+   "date": "2026-09-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 440,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00331",
+   "date": "2026-09-03",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 11764,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00332",
+   "date": "2026-09-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 640,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00333",
+   "date": "2026-09-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 680,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00334",
+   "date": "2026-09-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00335",
+   "date": "2026-09-05",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 1100,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00336",
+   "date": "2026-09-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1380,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00337",
+   "date": "2026-09-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1260,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00338",
+   "date": "2026-09-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00339",
+   "date": "2026-09-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00340",
+   "date": "2026-09-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1280,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00341",
+   "date": "2026-09-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2230,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00342",
+   "date": "2026-09-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00343",
+   "date": "2026-09-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1210,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00344",
+   "date": "2026-09-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00345",
+   "date": "2026-09-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1060,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00346",
+   "date": "2026-09-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1110,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00347",
+   "date": "2026-09-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1160,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00348",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 750,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00349",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00350",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1000,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00351",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2460,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00352",
+   "date": "2026-09-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 870,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00353",
+   "date": "2026-09-13",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13552,
+   "category": "inventory",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00354",
+   "date": "2026-09-13",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 1210,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00355",
+   "date": "2026-09-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 860,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00356",
+   "date": "2026-09-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1010,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00357",
+   "date": "2026-09-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1070,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00358",
+   "date": "2026-09-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1090,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00359",
+   "date": "2026-09-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1540,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00360",
+   "date": "2026-09-14",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 2460,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00361",
+   "date": "2026-09-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 540,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00362",
+   "date": "2026-09-15",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 540,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00363",
+   "date": "2026-09-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00364",
+   "date": "2026-09-16",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8138,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00365",
+   "date": "2026-09-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 560,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00366",
+   "date": "2026-09-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 970,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00367",
+   "date": "2026-09-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2410,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00368",
+   "date": "2026-09-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 360,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00369",
+   "date": "2026-09-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00370",
+   "date": "2026-09-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00371",
+   "date": "2026-09-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2600,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00372",
+   "date": "2026-09-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 710,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00373",
+   "date": "2026-09-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 860,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00374",
+   "date": "2026-09-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1160,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00375",
+   "date": "2026-09-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2640,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00376",
+   "date": "2026-09-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 500,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00377",
+   "date": "2026-09-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 660,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00378",
+   "date": "2026-09-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1030,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00379",
+   "date": "2026-09-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1140,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00380",
+   "date": "2026-09-21",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7687,
+   "category": "ads",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00381",
+   "date": "2026-09-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2380,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00382",
+   "date": "2026-09-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00383",
+   "date": "2026-09-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00384",
+   "date": "2026-09-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00385",
+   "date": "2026-09-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1490,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00386",
+   "date": "2026-09-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2180,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00387",
+   "date": "2026-09-24",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 2380,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00388",
+   "date": "2026-09-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 630,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00389",
+   "date": "2026-09-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1820,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00390",
+   "date": "2026-09-25",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 22192,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00391",
+   "date": "2026-09-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00392",
+   "date": "2026-09-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1540,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00393",
+   "date": "2026-09-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 950,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00394",
+   "date": "2026-09-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 960,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00395",
+   "date": "2026-09-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1170,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00396",
+   "date": "2026-09-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00397",
+   "date": "2026-09-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1330,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00398",
+   "date": "2026-09-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 640,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00399",
+   "date": "2026-09-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 970,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00400",
+   "date": "2026-09-30",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 1350,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-ROHAN-00401",
+   "date": "2026-09-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1180,
+   "category": "domestic_buyer",
+   "status": "completed"
+  }
+ ],
+ "model_input": {
+  "applicant_id": "PSC-ROHAN-003",
+  "age_years": 24,
+  "employment_type": "business_owner",
+  "business_age_months": 7,
+  "monthly_income_inr": 17500,
+  "existing_monthly_debt_payments_inr": 9500,
+  "prior_defaults_count": 1,
+  "avg_monthly_revenue_inr": 54635.0,
+  "avg_monthly_expenses_inr": 51473.0,
+  "revenue_volatility_cv": 0.1883,
+  "txn_count_90d": 182,
+  "avg_txn_value_inr": 1089.12,
+  "active_months_12m": 7,
+  "refund_rate_90d": 0.0549,
+  "dispute_rate_12m": 0.0029,
+  "requested_loan_amount_inr": 600000,
+  "requested_term_months": 36
+ }
+}

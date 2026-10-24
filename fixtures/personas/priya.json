@@ -1,0 +1,4040 @@
+{
+ "schema_version": "1.0",
+ "persona_id": "PSC-PRIYA-001",
+ "display_name": "Priya Nair (fictional)",
+ "synthetic": true,
+ "currency": "INR",
+ "as_of_date": "2026-10-01",
+ "profile": {
+  "city": "Kochi",
+  "business_type": "Handmade jewellery and home decor",
+  "description": "Priya runs a three-year-old online shop selling handmade silk-thread jewellery and decor to buyers in India and abroad, paid through PayPal. Demand is steady and growing.",
+  "business_start_date": "2023-08-01",
+  "age_years": 34,
+  "employment_type": "self_employed",
+  "income_note": "Monthly drawings from the business (~its monthly profit); no other income."
+ },
+ "scenario": {
+  "headline": "Festive-season inventory financing",
+  "loan_purpose": "Buy silk thread, packaging and gold-plated findings ahead of Diwali and Christmas orders",
+  "requested_amount_inr": 400000,
+  "requested_term_months": 18,
+  "narrative": "Priya expects festive orders to rise sharply but must pay suppliers up front. She wants a short working-capital loan repaid from the following months' sales. Her revenue is stable with few refunds, making her a strong, steady-income case."
+ },
+ "monthly_summary": [
+  {
+   "month": "2025-10",
+   "sales_inr": 128000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 128000,
+   "expenses_inr": 77069,
+   "sale_count": 28
+  },
+  {
+   "month": "2025-11",
+   "sales_inr": 131000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 131000,
+   "expenses_inr": 74091,
+   "sale_count": 29
+  },
+  {
+   "month": "2025-12",
+   "sales_inr": 152000,
+   "refunds_inr": 5050,
+   "net_revenue_inr": 146950,
+   "expenses_inr": 86361,
+   "sale_count": 34
+  },
+  {
+   "month": "2026-01",
+   "sales_inr": 139000,
+   "refunds_inr": 11640,
+   "net_revenue_inr": 127360,
+   "expenses_inr": 76895,
+   "sale_count": 31
+  },
+  {
+   "month": "2026-02",
+   "sales_inr": 126000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 126000,
+   "expenses_inr": 72072,
+   "sale_count": 28
+  },
+  {
+   "month": "2026-03",
+   "sales_inr": 130000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 130000,
+   "expenses_inr": 76592,
+   "sale_count": 29
+  },
+  {
+   "month": "2026-04",
+   "sales_inr": 133000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 133000,
+   "expenses_inr": 73932,
+   "sale_count": 30
+  },
+  {
+   "month": "2026-05",
+   "sales_inr": 137000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 137000,
+   "expenses_inr": 77347,
+   "sale_count": 30
+  },
+  {
+   "month": "2026-06",
+   "sales_inr": 141000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 141000,
+   "expenses_inr": 84423,
+   "sale_count": 31
+  },
+  {
+   "month": "2026-07",
+   "sales_inr": 146000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 146000,
+   "expenses_inr": 88640,
+   "sale_count": 32
+  },
+  {
+   "month": "2026-08",
+   "sales_inr": 150000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 150000,
+   "expenses_inr": 83149,
+   "sale_count": 33
+  },
+  {
+   "month": "2026-09",
+   "sales_inr": 158000,
+   "refunds_inr": 0,
+   "net_revenue_inr": 158000,
+   "expenses_inr": 95216,
+   "sale_count": 35
+  }
+ ],
+ "transactions": [
+  {
+   "txn_id": "SYN-PRIYA-00001",
+   "date": "2025-10-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2620,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00002",
+   "date": "2025-10-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3410,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00003",
+   "date": "2025-10-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6170,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00004",
+   "date": "2025-10-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2200,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00005",
+   "date": "2025-10-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4840,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00006",
+   "date": "2025-10-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00007",
+   "date": "2025-10-06",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9890,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00008",
+   "date": "2025-10-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00009",
+   "date": "2025-10-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1990,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00010",
+   "date": "2025-10-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5850,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00011",
+   "date": "2025-10-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3850,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00012",
+   "date": "2025-10-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6850,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00013",
+   "date": "2025-10-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9480,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00014",
+   "date": "2025-10-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5740,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00015",
+   "date": "2025-10-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5680,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00016",
+   "date": "2025-10-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5140,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00017",
+   "date": "2025-10-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9160,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00018",
+   "date": "2025-10-12",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 36358,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00019",
+   "date": "2025-10-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1460,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00020",
+   "date": "2025-10-14",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 1827,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00021",
+   "date": "2025-10-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2700,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00022",
+   "date": "2025-10-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3240,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00023",
+   "date": "2025-10-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00024",
+   "date": "2025-10-22",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 21620,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00025",
+   "date": "2025-10-23",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7374,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00026",
+   "date": "2025-10-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1770,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00027",
+   "date": "2025-10-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5180,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00028",
+   "date": "2025-10-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00029",
+   "date": "2025-10-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3400,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00030",
+   "date": "2025-10-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4020,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00031",
+   "date": "2025-10-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4440,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00032",
+   "date": "2025-10-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1700,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00033",
+   "date": "2025-10-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6520,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00034",
+   "date": "2025-11-03",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 3765,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00035",
+   "date": "2025-11-03",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 23791,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00036",
+   "date": "2025-11-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00037",
+   "date": "2025-11-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2020,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00038",
+   "date": "2025-11-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9360,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00039",
+   "date": "2025-11-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7090,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00040",
+   "date": "2025-11-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1800,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00041",
+   "date": "2025-11-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4190,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00042",
+   "date": "2025-11-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3290,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00043",
+   "date": "2025-11-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00044",
+   "date": "2025-11-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00045",
+   "date": "2025-11-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5710,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00046",
+   "date": "2025-11-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00047",
+   "date": "2025-11-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3530,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00048",
+   "date": "2025-11-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2230,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00049",
+   "date": "2025-11-15",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 11914,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00050",
+   "date": "2025-11-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7240,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00051",
+   "date": "2025-11-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11250,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00052",
+   "date": "2025-11-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00053",
+   "date": "2025-11-24",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 24832,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00054",
+   "date": "2025-11-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00055",
+   "date": "2025-11-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5190,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00056",
+   "date": "2025-11-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3070,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00057",
+   "date": "2025-11-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3410,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00058",
+   "date": "2025-11-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1200,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00059",
+   "date": "2025-11-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2350,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00060",
+   "date": "2025-11-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2870,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00061",
+   "date": "2025-11-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6310,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00062",
+   "date": "2025-11-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3330,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00063",
+   "date": "2025-11-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4290,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00064",
+   "date": "2025-11-29",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9789,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00065",
+   "date": "2025-11-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3510,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00066",
+   "date": "2025-11-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3510,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00067",
+   "date": "2025-11-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5270,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00068",
+   "date": "2025-12-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00069",
+   "date": "2025-12-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3240,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00070",
+   "date": "2025-12-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5560,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00071",
+   "date": "2025-12-03",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 48176,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00072",
+   "date": "2025-12-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2400,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00073",
+   "date": "2025-12-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2710,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00074",
+   "date": "2025-12-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6600,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00075",
+   "date": "2025-12-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00076",
+   "date": "2025-12-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3530,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00077",
+   "date": "2025-12-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4420,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00078",
+   "date": "2025-12-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5200,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00079",
+   "date": "2025-12-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6540,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00080",
+   "date": "2025-12-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6240,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00081",
+   "date": "2025-12-09",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 17529,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00082",
+   "date": "2025-12-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3150,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00083",
+   "date": "2025-12-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5050,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00084",
+   "date": "2025-12-12",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9707,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00085",
+   "date": "2025-12-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2170,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00086",
+   "date": "2025-12-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4970,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00087",
+   "date": "2025-12-14",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6293,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00088",
+   "date": "2025-12-15",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 5050,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00089",
+   "date": "2025-12-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5240,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00090",
+   "date": "2025-12-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6330,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00091",
+   "date": "2025-12-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00092",
+   "date": "2025-12-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5040,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00093",
+   "date": "2025-12-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3250,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00094",
+   "date": "2025-12-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4640,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00095",
+   "date": "2025-12-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2360,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00096",
+   "date": "2025-12-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3560,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00097",
+   "date": "2025-12-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2190,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00098",
+   "date": "2025-12-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2870,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00099",
+   "date": "2025-12-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4190,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00100",
+   "date": "2025-12-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4500,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00101",
+   "date": "2025-12-27",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4656,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00102",
+   "date": "2025-12-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2040,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00103",
+   "date": "2025-12-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2050,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00104",
+   "date": "2025-12-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6210,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00105",
+   "date": "2025-12-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10870,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00106",
+   "date": "2025-12-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6650,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00107",
+   "date": "2025-12-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8280,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00108",
+   "date": "2026-01-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2360,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00109",
+   "date": "2026-01-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3190,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00110",
+   "date": "2026-01-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2780,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00111",
+   "date": "2026-01-05",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 12525,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00112",
+   "date": "2026-01-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5620,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00113",
+   "date": "2026-01-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2280,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00114",
+   "date": "2026-01-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3360,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00115",
+   "date": "2026-01-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5610,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00116",
+   "date": "2026-01-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9470,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00117",
+   "date": "2026-01-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00118",
+   "date": "2026-01-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5850,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00119",
+   "date": "2026-01-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3540,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00120",
+   "date": "2026-01-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2130,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00121",
+   "date": "2026-01-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6170,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00122",
+   "date": "2026-01-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6650,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00123",
+   "date": "2026-01-13",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 5470,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00124",
+   "date": "2026-01-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2060,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00125",
+   "date": "2026-01-15",
+   "type": "refund",
+   "direction": "outflow",
+   "amount_inr": 6170,
+   "category": "customer_refund",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00126",
+   "date": "2026-01-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1640,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00127",
+   "date": "2026-01-17",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 17574,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00128",
+   "date": "2026-01-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6420,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00129",
+   "date": "2026-01-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7430,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00130",
+   "date": "2026-01-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2700,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00131",
+   "date": "2026-01-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3630,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00132",
+   "date": "2026-01-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6440,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00133",
+   "date": "2026-01-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2200,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00134",
+   "date": "2026-01-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5920,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00135",
+   "date": "2026-01-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2620,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00136",
+   "date": "2026-01-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8560,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00137",
+   "date": "2026-01-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4820,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00138",
+   "date": "2026-01-25",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4931,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00139",
+   "date": "2026-01-25",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 34435,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00140",
+   "date": "2026-01-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3180,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00141",
+   "date": "2026-01-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3260,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00142",
+   "date": "2026-01-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00143",
+   "date": "2026-01-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2480,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00144",
+   "date": "2026-01-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2930,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00145",
+   "date": "2026-01-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10090,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00146",
+   "date": "2026-02-01",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 19964,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00147",
+   "date": "2026-02-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2610,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00148",
+   "date": "2026-02-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4890,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00149",
+   "date": "2026-02-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2890,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00150",
+   "date": "2026-02-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8988,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00151",
+   "date": "2026-02-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2690,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00152",
+   "date": "2026-02-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3130,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00153",
+   "date": "2026-02-09",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 14131,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00154",
+   "date": "2026-02-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3360,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00155",
+   "date": "2026-02-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4170,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00156",
+   "date": "2026-02-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4550,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00157",
+   "date": "2026-02-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3560,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00158",
+   "date": "2026-02-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11970,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00159",
+   "date": "2026-02-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7710,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00160",
+   "date": "2026-02-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2440,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00161",
+   "date": "2026-02-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2650,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00162",
+   "date": "2026-02-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00163",
+   "date": "2026-02-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7700,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00164",
+   "date": "2026-02-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3260,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00165",
+   "date": "2026-02-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8300,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00166",
+   "date": "2026-02-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2140,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00167",
+   "date": "2026-02-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 18767,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00168",
+   "date": "2026-02-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1930,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00169",
+   "date": "2026-02-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5790,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00170",
+   "date": "2026-02-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6660,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00171",
+   "date": "2026-02-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6640,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00172",
+   "date": "2026-02-23",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 10222,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00173",
+   "date": "2026-02-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00174",
+   "date": "2026-02-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5810,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00175",
+   "date": "2026-02-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6850,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00176",
+   "date": "2026-02-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2010,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00177",
+   "date": "2026-02-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1230,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00178",
+   "date": "2026-02-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2000,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00179",
+   "date": "2026-03-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4190,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00180",
+   "date": "2026-03-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4300,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00181",
+   "date": "2026-03-06",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8418,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00182",
+   "date": "2026-03-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1770,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00183",
+   "date": "2026-03-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3560,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00184",
+   "date": "2026-03-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7180,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00185",
+   "date": "2026-03-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2960,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00186",
+   "date": "2026-03-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4950,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00187",
+   "date": "2026-03-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5150,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00188",
+   "date": "2026-03-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3850,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00189",
+   "date": "2026-03-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00190",
+   "date": "2026-03-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3220,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00191",
+   "date": "2026-03-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6710,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00192",
+   "date": "2026-03-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4430,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00193",
+   "date": "2026-03-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3330,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00194",
+   "date": "2026-03-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5050,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00195",
+   "date": "2026-03-18",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6969,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00196",
+   "date": "2026-03-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2180,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00197",
+   "date": "2026-03-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6090,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00198",
+   "date": "2026-03-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4280,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00199",
+   "date": "2026-03-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3140,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00200",
+   "date": "2026-03-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00201",
+   "date": "2026-03-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3700,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00202",
+   "date": "2026-03-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5120,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00203",
+   "date": "2026-03-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2760,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00204",
+   "date": "2026-03-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5080,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00205",
+   "date": "2026-03-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1840,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00206",
+   "date": "2026-03-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 8126,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00207",
+   "date": "2026-03-29",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13045,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00208",
+   "date": "2026-03-29",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 40034,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00209",
+   "date": "2026-03-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3350,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00210",
+   "date": "2026-03-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4930,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00211",
+   "date": "2026-03-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8670,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00212",
+   "date": "2026-03-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1570,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00213",
+   "date": "2026-04-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4080,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00214",
+   "date": "2026-04-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4650,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00215",
+   "date": "2026-04-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2180,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00216",
+   "date": "2026-04-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00217",
+   "date": "2026-04-06",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6770,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00218",
+   "date": "2026-04-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3780,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00219",
+   "date": "2026-04-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3330,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00220",
+   "date": "2026-04-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00221",
+   "date": "2026-04-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4740,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00222",
+   "date": "2026-04-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7570,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00223",
+   "date": "2026-04-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00224",
+   "date": "2026-04-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00225",
+   "date": "2026-04-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8080,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00226",
+   "date": "2026-04-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5130,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00227",
+   "date": "2026-04-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1300,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00228",
+   "date": "2026-04-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1890,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00229",
+   "date": "2026-04-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1930,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00230",
+   "date": "2026-04-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6360,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00231",
+   "date": "2026-04-15",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 18163,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00232",
+   "date": "2026-04-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00233",
+   "date": "2026-04-18",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 19970,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00234",
+   "date": "2026-04-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2270,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00235",
+   "date": "2026-04-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5040,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00236",
+   "date": "2026-04-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4350,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00237",
+   "date": "2026-04-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4730,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00238",
+   "date": "2026-04-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7590,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00239",
+   "date": "2026-04-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7040,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00240",
+   "date": "2026-04-25",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 21306,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00241",
+   "date": "2026-04-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2100,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00242",
+   "date": "2026-04-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00243",
+   "date": "2026-04-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4760,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00244",
+   "date": "2026-04-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2640,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00245",
+   "date": "2026-04-28",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7723,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00246",
+   "date": "2026-04-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4790,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00247",
+   "date": "2026-04-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4850,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00248",
+   "date": "2026-05-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00249",
+   "date": "2026-05-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 16362,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00250",
+   "date": "2026-05-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00251",
+   "date": "2026-05-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7740,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00252",
+   "date": "2026-05-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4500,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00253",
+   "date": "2026-05-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00254",
+   "date": "2026-05-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 11637,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00255",
+   "date": "2026-05-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2260,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00256",
+   "date": "2026-05-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2970,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00257",
+   "date": "2026-05-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9270,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00258",
+   "date": "2026-05-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4490,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00259",
+   "date": "2026-05-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5150,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00260",
+   "date": "2026-05-11",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 15004,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00261",
+   "date": "2026-05-11",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 25005,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00262",
+   "date": "2026-05-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00263",
+   "date": "2026-05-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4240,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00264",
+   "date": "2026-05-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2760,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00265",
+   "date": "2026-05-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8330,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00266",
+   "date": "2026-05-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00267",
+   "date": "2026-05-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2620,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00268",
+   "date": "2026-05-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3420,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00269",
+   "date": "2026-05-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00270",
+   "date": "2026-05-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3760,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00271",
+   "date": "2026-05-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2580,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00272",
+   "date": "2026-05-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4340,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00273",
+   "date": "2026-05-23",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9339,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00274",
+   "date": "2026-05-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1900,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00275",
+   "date": "2026-05-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2770,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00276",
+   "date": "2026-05-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6980,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00277",
+   "date": "2026-05-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 12970,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00278",
+   "date": "2026-05-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4160,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00279",
+   "date": "2026-05-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7110,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00280",
+   "date": "2026-05-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2190,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00281",
+   "date": "2026-05-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3140,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00282",
+   "date": "2026-05-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2430,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00283",
+   "date": "2026-06-01",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 6639,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00284",
+   "date": "2026-06-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4710,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00285",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00286",
+   "date": "2026-06-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6470,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00287",
+   "date": "2026-06-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 16930,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00288",
+   "date": "2026-06-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1750,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00289",
+   "date": "2026-06-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3550,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00290",
+   "date": "2026-06-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4630,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00291",
+   "date": "2026-06-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4420,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00292",
+   "date": "2026-06-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2400,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00293",
+   "date": "2026-06-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6080,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00294",
+   "date": "2026-06-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 31967,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00295",
+   "date": "2026-06-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3290,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00296",
+   "date": "2026-06-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4370,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00297",
+   "date": "2026-06-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2110,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00298",
+   "date": "2026-06-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1920,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00299",
+   "date": "2026-06-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4730,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00300",
+   "date": "2026-06-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2760,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00301",
+   "date": "2026-06-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 14180,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00302",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1680,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00303",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4400,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00304",
+   "date": "2026-06-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4440,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00305",
+   "date": "2026-06-17",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 28417,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00306",
+   "date": "2026-06-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00307",
+   "date": "2026-06-18",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 4331,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00308",
+   "date": "2026-06-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5260,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00309",
+   "date": "2026-06-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2660,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00310",
+   "date": "2026-06-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5140,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00311",
+   "date": "2026-06-25",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13069,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00312",
+   "date": "2026-06-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1890,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00313",
+   "date": "2026-06-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00314",
+   "date": "2026-06-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3890,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00315",
+   "date": "2026-06-28",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3090,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00316",
+   "date": "2026-06-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3990,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00317",
+   "date": "2026-06-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3080,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00318",
+   "date": "2026-06-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4230,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00319",
+   "date": "2026-07-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00320",
+   "date": "2026-07-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8370,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00321",
+   "date": "2026-07-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7910,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00322",
+   "date": "2026-07-04",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 5491,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00323",
+   "date": "2026-07-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5320,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00324",
+   "date": "2026-07-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5380,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00325",
+   "date": "2026-07-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7640,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00326",
+   "date": "2026-07-09",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 9058,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00327",
+   "date": "2026-07-11",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 31184,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00328",
+   "date": "2026-07-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00329",
+   "date": "2026-07-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1990,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00330",
+   "date": "2026-07-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4250,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00331",
+   "date": "2026-07-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7760,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00332",
+   "date": "2026-07-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3390,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00333",
+   "date": "2026-07-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4100,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00334",
+   "date": "2026-07-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8580,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00335",
+   "date": "2026-07-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3020,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00336",
+   "date": "2026-07-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5370,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00337",
+   "date": "2026-07-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1790,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00338",
+   "date": "2026-07-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3350,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00339",
+   "date": "2026-07-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2270,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00340",
+   "date": "2026-07-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3800,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00341",
+   "date": "2026-07-24",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 21442,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00342",
+   "date": "2026-07-24",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 21465,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00343",
+   "date": "2026-07-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1500,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00344",
+   "date": "2026-07-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2840,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00345",
+   "date": "2026-07-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5270,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00346",
+   "date": "2026-07-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 8360,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00347",
+   "date": "2026-07-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4290,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00348",
+   "date": "2026-07-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4150,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00349",
+   "date": "2026-07-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1140,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00350",
+   "date": "2026-07-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9160,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00351",
+   "date": "2026-07-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3250,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00352",
+   "date": "2026-07-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4070,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00353",
+   "date": "2026-07-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4410,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00354",
+   "date": "2026-07-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4510,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00355",
+   "date": "2026-07-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3270,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00356",
+   "date": "2026-08-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4540,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00357",
+   "date": "2026-08-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5640,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00358",
+   "date": "2026-08-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00359",
+   "date": "2026-08-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3610,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00360",
+   "date": "2026-08-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2880,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00361",
+   "date": "2026-08-06",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4470,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00362",
+   "date": "2026-08-07",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10290,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00363",
+   "date": "2026-08-08",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 28515,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00364",
+   "date": "2026-08-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3320,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00365",
+   "date": "2026-08-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3030,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00366",
+   "date": "2026-08-11",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00367",
+   "date": "2026-08-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2350,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00368",
+   "date": "2026-08-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3030,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00369",
+   "date": "2026-08-14",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 11880,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00370",
+   "date": "2026-08-16",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7721,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00371",
+   "date": "2026-08-16",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5240,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00372",
+   "date": "2026-08-17",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 7390,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00373",
+   "date": "2026-08-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2230,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00374",
+   "date": "2026-08-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4330,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00375",
+   "date": "2026-08-17",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5410,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00376",
+   "date": "2026-08-18",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3450,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00377",
+   "date": "2026-08-19",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 26415,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00378",
+   "date": "2026-08-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7600,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00379",
+   "date": "2026-08-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4080,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00380",
+   "date": "2026-08-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2680,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00381",
+   "date": "2026-08-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3760,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00382",
+   "date": "2026-08-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4560,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00383",
+   "date": "2026-08-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3210,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00384",
+   "date": "2026-08-27",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3650,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00385",
+   "date": "2026-08-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3720,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00386",
+   "date": "2026-08-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4280,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00387",
+   "date": "2026-08-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2020,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00388",
+   "date": "2026-08-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3340,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00389",
+   "date": "2026-08-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 10740,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00390",
+   "date": "2026-08-31",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13108,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00391",
+   "date": "2026-08-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2490,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00392",
+   "date": "2026-08-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2800,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00393",
+   "date": "2026-08-31",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5880,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00394",
+   "date": "2026-09-01",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1750,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00395",
+   "date": "2026-09-02",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4870,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00396",
+   "date": "2026-09-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5380,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00397",
+   "date": "2026-09-03",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6270,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00398",
+   "date": "2026-09-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4560,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00399",
+   "date": "2026-09-04",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6340,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00400",
+   "date": "2026-09-05",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5430,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00401",
+   "date": "2026-09-07",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 21463,
+   "category": "software_subscriptions",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00402",
+   "date": "2026-09-08",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13140,
+   "category": "shipping",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00403",
+   "date": "2026-09-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2660,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00404",
+   "date": "2026-09-08",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5400,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00405",
+   "date": "2026-09-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4280,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00406",
+   "date": "2026-09-09",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4660,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00407",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2710,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00408",
+   "date": "2026-09-10",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5200,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00409",
+   "date": "2026-09-11",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 20346,
+   "category": "packaging",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00410",
+   "date": "2026-09-11",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 26729,
+   "category": "marketplace_fees",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00411",
+   "date": "2026-09-12",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4680,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00412",
+   "date": "2026-09-13",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4040,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00413",
+   "date": "2026-09-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2740,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00414",
+   "date": "2026-09-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3360,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00415",
+   "date": "2026-09-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3810,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00416",
+   "date": "2026-09-15",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4780,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00417",
+   "date": "2026-09-19",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4100,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00418",
+   "date": "2026-09-20",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1510,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00419",
+   "date": "2026-09-21",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2820,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00420",
+   "date": "2026-09-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2990,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00421",
+   "date": "2026-09-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 4430,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00422",
+   "date": "2026-09-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 5490,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00423",
+   "date": "2026-09-22",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6550,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00424",
+   "date": "2026-09-23",
+   "type": "expense",
+   "direction": "outflow",
+   "amount_inr": 13538,
+   "category": "supplier_materials",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00425",
+   "date": "2026-09-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6970,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00426",
+   "date": "2026-09-23",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 7920,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00427",
+   "date": "2026-09-24",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1600,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00428",
+   "date": "2026-09-25",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 1920,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00429",
+   "date": "2026-09-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6380,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00430",
+   "date": "2026-09-26",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 6980,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00431",
+   "date": "2026-09-29",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 3240,
+   "category": "international_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00432",
+   "date": "2026-09-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 2950,
+   "category": "domestic_buyer",
+   "status": "completed"
+  },
+  {
+   "txn_id": "SYN-PRIYA-00433",
+   "date": "2026-09-30",
+   "type": "sale",
+   "direction": "inflow",
+   "amount_inr": 9230,
+   "category": "domestic_buyer",
+   "status": "completed"
+  }
+ ],
+ "model_input": {
+  "applicant_id": "PSC-PRIYA-001",
+  "age_years": 34,
+  "employment_type": "self_employed",
+  "business_age_months": 38,
+  "monthly_income_inr": 55000,
+  "existing_monthly_debt_payments_inr": 6000,
+  "prior_defaults_count": 0,
+  "avg_monthly_revenue_inr": 144166.67,
+  "avg_monthly_expenses_inr": 83784.5,
+  "revenue_volatility_cv": 0.0577,
+  "txn_count_90d": 97,
+  "avg_txn_value_inr": 4481.24,
+  "active_months_12m": 12,
+  "refund_rate_90d": 0.0,
+  "dispute_rate_12m": 0.0,
+  "requested_loan_amount_inr": 400000,
+  "requested_term_months": 18
+ }
+}
