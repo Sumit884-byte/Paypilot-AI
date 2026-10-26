@@ -73,5 +73,10 @@ frontend config value (e.g. an env var such as `VITE_PAYSCORE_API_URL=http://loc
 |---|---|
 | LightGBM baseline on **synthetic** data; train + inference scripts (model file reproduced byte-for-byte on Linux x86_64 / Python 3.12.3, see README) | Training/validation on the real Home Credit file (loader exists; data not available here) |
 | Normalised schema + JSON Schemas, 3 fictional personas | Verified PayPal sandbox mapping (Person 2) |
-| `/score`, `/health`, `/`, validation, CORS, labelled fallback, Swagger | SHAP/reason codes, counterfactuals, offer guard, revenue-share volatility model, affordability stress test |
+| `/score`, `/health`, `/`, validation, CORS, labelled fallback, Swagger | Training on real Home Credit data |
+| SHAP TreeExplainer on the trained LightGBM model (`POST /score`, `POST /explain`) | A retrieved RBI digital-lending-app snapshot (the shipped file is empty, so the check stays unverified) |
+| Model-scored counterfactuals (`POST /counterfactuals`) | OCR of scanned PDFs unless pytesseract and pdf2image are installed |
+| Offer guard IRR, PDF upload, KFS checklist (`POST /offer-guard`, `POST /offer-guard/upload`) | External LLM extraction unless both offer-guard flags and `OPENAI_API_KEY` are set |
+| Affordability stress test (`POST /affordability`) and revenue-share volatility (`POST /revenue-volatility`) | Statistical validation of the revenue-share policy (explicitly not claimed) |
+| Copilot tools that call those functions (`POST /copilot/chat`) | Automatic payouts (approval is still required) |
 | 100+ unit tests with mock data only | Fairness review, calibration on real outcomes, auth/rate-limiting for any non-local deployment |

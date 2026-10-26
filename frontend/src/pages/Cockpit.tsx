@@ -49,7 +49,7 @@ export function Cockpit() {
         detail="Bring the signals you care about into one workspace."
       />
       <Notice>
-        Demo widgets use fixture values and heuristic score drivers; no live lending decision is made.
+        Demo widgets use synthetic fixtures. Score factors are SHAP attributions when the trained model is loaded. No live lending decision is made.
       </Notice>
 
       <GlassCard>
@@ -174,7 +174,7 @@ export function Cockpit() {
                           </div>
                         </div>
                       </div>
-                      <p className="text-xs text-slate-500">{score ? `PayScore ${score.score} · ${score.risk_band} risk · heuristic drivers, not SHAP` : 'Run PayScore to view current signals'}</p>
+                      <p className="text-xs text-slate-500">{score ? `PayScore ${score.score} · ${score.risk_band} risk · SHAP attributions, not causes` : 'Run PayScore to view current signals'}</p>
                     </>
                   )}
 

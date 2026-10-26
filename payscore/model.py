@@ -14,7 +14,6 @@ import pandas as pd
 
 from . import __version__
 from .features import FEATURE_NAMES, build_features
-from .explain import heuristic_drivers
 from .schema import ScoreRequest
 
 MODEL_FILE = "payscore_lgbm.txt"
@@ -150,7 +149,23 @@ class Scorer:
         s = pd_to_score(p)
         optional_missing = [k for k, v in record.items() if v is None]
         eligible = s >= 650
-        drivers, action = heuristic_drivers(req)
+        from .counterfactual import preview_for_score
+        from .explain import explain_request
+
+        explanation = explain_request(self, req, p)
+        drivers = explanation.get("drivers") or []
+        preview = None
+        if self.trained is not None:
+            try:
+                preview = preview_for_score(self, req)
+            except Exception:
+                preview = {
+                    "status": "unavailable",
+                    "summary": "Counterfactual search failed and was not replaced with a guess.",
+                    "best": None,
+                    "disclaimer": "Estimated model outcomes were not available for this request.",
+                }
+        action = (preview or {}).get("summary") or explanation.get("detail") or ""
         return {
             "applicant_id": req.applicant_id,
             "score": s,
@@ -164,4 +179,6 @@ class Scorer:
             "approved_amount_limit_inr": float(req.requested_loan_amount_inr) if eligible else 0.0,
             "drivers": drivers,
             "to_move_up": action,
+            "explanation": explanation,
+            "counterfactual_preview": preview,
         }

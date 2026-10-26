@@ -5,4 +5,16 @@ target-version = "py310"
 select = ["E", "F", "I", "B"]
 
 [lint.per-file-ignores]
+"payscore/api.py" = ["E402"]  # load_dotenv() must run before app imports
 "payscore/build_fixtures.py" = ["E501"]  # long persona prose strings
+# Narrative result strings and checklist sentences are kept intact.
+"payscore/affordability.py" = ["E501"]
+"payscore/copilot_agent.py" = ["E501"]
+"payscore/counterfactual.py" = ["E501"]
+"payscore/explain.py" = ["E501"]
+"payscore/offer_analysis.py" = ["E501"]
+"payscore/offer_pdf.py" = ["E501"]
+"payscore/revenue_volatility.py" = ["E501"]
+"tests/test_copilot_tools.py" = ["E501"]
+"tests/test_counterfactual.py" = ["E501"]
+"tests/test_offer_guard.py" = ["E501"]

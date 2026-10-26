@@ -40,6 +40,20 @@ export async function apiRequest<T>(path: string, init?: RequestInit): Promise<T
 export const postJson = <T>(path: string, body: unknown) =>
   apiRequest<T>(path, { method: 'POST', body: JSON.stringify(body) })
 
+export async function postForm<T>(path: string, body: FormData): Promise<T> {
+  const response = await fetch(apiUrl(path), { method: 'POST', body })
+  const payload = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    const message = typeof payload?.detail === 'string'
+      ? payload.detail
+      : typeof payload?.error === 'string'
+        ? payload.error.replaceAll('_', ' ')
+        : `Request failed (${response.status})`
+    throw new ApiError(message, response.status, payload)
+  }
+  return payload as T
+}
+
 export const paypalLoginUrl = () => apiUrl('/paypal/auth/login')
 
 export type PaypalStatus =

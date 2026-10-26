@@ -9,7 +9,8 @@ import { postJson } from '../lib/api'
 type Message = {
   from: 'you' | 'agent'
   text: string
-  tools?: string[]
+  tools?: Array<{ label: string; status?: string }>
+  analysis?: { kind?: string; result?: { status?: string; recommended_percentage?: number | null } }
   approval?: {
     required: boolean
     action: string
@@ -74,6 +75,7 @@ export function Copilot() {
         from: 'agent',
         text: res.reply,
         tools: res.tools,
+        analysis: res.analysis,
         approval: res.approval?.required
           ? {
               required: true,
@@ -237,6 +239,12 @@ export function Copilot() {
                   >
                     {msg.text}
                   </motion.p>
+                  {msg.analysis?.kind && (
+                    <p className="mt-2 text-xs opacity-80">
+                      Tool result: {msg.analysis.kind}
+                      {msg.analysis.result?.status ? ` · ${msg.analysis.result.status}` : ''}
+                    </p>
+                  )}
                   {msg.approved && (
                     <Link to="/app/repay" className="mt-2 inline-flex text-xs font-semibold text-paypal underline underline-offset-4">
                       Track payout status

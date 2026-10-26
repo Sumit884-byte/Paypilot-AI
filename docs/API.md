@@ -48,7 +48,7 @@ Returns service status, model state, and fallback activity.
 ## 2) Scoring
 
 ### POST /score
-Scores a normalised applicant record using the trained LightGBM model (or labelled development fallback when no artifact exists). Returns a PayScore (300–850), risk band, PD, heuristic drivers, and demo disbursement eligibility.
+Scores a normalised applicant record using the trained LightGBM model (or labelled development fallback when no artifact exists). Returns a PayScore (300–850), risk band, PD, SHAP factors when a trained model is loaded, and demo disbursement eligibility. The fallback leaves `drivers` empty and sets `explanation.status` to `unavailable`.
 
 **Request body:**
 ```json
@@ -382,18 +382,43 @@ Sends a reminder via PayPal Invoicing API with an LLM-drafted tone (falls back t
 ## 8) Offer Guard
 
 ### POST /offer-guard
-Compares advertised APR vs fee-adjusted real APR; returns red flag, KFS checklist, RBI directory match.
+Prices the offer with a monthly IRR. Body (manual, backward compatible):
 
-**PayPal API:** none (demo heuristic)
+```json
+{"advertised_apr_pct": 18, "processing_fee_pct": 4, "principal_inr": 50000, "term_months": 12, "lender_name": "Example NBFC"}
+```
+
+Response keeps `advertised_apr_pct`, `estimated_real_apr_pct`, `processing_fee_pct`, `red_flag`, `kfs_checklist`, and `rbi_directory_match`, and adds `calculation`, `warnings`, `fields`, and `directory`. `red_flag` means the effective annualised cost exceeds the advertised APR by at least 1 percentage point. `rbi_directory_match` is `match`, `no_match`, or `unverified`. `directory.confirmed_violation` is false.
+
+### POST /offer-guard/upload
+Multipart field `file` (PDF, max 5 MB, max 10 pages). Same analysis shape plus `extraction`. Errors: `{"error":"invalid_pdf|invalid_type|file_too_large|too_many_pages|encrypted_pdf","detail":"..."}`.
+
+**PayPal API:** none
 
 ---
 
 ## 9) AI Copilot
 
 ### POST /copilot/chat
-Chat with the copilot agent; money-related actions require explicit Approve/Decline before `/disburse` is called.
+Chooses one local tool (SHAP, counterfactuals, affordability, offer guard, revenue volatility, or score) and returns that tool's figures. A disbursement request sets `approval.required` to true and does not create a payout.
 
-**PayPal API:** none (demo agent)
+```json
+{"message": "Can I afford ₹50k?", "applicant_id": "PSC-PRIYA-001"}
+```
+
+**PayPal API:** none
+
+### POST /explain
+Same explanation as `/score` for one `ScoreRequest`. Does not record disbursement approval.
+
+### POST /counterfactuals
+`ScoreRequest` plus optional `proposed_changes`. Re-scores eligible changes on the trained model.
+
+### POST /affordability
+See README. Example: amount 50000, income 40000, essential expenses 8000, existing debt 0, tenure 12, rate 0 returns a zero-interest instalment of 4166.67 and `status: "pass"`.
+
+### POST /revenue-volatility
+`{"revenues_inr": [100000, 100000, 100000, 100000, 100000, 100000]}` or `{"applicant_id": "PSC-PRIYA-001"}`. Recommendations are deterministic and `statistically_validated` is false. Fewer than 3 observations return `insufficient_data`.
 
 ---
 
