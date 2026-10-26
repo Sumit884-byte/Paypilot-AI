@@ -14,6 +14,7 @@ import pandas as pd
 
 from . import __version__
 from .features import FEATURE_NAMES, build_features
+from .explain import heuristic_drivers
 from .schema import ScoreRequest
 
 MODEL_FILE = "payscore_lgbm.txt"
@@ -148,6 +149,8 @@ class Scorer:
         p = float((self.trained.predict_pd(df) if self.trained else fallback_pd(df))[0])
         s = pd_to_score(p)
         optional_missing = [k for k, v in record.items() if v is None]
+        eligible = s >= 650
+        drivers, action = heuristic_drivers(req)
         return {
             "applicant_id": req.applicant_id,
             "score": s,
@@ -157,4 +160,8 @@ class Scorer:
             "model": self.model_info(),
             "evaluation_caveat": self._caveat(),
             "missing_inputs": optional_missing,
+            "disbursement_eligible": eligible,
+            "approved_amount_limit_inr": float(req.requested_loan_amount_inr) if eligible else 0.0,
+            "drivers": drivers,
+            "to_move_up": action,
         }

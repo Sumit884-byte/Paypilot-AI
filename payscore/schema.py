@@ -103,6 +103,10 @@ class ScoreResponse(BaseModel):
     model: ModelInfo
     evaluation_caveat: str
     missing_inputs: list[str] = Field(description="Optional inputs that were absent (treated as missing).")
+    disbursement_eligible: bool = Field(description="Demo policy: true when score is at least 650.")
+    approved_amount_limit_inr: float = Field(description="Demo disbursement ceiling recorded for this applicant (INR).")
+    drivers: list[dict] = Field(default_factory=list, description="Heuristic (not SHAP) reasons for the demo UI.")
+    to_move_up: str = Field(default="", description="Suggested action to improve the demo score.")
 
 
 class ErrorDetail(BaseModel):

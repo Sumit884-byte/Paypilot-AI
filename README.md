@@ -16,12 +16,13 @@ score must not be used for real lending decisions.
 | `payscore/model.py` | Model loading, PD -> 300-850 score mapping, risk bands, labelled dev fallback |
 | `payscore/predict.py` | CLI scoring of a JSON file |
 | `payscore/api.py` | FastAPI app: `GET /health`, `POST /score` |
+| `payscore/paypal/seed.py` | Dry-run-by-default CLI to seed PayPal sandbox from persona fixtures |
 | `payscore/derive.py` | Reference derivation: transaction history -> model-input metrics |
 | `payscore/build_fixtures.py`, `export_schema.py` | Regenerate persona fixtures / JSON Schemas |
 | `models/` | Trained artifact (`payscore_lgbm.txt`) + `model_metadata.json` |
 | `schema/` | `score_request.schema.json`, `persona.schema.json` |
 | `fixtures/personas/` | 3 fictional personas (Priya, Arjun, Rohan) with transactions + `model_input` |
-| `docs/` | `INTEGRATION.md`, `FEATURE_MAPPING.md`, `MODEL_CARD.md`, `PERSONAS.md` |
+| `docs/` | `INTEGRATION.md`, `FEATURE_MAPPING.md`, `MODEL_CARD.md`, `PERSONAS.md`, `SEEDING.md` |
 | `tests/` | pytest suite |
 
 ## Quick start (Python 3.10+; developed on 3.12)
@@ -152,3 +153,47 @@ personas: Priya 701 (moderate), Arjun 679 (moderate), Rohan 446 (high) - hand-se
 
 See `docs/INTEGRATION.md` (how to call the API, provisional fields, frontend URL, implemented vs pending),
 `docs/FEATURE_MAPPING.md` (field spec + PayPal placeholder table) and `docs/MODEL_CARD.md`.
+
+## E2E smoke test (test freeze, before Nov 8)
+
+`scripts/e2e_smoke.py` runs the full Person-2 flow against a deployed Render backend:
+
+```bash
+export PAYSCORE_API_URL=https://payscore-ai-api.onrender.com
+export RUN_ADVANCE=1          # optional: enable invoice-advance (2.8) steps
+python scripts/e2e_smoke.py
+```
+
+It prints PASS/FAIL per step and exits non-zero if any required step fails. Steps exercised:
+
+| # | Step | Endpoint | Feature |
+|---|------|----------|---------|
+| 0 | Health | `GET /health` | service + model state |
+| 1 | PayPal status | `GET /paypal/status` | sandbox credential check |
+| 2 | Income profile | `GET /income-profile?persona=priya` | fixture / linked PayPal profile |
+| 3 | Score | `POST /score` | LightGBM / fallback PayScore |
+| 4 | Disburse | `POST /disburse` | sandbox payout (score ≥ 650) |
+| 5 | Subscription | `POST /repayment/subscription` | fixed EMI schedule |
+| 6 | One-off order | `POST /repayment/order` | JS SDK v6 `orderId` shape |
+| 7 | Webhook (capture) | `POST /paypal/webhook` | `PAYMENT.CAPTURE.COMPLETED` → revenue share + rescore |
+| 8 | Ledger + live score | `GET /repayment/status`, `GET /score/live` | verify updates |
+| 9 | Invoice advance | `GET /invoices/outstanding`, `POST /advance`, `POST /invoices/{id}/remind` | 2.8 (if `RUN_ADVANCE=1`) |
+| 10| Webhook (invoice paid) | `POST /paypal/webhook` | `INVOICING.INVOICE.PAID` → advance repayment |
+
+Required env: `PAYSCORE_API_URL`. Optional: `PAYPAL_WEBHOOK_ID` (webhook steps skipped if unset), `RUN_ADVANCE=1` (advance steps).
+
+### Deployed-on-Render checklist
+
+Everything the smoke script hits is deployed via `render.yaml` (`payscore-ai-api` service, Python 3.12, free plan):
+
+- `GET /health`, `GET /paypal/status`, `GET /paypal/auth/login`, `GET /paypal/auth/callback`
+- `GET /paypal/public-config`, `GET /income-profile`
+- `POST /score`, `GET /score/live`
+- `POST /disburse`, `GET /disburse/{batch_id}`
+- `POST /repayment/subscription`, `POST /repayment/order`, `POST /repayment/order/{id}/capture`
+- `POST /repayment/revenue-share`, `GET /repayment/status`
+- `POST /paypal/webhook` (signature verified via `PAYPAL_WEBHOOK_ID`)
+- `GET /invoices/outstanding`, `POST /advance`, `POST /invoices/{id}/remind`
+- `POST /offer-guard`, `POST /copilot/chat`
+
+Set `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, and `PAYPAL_WEBHOOK_ID` as Render synced secrets (never in git). Set `PAYSCORE_CORS_ORIGINS` to your deployed frontend origin.

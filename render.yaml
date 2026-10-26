@@ -1,0 +1,32 @@
+# Render Blueprint for PayScore AI API (Paypilot-AI). Deploy: Render dashboard -> New -> Blueprint,
+# point it at this repo; or `render blueprint launch` with the Render CLI.
+# Sandbox-only: PayPal secrets are wired as synced secrets — set their values in the Render dashboard.
+services:
+  - type: web
+    name: payscore-ai-api
+    runtime: python
+    plan: free
+    pythonVersion: "3.12"
+    rootDir: Paypilot-AI   # remove if you deploy this repo root directly
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn payscore.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      # --- model / API behaviour ---
+      - key: PAYSCORE_MODEL_DIR
+        value: ./models
+      - key: PAYSCORE_ALLOW_FALLBACK
+        value: "true"
+      - key: PAYSCORE_CORS_ORIGINS
+        value: ""                # set to your frontend origin(s) once deployed
+      # --- PayPal sandbox: set these in the Render dashboard, never in git ---
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_MODE
+        value: sandbox
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: PAYPAL_API_BASE
+        value: https://api-m.sandbox.paypal.com

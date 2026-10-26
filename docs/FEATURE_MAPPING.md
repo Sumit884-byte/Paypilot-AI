@@ -38,6 +38,32 @@ Engineered features (computed in `payscore/features.py`, NaN when a denominator 
 
 ---
 
+## `GET /income-profile` response contract (feature 2.4)
+
+All amounts are INR, rates are ratios from `0` to `1`, counts are integer counts, dates are ISO `YYYY-MM-DD`, and month labels are `YYYY-MM`. The API returns these exact field names:
+
+| Field | Type / unit | Rule |
+|---|---|---|
+| `currency` | string, ISO 4217 | `INR`; amounts below are converted to INR |
+| `window_start` | date | Start of the 12-month window |
+| `window_end` | date | End of the 12-month window (inclusive) |
+| `total_income_12m_inr` | number, INR | Sum of monthly income after refunds |
+| `monthly_income_12m` | array | 12 entries, each `{month: YYYY-MM, income_inr: number}` |
+| `distinct_client_count_12m` | integer, clients | Distinct payer account identifiers; payer identifiers are never returned |
+| `refund_rate_12m` | number, ratio | Refund event count / completed sale count, capped at 1 |
+| `dispute_rate_12m` | number, ratio | Dispute count / completed sale count, capped at 1 |
+| `longest_income_gap_days_12m` | integer, days | Longest interval between completed payment dates; 0 for fewer than two payment dates |
+| `income_trend_12m` | enum | `increasing`, `decreasing`, or `stable`, comparing the latest month with the preceding month |
+| `outstanding_invoices_inr` | number, INR | Sum of amount due on invoices in outstanding statuses |
+| `outstanding_invoice_count` | integer, invoices | Count of invoices in outstanding statuses |
+| `source` | enum | `paypal` for linked data, `fixture` for demo fallback |
+
+The PayPal route fetches Transaction Search records plus disputes and invoices. The demo converter currently supports INR and a fixed 1 USD = 83 INR rate; other currencies are omitted from the amount aggregates. Fixture mode uses synthetic persona transactions and has no outstanding invoice fixture data, so invoice totals are zero. These are prototype assumptions, not verified financial mappings.
+
+The consent disclosure is served at `/paypal/auth/consent`. It lists the exact account identifier and transaction, payer, refund, dispute, and invoice data read by the profile endpoint. OAuth linking requests `openid` plus the PayPal reporting search, seller dispute read, and invoice read scopes needed by the endpoint. Linked access tokens and OAuth state are held in process memory for this demo and are lost on restart.
+
+---
+
 ## Extended specification (types, units, examples, availability, privacy)
 
 **Availability classes**

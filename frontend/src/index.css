@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 244 247 252;
+    --surface: 255 255 255;
+    --ink: 11 18 32;
+    --muted: 71 85 105;
+    --line: 226 232 240;
+    --glass: 255 255 255;
+    --glass-border: 15 23 42;
+    color-scheme: light;
+  }
+
+  .dark {
+    --bg: 7 11 20;
+    --surface: 17 26 46;
+    --ink: 241 245 249;
+    --muted: 148 163 184;
+    --line: 36 53 86;
+    --glass: 17 26 46;
+    --glass-border: 255 255 255;
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+    background: rgb(var(--bg));
+    color: rgb(var(--ink));
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  #root {
+    width: 100%;
+  }
+
+  ::selection {
+    background: rgb(0 112 186 / 0.28);
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid #009cde;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .glass {
+    background: rgb(var(--glass) / 0.58);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgb(var(--glass-border) / 0.1);
+    box-shadow:
+      0 10px 40px rgb(7 11 20 / 0.16),
+      0 1px 0 rgb(255 255 255 / 0.35) inset;
+  }
+
+  .dark .glass {
+    background: rgb(17 26 46 / 0.58);
+    border-color: rgb(255 255 255 / 0.1);
+    box-shadow:
+      0 18px 50px rgb(0 0 0 / 0.38),
+      0 1px 0 rgb(255 255 255 / 0.08) inset;
+  }
+
+  .grain {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  }
+
+  .grid-fade {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgb(0 112 186 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(0 112 186 / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 20%, transparent 75%);
+  }
+
+  /* Minimal local AG Grid structure + Paypilot theme (keeps the grid usable
+     when the optional upstream theme stylesheet is unavailable offline). */
+  .paypilot-grid { color: rgb(var(--text)); font-size: 12px; }
+  .paypilot-grid .ag-root-wrapper { display: flex; flex-direction: column; position: relative; width: 100%; height: 100%; overflow: hidden; border: 1px solid rgb(0 112 186 / .16); border-radius: 14px; background: rgb(var(--surface) / .42); }
+  .paypilot-grid .ag-root-wrapper-body, .paypilot-grid .ag-root { display: flex; flex: 1 1 auto; position: relative; min-height: 0; flex-direction: column; overflow: hidden; }
+  .paypilot-grid .ag-header { display: block; flex: 0 0 auto; min-height: 42px; overflow: hidden; background: rgb(0 112 186 / .06); border-bottom: 1px solid rgb(0 112 186 / .16); }
+  .paypilot-grid .ag-header-viewport, .paypilot-grid .ag-header-container { position: relative; height: 100%; }
+  .paypilot-grid .ag-header-row { display: flex; position: absolute; inset: 0; }
+  .paypilot-grid .ag-header-cell { position: absolute; display: flex; align-items: center; padding: 0 12px; color: #0070ba; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .paypilot-grid .ag-body { display: flex; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .paypilot-grid .ag-body-viewport, .paypilot-grid .ag-center-cols-viewport { position: relative; flex: 1 1 auto; min-height: 0; overflow: auto; }
+  .paypilot-grid .ag-center-cols-container { position: relative; }
+  .paypilot-grid .ag-row { display: flex; position: absolute; width: 100%; min-height: 44px; border-bottom: 1px solid rgb(148 163 184 / .16); }
+  .paypilot-grid .ag-row:hover { background: rgb(0 112 186 / .05); }
+  .paypilot-grid .ag-cell { position: absolute; display: flex; align-items: center; padding: 0 12px; overflow: hidden; }
+  .paypilot-grid .ag-paging-panel { display: flex; align-items: center; justify-content: flex-end; gap: 12px; min-height: 40px; padding: 0 12px; border-top: 1px solid rgb(0 112 186 / .12); }
+}
+
+@layer utilities {
+  .text-gradient-hero {
+    background-image: linear-gradient(
+      105deg,
+      #0070ba 0%,
+      #009cde 22%,
+      #f5b942 52%,
+      #0070ba 78%,
+      #003087 100%
+    );
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-shift 9s ease infinite;
+  }
+}
