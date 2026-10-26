@@ -15,6 +15,10 @@ export default defineConfig({
       '/repayment': 'http://127.0.0.1:8000',
       '/offer-guard': 'http://127.0.0.1:8000',
       '/copilot': 'http://127.0.0.1:8000',
+      '/explain': 'http://127.0.0.1:8000',
+      '/counterfactuals': 'http://127.0.0.1:8000',
+      '/affordability': 'http://127.0.0.1:8000',
+      '/revenue-volatility': 'http://127.0.0.1:8000',
     },
   },
 })

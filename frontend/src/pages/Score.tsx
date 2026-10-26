@@ -5,14 +5,34 @@ import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, ProgressRing, Icon } from '../components/ui/Workspace'
 import { apiRequest, postJson, type Persona } from '../lib/api'
 
+type Factor = {
+  feature?: string
+  label?: string
+  name?: string
+  contribution?: number
+  direction?: string
+  description?: string
+  message?: string
+  impact?: string
+}
+
 type Score = {
   score: number
   risk_band: string
   probability_of_default: number
   approved_amount_limit_inr: number
   disbursement_eligible: boolean
-  drivers: Array<{ label?: string; reason?: string; impact?: string }>
+  drivers: Factor[]
   to_move_up: string
+  explanation?: {
+    status?: string
+    method?: string | null
+    detail?: string
+    interpretation?: string
+    factors_lowering_risk?: Factor[]
+    factors_raising_risk?: Factor[]
+  }
+  counterfactual_preview?: { status?: string; summary?: string } | null
 }
 
 const demoNotice = 'Synthetic demo data · PayPal sandbox only · no real lending or money movement.'
@@ -36,6 +56,7 @@ export function Score() {
   })
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [options, setOptions] = useState<Array<{ changes: Array<{ description: string }>; estimated_score: number; estimated_score_difference: number }>>([])
 
   async function run() {
     if (!p) return
@@ -51,6 +72,22 @@ export function Score() {
       setBusy(false)
     }
   }
+
+  async function loadOptions() {
+    if (!p) return
+    setError('')
+    try {
+      const result = await postJson<{ suggestions?: typeof options; summary?: string; status?: string }>('/counterfactuals', p.model_input)
+      setOptions(result.suggestions ?? [])
+      if (!result.suggestions?.length) setError(result.summary || 'No eligible model-scored change raised the score.')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not evaluate changes')
+    }
+  }
+
+  const lowering = score?.explanation?.factors_lowering_risk ?? []
+  const raising = score?.explanation?.factors_raising_risk ?? []
+  const shapReady = score?.explanation?.status === 'available'
 
   return (
     <div className="space-y-6">
@@ -109,10 +146,14 @@ export function Score() {
 
         <GlassCard>
           <h2 className="font-semibold">What shaped this result</h2>
-          <p className="mt-1 text-xs text-slate-500">Heuristic demo drivers · not SHAP explanations</p>
+          <p className="mt-1 text-xs text-slate-500">
+            {shapReady
+              ? 'TreeSHAP log-odds for this model score. Attributions, not causes.'
+              : score?.explanation?.detail || 'Run PayScore to request a SHAP explanation.'}
+          </p>
           <div className="mt-5 space-y-3">
             <AnimatePresence mode="popLayout">
-              {(score?.drivers ?? []).slice(0, 3).map((d, i) => (
+              {(shapReady ? [...lowering, ...raising] : score?.drivers ?? []).map((d, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: 18 }}
@@ -126,8 +167,15 @@ export function Score() {
                       <Icon name={i === 0 ? 'trend' : 'shield'} />
                     </span>
                     <div className="flex-1">
-                      <p className="text-sm font-semibold">{d.label || d.reason}</p>
-                      <p className="mt-1 text-xs text-slate-500">{d.impact}</p>
+                      <p className="text-sm font-semibold">{d.label || d.name || d.feature}</p>
+                      <p className="mt-1 text-xs text-slate-500">{d.description || d.impact}</p>
+                      {typeof d.contribution === 'number' && (
+                        <p className="mt-1 text-xs font-medium">
+                          {d.direction === 'lowers_risk' ? 'Lowers estimated risk' : 'Raises estimated risk'}
+                          {' · '}
+                          {(d.contribution > 0 ? '+' : '') + d.contribution.toFixed(4)} log-odds
+                        </p>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -151,6 +199,16 @@ export function Score() {
                     To move up
                   </p>
                   <p className="mt-1 text-sm">{score.to_move_up}</p>
+                  <Button variant="ghost" className="mt-3" onClick={() => { void loadOptions() }} disabled={!p}>See eligible changes</Button>
+                  {options.length > 0 && (
+                    <ul className="mt-3 space-y-2 text-sm">
+                      {options.map((option, index) => (
+                        <li key={index}>
+                          Estimated score {option.estimated_score} ({(option.estimated_score_difference > 0 ? '+' : '') + option.estimated_score_difference}). {option.changes.map((change) => change.description).join(' ')}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </motion.div>

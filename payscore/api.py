@@ -11,32 +11,38 @@ from __future__ import annotations
 
 import logging
 import os
-from pathlib import Path
-from typing import Optional
-
 import time
 from collections import defaultdict
+from pathlib import Path
+from typing import Optional
 
 from dotenv import load_dotenv
 
 # Load .env from the repo root (PayPal credentials etc.) before anything reads os.getenv.
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from . import __version__
-from .model import DEFAULT_MODEL_DIR, ModelUnavailableError, Scorer
+from .affordability import router as affordability_router
 from .copilot import router as copilot_router
+from .counterfactual import router as counterfactual_router
 from .demo import router as demo_router
+from .explain import router as explain_router
 from .live_state import LIVE_SCORES, record_score
+from .model import DEFAULT_MODEL_DIR, ModelUnavailableError, Scorer
 from .offer_guard import router as offer_guard_router
 from .paypal.advance import router as advance_router
-from .paypal.disbursements import router as disbursements_router, record_approval
-from .paypal.repayment import router as repayment_router, webhook_router as paypal_webhook_router
-from .paypal.routes import router as paypal_router, income_router
+from .paypal.disbursements import record_approval
+from .paypal.disbursements import router as disbursements_router
+from .paypal.repayment import router as repayment_router
+from .paypal.repayment import webhook_router as paypal_webhook_router
+from .paypal.routes import income_router
+from .paypal.routes import router as paypal_router
+from .revenue_volatility import router as revenue_router
 from .schema import ErrorResponse, ScoreRequest, ScoreResponse
 
 log = logging.getLogger("payscore")
@@ -94,6 +100,10 @@ def create_app(
     app.include_router(advance_router)
     app.include_router(offer_guard_router)
     app.include_router(copilot_router)
+    app.include_router(explain_router)
+    app.include_router(counterfactual_router)
+    app.include_router(affordability_router)
+    app.include_router(revenue_router)
     app.include_router(demo_router)
     if origins:
         app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False,
@@ -131,7 +141,10 @@ def create_app(
                               "fixed_emi": "POST /repayment/subscription", "one_off_emi": "POST /repayment/order",
                               "revenue_share": "POST /repayment/revenue-share", "paypal_webhook": "POST /paypal/webhook",
                               "score_live": "GET /score/live", "advance": "POST /advance",
-                              "offer_guard": "POST /offer-guard", "copilot": "POST /copilot/chat"}}
+                              "offer_guard": "POST /offer-guard", "offer_guard_upload": "POST /offer-guard/upload",
+                              "copilot": "POST /copilot/chat", "explain": "POST /explain",
+                              "counterfactuals": "POST /counterfactuals", "affordability": "POST /affordability",
+                              "revenue_volatility": "POST /revenue-volatility"}}
 
     @app.get("/health", summary="Health check")
     def health() -> dict:

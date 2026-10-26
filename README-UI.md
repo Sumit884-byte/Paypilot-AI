@@ -13,9 +13,9 @@ Responsive React 18 + Vite frontend for the Paypilot AI hackathon demo. The app 
 
 1. **Login** — choose Tour the cockpit. This selects the explicitly synthetic Priya persona without OAuth.
 2. **Income** — review the 12-month income summary, trend and gap, chart, and synthetic fixture transaction table.
-3. **PayScore** — run the score to see the API result, eligibility ceiling, risk band, and heuristic drivers. They are explicitly not SHAP values.
+3. **PayScore** — run the score to see the API result, eligibility ceiling, risk band, and TreeSHAP factors. They are model attributions, not causes. Eligible what-ifs are re-scored on the trained model.
 4. **Offer guard** — enter an advertised APR and fee, attach a local screenshot/PDF if desired, and inspect the fee-adjusted estimate and checklist. The current API accepts typed terms; file contents are not uploaded or parsed.
-5. **Copilot** — ask “Can I afford ?50k?” The reply includes an approval card. Decline does nothing; Approve calls the sandbox disbursement API and still requires an eligible score and amount within its ceiling.
+5. **Copilot** — ask “Can I afford ₹50k?” The reply is the affordability calculator, not an approval card. A payout request such as “disburse” still shows an approval card. Decline does nothing; Approve calls the sandbox disbursement API and still requires an eligible score and amount within its ceiling.
 6. **Repayment** — create a fixed EMI schedule or set revenue share. The one-off order endpoint returns the PayPal JS SDK v6 `orderId` shape; checkout needs PayPal sandbox browser configuration. Poll payout status with the batch id returned by the copilot.
 7. **AG Studio** — add “show my income by client” to spawn a widget. The API only provides synthetic categories here, not client identities; the widget states that limitation.
 
@@ -32,7 +32,7 @@ Responsive React 18 + Vite frontend for the Paypilot AI hackathon demo. The app 
 
 ## Data and demo limits
 
-The backend demo APIs use sandbox credentials and synthetic fixtures. No live lending decision or real disbursement is made. The linked PayPal income endpoint returns aggregate profile values, so the live transaction table is not represented as actual transaction data. The current offer guard calculates an estimate from manually entered fields and cannot OCR attached files. Score drivers returned by the current backend are heuristic, not SHAP. The income chart is a small native SVG implementation; transaction rows use a responsive accessible HTML table. Recharts and AG Grid could not be installed in this environment because the npm registry was unreachable, so this build has no unresolved package imports.
+The backend demo APIs use sandbox credentials and synthetic fixtures. No live lending decision or real disbursement is made. The linked PayPal income endpoint returns aggregate profile values, so the live transaction table is not represented as actual transaction data. Offer guard accepts a text PDF or the manual form and prices an effective annualised cost with a monthly IRR. Scanned PDFs need optional OCR libraries that are not installed by default. Score factors come from SHAP when the trained model is loaded. The income chart is a small native SVG implementation; transaction rows use a responsive accessible HTML table. Recharts and AG Grid could not be installed in this environment because the npm registry was unreachable, so this build has no unresolved package imports.
 
 ## Screenshots
 

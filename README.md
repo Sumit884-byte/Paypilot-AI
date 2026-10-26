@@ -71,7 +71,7 @@ curl -s localhost:8000/score -H 'Content-Type: application/json' \
    derived from employment length). The other 10 inputs stay empty, and amounts are not converted to INR. It has only been
    tested on a small mock CSV; no real Home Credit data was used. A model trained on it would be weak on this problem and
    must not be described as validated on PayPal-style inputs.
-3. No fairness/bias analysis, calibration on real outcomes, or explainability (SHAP/reason codes) yet.
+3. No fairness/bias analysis or calibration on real outcomes. Score explanations are TreeSHAP attributions from the trained model, not causal claims. See the Week 2 and Week 3 section below.
 4. Persona narratives are scenarios, not ground truth: the model is not tuned to match the stories. Measured scores are
    Priya 771 (*low*), Arjun 742 (*low*), Rohan 533 (*high*); ordering (Priya > Arjun > Rohan) is asserted in tests.
 5. **All PayPal field mappings are PROVISIONAL and UNVERIFIED.** No PayPal API or sandbox was consulted or called; see the
@@ -197,3 +197,140 @@ Everything the smoke script hits is deployed via `render.yaml` (`payscore-ai-api
 - `POST /offer-guard`, `POST /copilot/chat`
 
 Set `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, and `PAYPAL_WEBHOOK_ID` as Render synced secrets (never in git). Set `PAYSCORE_CORS_ORIGINS` to your deployed frontend origin.
+
+## Week 2 and Week 3
+
+These features sit on the Week 1 scorer, PayPal sandbox routes, and React app. They do not move money. Payouts, subscriptions, and revenue-share *configuration* still go through the existing sandbox endpoints, and the copilot will not call them until a person approves.
+
+### What was added
+
+| Path | Role |
+|---|---|
+| `payscore/explain.py` | `shap.TreeExplainer` on the loaded LightGBM booster |
+| `payscore/counterfactual.py` | Eligible what-ifs, each re-scored with the trained model |
+| `payscore/finance.py` | Level instalment and monthly IRR |
+| `payscore/offer_analysis.py`, `offer_pdf.py`, `offer_guard.py` | Manual terms and PDF upload |
+| `payscore/rbi_directory.py`, `reference/rbi_dla_snapshot.json` | Directory check. The snapshot ships with **no names** |
+| `payscore/affordability.py` | Instalment, cash flow, and named stress scenarios |
+| `payscore/revenue_volatility.py` | Volatility metrics and a deterministic share policy |
+| `payscore/copilot_agent.py` | Routes a chat turn to those functions |
+
+### Architecture
+
+`POST /score` builds the same feature row as training (`payscore/features.py`), predicts default probability, maps it to 300–850, then asks SHAP for log-odds contributions and runs the counterfactual search. `POST /explain` returns that explanation and does **not** record a disbursement approval. `record_approval` still runs only inside `POST /score`.
+
+The copilot (`POST /copilot/chat`) chooses one tool from the wording of the question, then calls the Python function. Figures in the reply come from the tool result. "Can I afford ₹50,000?" is an affordability calculation. "Please disburse" returns an approval card and does not create a PayPal payout.
+
+Offer guard turns principal, fees, and instalments into borrower cash flows and solves a monthly IRR. A PDF is parsed locally. An external LLM is used only when `PAYSCORE_OFFER_LLM`, `PAYSCORE_OFFER_LLM_ALLOW_EXTERNAL`, and `OPENAI_API_KEY` are all set.
+
+### Setup
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python -m pytest -q
+uvicorn payscore.api:app --port 8000
+```
+
+On Windows, LightGBM's wheel imports `VCOMP140.dll` (the MSVC OpenMP runtime). If import fails with "module could not be found", install the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist). The project does not vendor that DLL.
+
+The frontend is unchanged in how it is started (`frontend/`, `npm install`, `npm run dev`). Vite proxies `/score`, `/offer-guard`, `/copilot`, `/counterfactuals`, `/affordability`, and `/revenue-volatility` to port 8000.
+
+Copy `.env.example` to `.env` if you need PayPal sandbox or the optional LLM. Do not commit `.env`.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `PAYSCORE_MODEL_DIR` | `./models` | `payscore_lgbm.txt` and `model_metadata.json` |
+| `PAYSCORE_ALLOW_FALLBACK` | `true` | Labelled non-SHAP fallback when no artifact exists |
+| `PAYSCORE_OFFER_LLM` | `false` | Allow the offer extractor to call a chat model |
+| `PAYSCORE_OFFER_LLM_ALLOW_EXTERNAL` | `false` | Second switch. Both must be true before any offer text leaves the machine |
+| `OPENAI_API_KEY` | empty | Provider key. Never commit a real value |
+| `OPENAI_MODEL` | `gpt-4o-mini` | Model name for structured extraction |
+| `OPENAI_BASE_URL` | `https://api.openai.com/v1` | OpenAI-compatible base URL |
+| `PAYSCORE_RBI_FETCH` | `false` | When true, try to download the RBI digital-lending-app page |
+
+Train or reload the model with the existing command. Scoring loads whatever is in `PAYSCORE_MODEL_DIR`; it does not download weights.
+
+```bash
+python -m payscore.train
+python -m payscore.predict --input fixtures/personas/priya.json
+```
+
+The committed artifact was fit on synthetic data. SHAP explains that model. It does not make the score a credit decision.
+
+### SHAP
+
+`shap.TreeExplainer` runs on the LightGBM `Booster` and the feature matrix from `build_features`, in training order. Contributions are log-odds of default. They are returned only when they reconstruct the booster's raw score and match LightGBM `pred_contrib`. Positive values raise estimated default risk; negative values lower it. The three largest of each direction are `factors_raising_risk` and `factors_lowering_risk`. This is an attribution for the scored input, not a statement that the feature caused default. If the package is missing, the model is the development fallback, or the reconstruction check fails, `explanation.status` is `unavailable` and the old heuristic drivers are not filled in.
+
+### Counterfactuals
+
+Search may try a smaller loan (not below the greater of Rs 1,000 and 20% of the current ask), a term at most 24 months longer, a lower *actual* other-debt payment, a lower refund or dispute rate, revenue volatility down to 0.05, or up to three more active months. Age, employment, income, prior defaults, and transaction amounts or counts are rejected. Every kept suggestion is predicted again with the trained model. The score difference is an estimated model outcome, not a promised decision. `POST /counterfactuals` accepts the same body as `/score` plus an optional `proposed_changes` object.
+
+### Offer PDFs and effective cost
+
+Manual `POST /offer-guard` still accepts `advertised_apr_pct`, `processing_fee_pct`, `principal_inr`, `term_months`, and `lender_name`. Optional instalment, nominal rate, and fee amounts were added. `POST /offer-guard/upload` accepts one PDF up to 5 MB and 10 pages. The filename is not used as a path. The file is written to a temporary file and deleted afterwards. It is not executed.
+
+Text is read with `pypdf`. A page with almost no text tries OCR only if `pytesseract` and `pdf2image` import; otherwise `ocr_status` is `unavailable` and missing fields stay missing. The label parser looks for lines such as "Sanctioned loan amount", "Loan term", "Interest rate", "Advertised APR", "Processing fee", and "Instalment". Unlabeled numbers are ignored. LLM values, when the switches above are on, stay `verified: false`. If the label parser and the LLM disagree, the value is dropped as ambiguous.
+
+Effective annualised cost is `(1 + r)^12 - 1`, where `r` is the monthly IRR of net proceeds (principal minus upfront fees and insurance) and the level instalment. Penalties and bounce charges are listed and excluded because they are uncertain. If the only rate is the advertised APR, the instalment is built so a zero-fee loan reproduces that effective rate; fees then raise the IRR. A nominal interest rate, when supplied, uses the reducing-balance formula `P * i * (1+i)^n / ((1+i)^n - 1)` with `i = nominal/12`, but a stated instalment is the cash flow actually priced. `red_flag` is true when the calculated cost exceeds the advertised APR by at least 1 percentage point. That threshold is a comparison tolerance, not a legal rule.
+
+The KFS checklist follows the headings in the Reserve Bank of India Key Facts Statement for Loans & Advances (circular RBI/2024-25/18, DOR.STR.REC.13/13.03.00/2024-25, 15 April 2024). A missing item means we did not see it. It is not a finding that the lender violated the circular.
+
+The directory check fuzzy-matches the lender name against `reference/rbi_dla_snapshot.json` or, if `PAYSCORE_RBI_FETCH=true`, against an HTML table on `https://www.rbi.org.in/Scripts/bs_viewcontent.aspx?Id=4413`. The shipped snapshot has `entries: []` and `retrieved_at: null`, so the result is `unverified`. A miss on a real retrieved list is `no_match`: a potential warning, with `confirmed_violation: false`. Names are not typed in by hand.
+
+### Affordability
+
+`POST /affordability` needs `requested_amount_inr` and, for a complete result, income, essential expenses, existing debt payments, tenure, and a nominal annual interest rate. The instalment uses the formula above. Disposable income is income minus essential expenses minus existing debt. Debt-service ratio is `(existing debt + monthly-equivalent new instalment) / income`, and is omitted when income is zero. Post-payment cash flow is disposable income minus the new instalment. There is no universal debt-service cutoff. The result fails when that cash flow is below `cash_buffer_inr` (default 0). It warns when the base case holds and a configured stress does not. Default stresses, replaceable by the caller, are income down 20%, essential expenses up 15%, and an unexpected Rs 5,000. Missing essentials or a missing rate produce `incomplete` plus the zero-interest instalment as a labeled lower bound. This is an estimate, not regulated advice.
+
+The copilot question "Can I afford ₹50k?" uses Priya's synthetic income and existing debt, assumes 12 months when the question has no tenure, does not invent essential expenses, and therefore returns `incomplete` together with the real instalment.
+
+### Revenue share
+
+`POST /revenue-volatility` uses the supplied `revenues_inr` list, or the synthetic persona's `monthly_summary.net_revenue_inr` when only `applicant_id` is sent. It reports the mean, sample standard deviation (n-1), coefficient of variation when the mean is positive, and a stress revenue equal to the lower of the minimum observation and mean-minus-one-standard-deviation, floored at zero. Fewer than 3 observations, or a non-positive mean, returns `insufficient_data` and no percentage. Otherwise a 1-point grid between `min_percentage` (default 5) and `max_percentage` (default 30) is tested. Those bounds are product settings; the existing repayment API still accepts a configured percentage up to 100. With an obligation, the smallest grid point whose stress deduction covers it is chosen. With essential expenses, points that leave too little stress revenue are dropped. With neither, fixed CV bands are used: 20% below 0.15, 12% below 0.35, 8% below 0.60, otherwise the minimum. `statistically_validated` is always false.
+
+### API examples
+
+`POST /affordability`
+
+```json
+{"requested_amount_inr": 50000, "monthly_income_inr": 40000, "essential_expenses_inr": 8000, "existing_monthly_debt_payments_inr": 0, "tenure_months": 12, "annual_interest_rate_pct": 0}
+```
+
+returns `status: "pass"` and `installment_inr: 4166.67` at zero interest.
+
+`POST /copilot/chat`
+
+```json
+{"message": "Can I afford ₹50k?", "applicant_id": "PSC-PRIYA-001"}
+```
+
+returns `approval.required: false` and `tools[0].label: "affordability.assess"`.
+
+`POST /copilot/chat` with `"Please disburse Rs 50,000"` returns `approval.required: true` and does not create a payout.
+
+### Tests
+
+```bash
+python -m pytest -q
+ruff check payscore tests
+```
+
+Tests use synthetic fixtures, generated PDFs, and mocks. They do not call PayPal and do not need sandbox credentials. The offer-guard LLM test asserts that a disabled provider is not contacted.
+
+### Security and privacy
+
+* Upload size and page count are capped. Parser failures return a generic error. Temporary PDFs are deleted. Filenames cannot choose the storage path.
+* Offer text is not written to logs. PayPal secrets stay in the environment.
+* Do not enable the external LLM for a private document. The default is off.
+* Scores, affordability, and revenue share are estimates on synthetic or caller-supplied numbers. They are not lending decisions.
+* Directory output never sets `confirmed_violation` to true.
+
+### Known limits
+
+* The model is the synthetic LightGBM baseline. SHAP explains it; it does not validate it on real borrowers.
+* The RBI list is not bundled. Until a retrieval with a source URL and date is stored, the directory check is unverified.
+* OCR and the external LLM are optional and off in a normal install.
+* The revenue-share percentages are a documented deterministic policy, not a fitted model.
+* Affordability does not know essential living costs unless the caller sends them. The copilot does not invent that figure.
+* Windows needs the MSVC OpenMP runtime to import LightGBM, as noted above.

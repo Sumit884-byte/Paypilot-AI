@@ -3,15 +3,25 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Icon, inputClass, Notice, PageHeading, Field, Toast } from '../components/ui/Workspace'
-import { postJson } from '../lib/api'
+import { postForm, postJson } from '../lib/api'
+
+type OfferField = { value?: number | string | null; status?: string; note?: string; verified?: boolean }
 
 type OfferResult = {
-  advertised_apr_pct: number
-  estimated_real_apr_pct: number
-  processing_fee_pct: number
+  advertised_apr_pct: number | null
+  estimated_real_apr_pct: number | null
+  processing_fee_pct: number | null
   red_flag: boolean
-  kfs_checklist: Array<{ item: string; ok: boolean }>
+  comparison_status?: string
+  kfs_checklist: Array<{ item: string; ok: boolean; status?: string }>
   rbi_directory_match: string
+  warnings?: string[]
+  missing_or_unverified_fields?: string[]
+  fields?: Record<string, OfferField>
+  directory?: { warning?: string; source_url?: string; retrieved_at?: string | null; confirmed_violation?: boolean; load_status?: string }
+  extraction?: { ocr_status?: string; llm_status?: string; llm_reason?: string; text_chars?: number }
+  calculation?: { method?: string; formula?: string; pricing_basis?: string | null; installment_inr?: number | null }
+  disclaimer?: string
 }
 
 export function OfferGuard() {
@@ -68,11 +78,22 @@ export function OfferGuard() {
       return
     }
 
+    if (file && file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      setToast('Only a PDF is parsed. Remove the file to use the manual form.')
+      return
+    }
+
     setAnalyzing(true)
     setError('')
     setToast(null)
     try {
-      const response = await postJson<OfferResult>('/offer-guard', {
+      const response = file
+        ? await postForm<OfferResult>('/offer-guard/upload', (() => {
+            const body = new FormData()
+            body.append('file', file)
+            return body
+          })())
+        : await postJson<OfferResult>('/offer-guard', {
         advertised_apr_pct: apr,
         processing_fee_pct: fee,
         principal_inr: principal,
@@ -93,11 +114,11 @@ export function OfferGuard() {
       <PageHeading
         eyebrow="Offer guard"
         title="Know the cost behind the offer."
-        detail="Compare advertised APR with a simple fee-adjusted demo estimate."
+        detail="Upload a loan-offer PDF or enter the terms. The effective cost is a monthly IRR on the cash flows."
       />
       <Notice>
-        Sandbox demo only. Upload attaches locally; enter the offer terms below. RBI directory result is an
-        illustrative heuristic, not verification.
+        Sandbox estimate. Upload a text PDF or enter the terms manually. The cost is a monthly IRR, not a legal finding.
+        A directory result is unverified unless a retrieved RBI list is loaded, and a name miss is not a confirmed violation.
       </Notice>
 
       {toast && (
@@ -111,11 +132,11 @@ export function OfferGuard() {
             <div className="relative">
               <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-paypal/40 p-4 text-sm transition hover:border-paypal hover:bg-paypal/5">
                 <Icon name="upload" />
-                <span>{file?.name || 'Attach screenshot or PDF (local only)'}</span>
+                <span>{file?.name || 'Upload a loan-offer PDF, or leave this empty and use the form'}</span>
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/*,.pdf"
+                  accept="application/pdf,.pdf"
                   className="sr-only"
                   onChange={handleFileChange}
                 />
@@ -220,12 +241,14 @@ export function OfferGuard() {
                     />
                     <div>
                       <p className="font-semibold">
-                        {result.red_flag ? 'Red flag detected' : 'Offer looks reasonable'}
+                        {result.comparison_status === 'not_compared'
+                          ? 'Not enough terms to compare'
+                          : result.red_flag
+                            ? 'Advertised APR is below the calculated cost'
+                            : 'Calculated cost is within 1 point of the advertised APR'}
                       </p>
                       <p className="text-xs text-slate-600 dark:text-slate-400">
-                        {result.red_flag
-                          ? `Estimated real APR is ${(result.estimated_real_apr_pct - result.advertised_apr_pct).toFixed(1)} percentage points higher than advertised`
-                          : 'Real APR is within acceptable range of advertised rate'}
+                        {result.calculation?.formula || 'Monthly IRR of net proceeds and instalments. Not a legal finding.'}
                       </p>
                     </div>
                   </div>
@@ -235,23 +258,48 @@ export function OfferGuard() {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-2xl bg-slate-100/50 p-4 dark:bg-white/5">
                     <p className="text-xs text-slate-500">Advertised APR</p>
-                    <p className="mt-2 text-lg font-semibold">{result.advertised_apr_pct}%</p>
+                    <p className="mt-2 text-lg font-semibold">{result.advertised_apr_pct ?? '—'}{result.advertised_apr_pct == null ? '' : '%'}</p>
                   </div>
                   <div
                     className={`rounded-2xl p-4 ${
                       result.red_flag ? 'bg-rose-500/10' : 'bg-emerald-500/10'
                     }`}
                   >
-                    <p className="text-xs text-slate-500">Real APR</p>
+                    <p className="text-xs text-slate-500">Effective annualised cost</p>
                     <p
                       className={`mt-2 text-lg font-semibold ${
                         result.red_flag ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'
                       }`}
                     >
-                      {result.estimated_real_apr_pct}%
+                      {result.estimated_real_apr_pct ?? '—'}{result.estimated_real_apr_pct == null ? '' : '%'}
                     </p>
                   </div>
                 </div>
+
+                {result.fields && (
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold">Extracted terms</h3>
+                    <div className="space-y-2">
+                      {Object.entries(result.fields).filter(([, field]) => field.value != null).map(([name, field]) => (
+                        <div key={name} className="flex items-start justify-between gap-3 rounded-xl bg-slate-100/60 p-3 text-sm dark:bg-white/5">
+                          <span>{name.replaceAll('_', ' ')}</span>
+                          <span className="text-right">
+                            {String(field.value)}
+                            <span className="mt-1 block text-xs text-slate-500">{field.status}{field.verified ? '' : ' · not verified'}</span>
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {!!result.warnings?.length && (
+                  <div className="space-y-2">
+                    {result.warnings.map((warning) => <Notice key={warning}>{warning}</Notice>)}
+                  </div>
+                )}
+                {!!result.missing_or_unverified_fields?.length && (
+                  <p className="text-xs text-slate-500">Missing or unverified: {result.missing_or_unverified_fields.join(', ')}</p>
+                )}
 
                 {/* KFS Checklist */}
                 <div>
@@ -298,18 +346,17 @@ export function OfferGuard() {
                     />
                     <div className="flex-1">
                       <p className="font-semibold">
-                        {result.rbi_directory_match === 'match' ? 'Name heuristic matched bank/NBFC terms' : 'RBI directory match unverified'}
+                        {result.rbi_directory_match === 'match'
+                          ? 'Possible name match in the retrieved list'
+                          : result.rbi_directory_match === 'no_match'
+                            ? 'No close name in the retrieved list'
+                            : 'RBI list could not be verified'}
                       </p>
-                      {result.rbi_directory_match === 'match' && (
-                        <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
-                          Lender-name match only; not an RBI verification.
-                        </p>
-                      )}
-                      {result.rbi_directory_match !== 'match' && (
-                        <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
-                          This lender may not be registered with the Reserve Bank of India. Exercise caution.
-                        </p>
-                      )}
+                      <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                        {result.directory?.warning || 'This is not a confirmed regulatory violation.'}
+                        {result.directory?.source_url ? ` Source: ${result.directory.source_url}.` : ''}
+                        {result.directory?.retrieved_at ? ` Retrieved: ${result.directory.retrieved_at}.` : ' No retrieval date is stored.'}
+                      </p>
                     </div>
                   </div>
                 </motion.div>

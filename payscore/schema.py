@@ -105,8 +105,16 @@ class ScoreResponse(BaseModel):
     missing_inputs: list[str] = Field(description="Optional inputs that were absent (treated as missing).")
     disbursement_eligible: bool = Field(description="Demo policy: true when score is at least 650.")
     approved_amount_limit_inr: float = Field(description="Demo disbursement ceiling recorded for this applicant (INR).")
-    drivers: list[dict] = Field(default_factory=list, description="Heuristic (not SHAP) reasons for the demo UI.")
-    to_move_up: str = Field(default="", description="Suggested action to improve the demo score.")
+    drivers: list[dict] = Field(
+        default_factory=list,
+        description="Top SHAP factors for the UI. Empty when SHAP is unavailable; heuristic reasons are not substituted.",
+    )
+    to_move_up: str = Field(default="", description="Best model-evaluated counterfactual, or why none is available.")
+    explanation: dict = Field(default_factory=dict, description="TreeSHAP payload, or an explicit unavailable status.")
+    counterfactual_preview: Optional[dict] = Field(
+        default=None,
+        description="Best eligible what-if re-scored on the trained model, when one exists.",
+    )
 
 
 class ErrorDetail(BaseModel):
