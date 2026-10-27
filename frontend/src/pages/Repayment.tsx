@@ -203,7 +203,7 @@ export function Repayment() {
     <div className="space-y-6">
       <PageHeading
         eyebrow="Repayment"
-        title="Choose how you repay."
+        title="A clear path to paid back."
         detail="Fixed EMI, revenue share, or one-off payments via PayPal."
       />
       <Notice>{demoNotice}</Notice>

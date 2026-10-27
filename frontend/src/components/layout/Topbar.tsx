@@ -36,7 +36,7 @@ export function Topbar({ onMenu }: { onMenu: () => void }) {
   }, [session])
 
   return (
-    <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-navy-900/5 bg-[rgb(var(--bg)/0.72)] px-4 py-3 backdrop-blur-xl dark:border-white/10 sm:px-6">
+    <header className="sticky top-0 z-20 flex h-12 items-center justify-between gap-3 border-b border-white/[.07] bg-[#080f1c] px-4 sm:px-5">
       <div className="flex min-w-0 items-center gap-3">
         <button
           type="button"
@@ -53,7 +53,7 @@ export function Topbar({ onMenu }: { onMenu: () => void }) {
       <div className="flex items-center gap-3">
         {liveScore !== null && (
           <motion.div
-            className="flex items-center gap-2 rounded-full bg-paypal/10 px-3 py-1.5 border border-paypal/20"
+            className="flex items-center gap-2 rounded-full border border-paypal/20 bg-paypal/10 px-2.5 py-1"
             whileHover={{ scale: 1.02 }}
           >
             <motion.span
@@ -80,7 +80,7 @@ export function Topbar({ onMenu }: { onMenu: () => void }) {
           {session?.demo ? 'Demo session' : 'PayPal linked'}
         </span>
         <ThemeToggle />
-        <Button variant="ghost" className="px-3 py-1.5 text-xs" onClick={logout}>
+          <Button variant="ghost" className="px-2.5 py-1 text-[11px]" onClick={logout}>
           Sign out
         </Button>
       </div>

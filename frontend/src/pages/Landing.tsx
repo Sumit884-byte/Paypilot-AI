@@ -67,22 +67,18 @@ export function Landing() {
             variants={fadeUp}
             className="mt-5 text-xs font-semibold uppercase tracking-[0.28em] text-paypal"
           >
-            PayPal AI hackathon · credit copilot
+            For the independent economy
           </motion.p>
           <motion.h1
             variants={fadeUp}
             className="mt-4 max-w-[18ch] font-display text-[2.05rem] font-extrabold leading-[1.12] tracking-tight sm:max-w-none sm:text-5xl"
           >
             <span className="text-gradient-hero">
-              Banks reject freelancers for having no credit score.
-            </span>
-            <span className="mt-3 block text-navy-950 dark:text-white">
-              Their PayPal history is the credit score.
+              Your income has a story. Give it a score.
             </span>
           </motion.h1>
           <motion.p variants={fadeUp} className="mt-5 max-w-lg text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
-            Paypilot AI turns sandbox PayPal income, disputes, and invoices into a transparent PayScore —
-            then demos disbursement and repayment without moving real money.
+            No traditional credit history? Explore a demo score built around your PayPal income — not your employment status.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <PayPalLoginButton onClick={onLogin} busy={busy} />

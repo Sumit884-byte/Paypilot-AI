@@ -45,7 +45,7 @@ export function Cockpit() {
     <div className="space-y-6">
       <PageHeading
         eyebrow="AG Studio"
-        title="Your financial cockpit."
+        title="The signals you want. Together."
         detail="Bring the signals you care about into one workspace."
       />
       <Notice>
