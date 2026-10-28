@@ -113,7 +113,7 @@ export function OfferGuard() {
     <div className="space-y-6">
       <PageHeading
         eyebrow="Offer guard"
-        title="Know the cost behind the offer."
+        title="The real cost, in plain sight."
         detail="Upload a loan-offer PDF or enter the terms. The effective cost is a monthly IRR on the cash flows."
       />
       <Notice>

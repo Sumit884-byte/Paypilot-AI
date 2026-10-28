@@ -155,7 +155,7 @@ export function Copilot() {
     <div className="space-y-6">
       <PageHeading
         eyebrow="AI copilot"
-        title="A second pair of eyes."
+        title="Your financial copilot."
         detail="Ask about income, affordability, and your next step."
       />
       <Notice>

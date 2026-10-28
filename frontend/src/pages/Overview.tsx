@@ -77,7 +77,7 @@ export function Overview() {
 
   return (
     <div className="space-y-7">
-      <PageHeading eyebrow="Your credit copilot" title={`Good afternoon${persona ? `, ${persona.display_name.split(' ')[0]}` : ''}.`}
+      <PageHeading eyebrow="Your financial workspace" title={`Good morning${persona ? `, ${persona.display_name.split(' ')[0]}` : ''}.`}
         detail="A clearer view of the income behind your next move." action={
           <Link to="/app/score"><Button><span>Run PayScore</span><Icon name="arrow" size={16} /></Button></Link>
         } />

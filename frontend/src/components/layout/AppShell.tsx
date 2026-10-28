@@ -14,11 +14,11 @@ export function AppShell() {
   if (!isAuthed) return <Navigate to="/" replace />
 
   return (
-    <div className="relative min-h-svh overflow-hidden bg-[rgb(var(--bg))]">
+    <div className="relative min-h-svh bg-[rgb(var(--bg))]">
       <AmbientBackground />
 
-      <div className="relative mx-auto flex min-h-svh max-w-[1440px]">
-        <div className="hidden w-64 shrink-0 border-r border-navy-900/5 glass lg:block dark:border-white/10">
+      <div className="relative flex min-h-svh">
+        <div className="hidden w-60 shrink-0 border-r border-white/[.07] bg-[#0b1422] lg:block">
           <Sidebar />
         </div>
 
@@ -41,7 +41,7 @@ export function AppShell() {
                 animate={{ x: 0 }}
                 exit={{ x: -240 }}
                 transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-                className="relative h-full w-64 bg-[rgb(var(--surface))] shadow-glass-lg"
+                className="relative h-full w-60 bg-[#0b1422] shadow-glass-lg"
               >
                 <Sidebar onNavigate={() => setOpen(false)} />
               </motion.div>
@@ -51,7 +51,7 @@ export function AppShell() {
 
         <div className="flex min-w-0 flex-1 flex-col">
           <Topbar onMenu={() => setOpen(true)} />
-          <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <main className="min-w-0 flex-1 p-4 sm:p-5 lg:px-6 lg:py-5">
             <PageTransition>
               <Outlet />
             </PageTransition>

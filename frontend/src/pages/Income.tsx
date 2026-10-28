@@ -223,7 +223,7 @@ export function Income() {
     <div className="space-y-6">
       <PageHeading
         eyebrow="Income profile"
-        title="Your work, in a clearer light."
+        title="Income, beyond the balance."
         detail="A 12-month view of payment consistency and client activity."
       />
       <Notice>

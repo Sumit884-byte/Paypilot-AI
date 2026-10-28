@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { NavLink, useLocation } from 'react-router-dom'
-import { Logo } from '../brand/Logo'
 import { SandboxBadge } from '../ui/SandboxBadge'
 import { KeyboardShortcutsHint } from '../ui/Workspace'
 import { cn } from '../../lib/cn'
@@ -19,8 +18,11 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const location = useLocation()
 
   return (
-    <aside className="flex h-full flex-col gap-6 p-5">
-      <Logo compact />
+    <aside className="flex h-full min-h-svh flex-col gap-5 p-3">
+      <div className="flex h-9 items-center gap-2 px-2 text-xs font-semibold text-slate-200">
+        <span className="grid h-6 w-6 place-items-center rounded-md text-amber-300" aria-hidden="true">✣</span>
+        Personal workspace
+      </div>
       <nav className="relative flex flex-1 flex-col gap-1">
         {links.map((link) => (
           <NavLink
@@ -30,7 +32,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             className={({ isActive }) =>
               cn(
-                'relative z-10 flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
+                'relative z-10 flex items-center gap-3 rounded-lg px-2.5 py-2 text-xs font-medium transition-colors',
                 isActive
                   ? 'text-navy-950 dark:text-white'
                   : 'text-slate-500 hover:text-navy-900 dark:text-slate-400 dark:hover:text-white',
@@ -42,7 +44,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 {isActive && (
                   <motion.span
                     layoutId="sidebar-active"
-                    className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-paypal/18 to-amber-glow/10 ring-1 ring-paypal/30"
+                    className="absolute inset-0 -z-10 rounded-lg bg-paypal/15 ring-1 ring-paypal/50"
                     transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                   />
                 )}
@@ -53,10 +55,10 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           </NavLink>
         ))}
       </nav>
-      <div className="border-t border-navy-900/5 pt-4 dark:border-white/10">
+      <div className="border-t border-white/[.07] pt-3">
         <KeyboardShortcutsHint />
       </div>
-      <SandboxBadge className="justify-center text-[10px]" />
+      <SandboxBadge className="justify-start text-[10px]" />
     </aside>
   )
 }
