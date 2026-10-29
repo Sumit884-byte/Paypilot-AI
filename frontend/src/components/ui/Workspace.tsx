@@ -8,9 +8,9 @@ export function PageHeading({ eyebrow, title, detail, action }: {
   return (
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-[.12em] text-amber-300">{eyebrow}</p>
-        <h1 className="mt-1.5 font-display text-2xl font-bold sm:text-[1.8rem]">{title}</h1>
-        <p className="mt-1.5 max-w-2xl text-xs leading-relaxed text-slate-400">{detail}</p>
+        <p className="text-[10px] font-semibold uppercase text-paypal">{eyebrow}</p>
+        <h1 className="mt-1.5 font-display text-3xl leading-tight sm:text-4xl">{title}</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">{detail}</p>
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>
