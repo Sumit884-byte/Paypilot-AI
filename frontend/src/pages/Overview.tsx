@@ -3,13 +3,15 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
-import { Notice, PageHeading, MetricCard, Icon, PulseDot } from '../components/ui/Workspace'
+import { Notice, PageHeading, Icon } from '../components/ui/Workspace'
 import { Skeleton } from '../components/ui/Skeleton'
 import { apiRequest, money, type Persona } from '../lib/api'
 import { useAuth } from '../context/AuthContext'
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 type IncomeProfile = {
   total_income_12m_inr: number
+  monthly_income_12m?: Array<{ month: string; income_inr: number }>
   distinct_client_count_12m: number
   refund_rate_12m: number
   dispute_rate_12m: number
@@ -46,7 +48,7 @@ function useDemoProgress() {
 }
 
 export function Overview() {
-  const { session, enterDemo } = useAuth()
+  const { session } = useAuth()
   const location = useLocation()
   const [profile, setProfile] = useState<IncomeProfile | null>(null)
   const [persona, setPersona] = useState<Persona | null>(null)
@@ -76,53 +78,93 @@ export function Overview() {
   }, [name])
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       <PageHeading eyebrow="Your financial workspace" title={`Good morning${persona ? `, ${persona.display_name.split(' ')[0]}` : ''}.`}
-        detail="A clearer view of the income behind your next move." action={
-          <Link to="/app/score"><Button><span>Run PayScore</span><Icon name="arrow" size={16} /></Button></Link>
+        detail="Your work has a rhythm. Here’s the bigger picture, and a little help with what comes next." action={
+          <Link to="/app/copilot"><Button><span>Continue with copilot</span><Icon name="arrow" size={16} /></Button></Link>
         } />
 
       {error && <Notice tone="warning">{error} · Start the API to load live demo data. The demo tour remains available below.</Notice>}
       {session?.demo && <Notice>Demo workspace · synthetic persona data only. No real credit decision, lending, or money movement.</Notice>}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {profile ? <>
-          <MetricCard label="Income · 12 months" value={money(profile.total_income_12m_inr, true)} detail={`${profile.income_trend_12m} monthly direction`} icon={<Icon name="income" />} delay={0.05} />
-          <MetricCard label="Distinct clients" value={profile.distinct_client_count_12m} detail="12-month buyer count" icon={<Icon name="users" />} tone="gold" delay={0.1} />
-          <MetricCard label="Refund rate" value={`${(profile.refund_rate_12m * 100).toFixed(1)}%`} detail="Share of completed sales" icon={<Icon name="arrow" />} tone="green" delay={0.15} />
-          <MetricCard label="Longest payment gap" value={`${profile.longest_income_gap_days_12m} days`} detail={`Dispute rate ${(profile.dispute_rate_12m * 100).toFixed(1)}%`} icon={<Icon name="clock" />} tone="rose" delay={0.2} />
-        </> : [1, 2, 3, 4].map((n) => <Skeleton key={n} className="h-36 rounded-3xl" />)}
+      <div className="grid gap-4 border-y border-[rgb(var(--line))] py-4 sm:grid-cols-2 xl:grid-cols-4">
+        {[
+          { label: '12-month income', value: profile ? money(profile.total_income_12m_inr, true) : '—', detail: 'Monthly average' },
+          { label: 'Distinct clients', value: profile?.distinct_client_count_12m ?? '—', detail: 'Across the trailing year' },
+          { label: 'Refund rate', value: profile ? `${(profile.refund_rate_12m * 100).toFixed(1)}%` : '—', detail: 'Share of total receipts' },
+          { label: 'Longest payment gap', value: profile ? `${profile.longest_income_gap_days_12m} days` : '—', detail: 'Across earning months' },
+        ].map((item) => (
+          <div key={item.label} className="px-1 py-1">
+            <p className="text-xs text-slate-500">{item.label}</p>
+            <p className="mt-2 text-2xl font-bold text-[rgb(var(--ink))]">{item.value}</p>
+            <p className="mt-1 text-[11px] text-slate-500">{item.detail}</p>
+          </div>
+        ))}
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[1.45fr_.85fr]">
-        <GlassCard interactive={false} className="overflow-hidden p-0">
-          <div className="flex items-center justify-between p-5 sm:p-6">
-            <div><p className="text-sm font-semibold">Your PayScore workspace</p><p className="mt-1 text-xs text-slate-500">One connected story, from income to repayment.</p></div>
-            <span className="flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-300"><PulseDot /> API ready</span>
+      <div className="grid gap-5 xl:grid-cols-[1.65fr_.7fr]">
+        <GlassCard interactive={false} className="min-w-0 p-5 sm:p-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold">Your income is finding its stride.</h2>
+              <p className="mt-1 text-xs text-slate-500">12 months of synthetic cashflow</p>
+            </div>
+            <span className="hidden text-[10px] uppercase text-slate-500 sm:block">Trailing 12 months</span>
           </div>
-          <div className="grid border-t border-slate-200/60 dark:border-white/10 sm:grid-cols-3">
-            {[
-              { title: 'Income profile', detail: '12 months of cashflow', href: '/app/income', icon: 'income' },
-              { title: 'Explainable score', detail: 'Understand the signals', href: '/app/score', icon: 'spark' },
-              { title: 'Offer guard', detail: 'See the cost behind APR', href: '/app/offer-guard', icon: 'shield' },
-            ].map((item, index) => <motion.div key={item.href} whileHover={{ backgroundColor: 'rgba(0,112,186,.055)' }} className={`border-slate-200/60 p-5 dark:border-white/10 ${index ? 'border-t sm:border-l sm:border-t-0' : ''}`}>
-              <Link to={item.href} className="block rounded-xl focus-visible:outline">
-                <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-paypal/10 text-paypal"><Icon name={item.icon} /></span>
-                <p className="text-sm font-semibold">{item.title}</p><p className="mt-1 text-xs text-slate-500">{item.detail}</p>
-                <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-paypal">Open <Icon name="arrow" size={14} /></span>
-              </Link>
-            </motion.div>)}
-          </div>
+          {profile ? (
+            <>
+              <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+                <p className="text-3xl font-bold">{money(profile.monthly_income_12m?.at(-1)?.income_inr ?? profile.total_income_12m_inr / 12, true)}</p>
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-800">{profile.income_trend_12m}</span>
+              </div>
+              {profile.monthly_income_12m?.length ? (
+                <div className="mt-3 h-56 min-w-0">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={profile.monthly_income_12m}>
+                      <defs><linearGradient id="overview-income" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#0070BA" stopOpacity="0.2" /><stop offset="100%" stopColor="#0070BA" stopOpacity="0" /></linearGradient></defs>
+                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#718096' }} />
+                      <YAxis hide />
+                      <Tooltip formatter={(value) => [money(Number(value)), 'Income']} />
+                      <Area type="monotone" dataKey="income_inr" stroke="#0070BA" strokeWidth={2} fill="url(#overview-income)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : <p className="py-16 text-center text-sm text-slate-500">Income trend is not available.</p>}
+              <Link to="/app/income" className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-paypal">Explore the transactions <Icon name="arrow" size={13} /></Link>
+            </>
+          ) : <div className="grid h-64 place-items-center text-center text-sm text-slate-500">{error ? 'Start the API to load the synthetic income profile.' : <Skeleton className="h-40 w-full" />}</div>}
         </GlassCard>
 
-        <GlassCard interactive={false} className="relative overflow-hidden p-6">
-          <div className="absolute -right-12 -top-14 h-40 w-40 rounded-full bg-amber-400/15 blur-3xl" />
-          <p className="relative text-[11px] font-bold uppercase tracking-[.2em] text-amber-600 dark:text-amber-300">3-minute demo flow</p>
-          <h2 className="relative mt-3 font-display text-2xl font-bold">Follow Priya's story</h2>
-          <p className="relative mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Income → score → inspect an offer → ask the copilot → simulate a sandbox payout → track the first repayment.</p>
-          <div className="relative mt-5 flex flex-wrap gap-2">
-            <Button onClick={enterDemo}><Icon name="spark" size={16} /> Start demo</Button>
-            <Link to="/app/copilot"><Button variant="ghost">Ask the copilot</Button></Link>
+        <GlassCard interactive={false} className="bg-[#eaf4fb] p-5 sm:p-6">
+          <p className="text-[10px] font-semibold uppercase text-paypal">Paypilot guide</p>
+          <h2 className="mt-2 font-display text-2xl">A good place to begin.</h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-500">Let’s look at the facts before making a next move.</p>
+          <div className="mt-5 space-y-3 text-xs">
+            <div className="flex justify-between gap-3"><span className="text-slate-500">PayScore</span><Link to="/app/score" className="font-semibold text-paypal">Review signals ↗</Link></div>
+            <div className="flex justify-between gap-3"><span className="text-slate-500">Offer guard</span><Link to="/app/offer-guard" className="font-semibold text-paypal">Review an offer ↗</Link></div>
+          </div>
+          <p className="mt-4 text-[11px] leading-relaxed text-slate-500">Your approval is always required. This is an estimate, not a lending decision.</p>
+          <Link to="/app/copilot" className="mt-4 inline-flex"><Button>Ask the copilot</Button></Link>
+        </GlassCard>
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-[.9fr_1.5fr]">
+        <section>
+          <h2 className="mb-2 font-display text-2xl">Make the numbers useful.</h2>
+          {[
+            { title: 'Income', detail: '12 months, clients, one clear picture.', href: '/app/income' },
+            { title: 'PayScore', detail: 'Understand what shapes your demo score.', href: '/app/score' },
+            { title: 'Offer guard', detail: 'Look beyond the advertised rate.', href: '/app/offer-guard' },
+          ].map((item) => <Link key={item.href} to={item.href} className="flex items-center justify-between gap-4 border-b border-[rgb(var(--line))] py-3">
+            <span><span className="block text-sm font-semibold">{item.title}</span><span className="mt-1 block text-xs text-slate-500">{item.detail}</span></span>
+            <Icon name="arrow" size={15} className="shrink-0 text-paypal" />
+          </Link>)}
+        </section>
+
+        <GlassCard interactive={false} className="p-5 sm:p-6">
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="text-sm font-semibold">Your three-minute demo path</h2>
+            <span className="text-[10px] uppercase text-slate-500">{completed.size} of {DEMO_STEPS.length} visited</span>
           </div>
           
           {/* Demo Progress Tracker */}
@@ -183,7 +225,8 @@ export function Overview() {
             </div>
           </motion.div>
           
-          <p className="relative mt-5 text-[10px] uppercase tracking-[.14em] text-slate-500">{persona?.scenario?.headline ?? 'Synthetic persona · PayPal sandbox only'}</p>
+          <p className="mt-4 text-xs leading-relaxed">Next: explore income, then check whether an illustrative amount fits your cashflow.</p>
+          <p className="mt-4 text-[10px] text-slate-500">Synthetic demo data only. No real credit decision or money movement.</p>
         </GlassCard>
       </div>
 

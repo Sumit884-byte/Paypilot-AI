@@ -15,7 +15,7 @@ export function GlassCard({ className, interactive = true, children }: Props) {
       initial="rest"
       whileHover={interactive ? 'hover' : undefined}
       variants={interactive ? hoverLift : undefined}
-      className={cn('glass rounded-xl p-4 sm:p-5', className)}
+      className={cn('glass rounded-lg p-4 sm:p-5', className)}
     >
       {children}
     </motion.div>

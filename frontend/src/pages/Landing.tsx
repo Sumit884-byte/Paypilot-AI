@@ -6,17 +6,9 @@ import { FloatingCards } from '../components/landing/FloatingCards'
 import { PayPalLoginButton } from '../components/landing/PayPalLoginButton'
 import { AmbientBackground } from '../components/ui/AmbientBackground'
 import { SandboxBadge } from '../components/ui/SandboxBadge'
-import { ThemeToggle } from '../components/ui/ThemeToggle'
 import { Button } from '../components/ui/Button'
-import { GlassCard } from '../components/ui/GlassCard'
 import { useAuth } from '../context/AuthContext'
 import { fadeUp, stagger } from '../lib/motion'
-
-const stats = [
-  ['300–850', 'PayScore scale'],
-  ['12 mo', 'income window'],
-  ['Sandbox', 'PayPal only'],
-]
 
 const steps = [
   { n: '01', title: 'Link sandbox PayPal', copy: 'OAuth into a sandbox seller. Live lending never happens here.' },
@@ -45,11 +37,10 @@ export function Landing() {
     <div className="relative min-h-svh overflow-hidden bg-[rgb(var(--bg))]">
       <AmbientBackground />
 
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-5">
+      <header className="relative z-10 mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3 px-5 py-5 lg:px-10">
         <Logo compact />
         <div className="flex items-center gap-3">
           <SandboxBadge className="hidden sm:inline-flex" />
-          <ThemeToggle />
         </div>
       </header>
 
@@ -57,7 +48,7 @@ export function Landing() {
         variants={stagger}
         initial="initial"
         animate="animate"
-        className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-4 lg:grid-cols-[1.08fr_0.92fr] lg:pt-8"
+        className="relative z-10 mx-auto grid w-full max-w-[1600px] items-center gap-6 px-5 pb-8 pt-5 sm:gap-10 lg:grid-cols-[1.05fr_.95fr] lg:px-10 lg:pb-12 lg:pt-8"
       >
         <div>
           <motion.div variants={fadeUp} className="sm:hidden">
@@ -65,25 +56,23 @@ export function Landing() {
           </motion.div>
           <motion.p
             variants={fadeUp}
-            className="mt-5 text-xs font-semibold uppercase tracking-[0.28em] text-paypal"
+            className="mt-5 text-[10px] font-semibold uppercase text-paypal"
           >
-            For the independent economy
+            Your work is independent. Your story matters.
           </motion.p>
           <motion.h1
             variants={fadeUp}
-            className="mt-4 max-w-[18ch] font-display text-[2.05rem] font-extrabold leading-[1.12] tracking-tight sm:max-w-none sm:text-5xl"
+            className="mt-3 max-w-[13ch] font-display text-5xl leading-[.98] sm:text-6xl lg:text-[4.5rem]"
           >
-            <span className="text-gradient-hero">
-              Your income has a story. Give it a score.
-            </span>
+            <span className="text-gradient-hero">You’ve built an income. Let’s make sense of its story.</span>
           </motion.h1>
-          <motion.p variants={fadeUp} className="mt-5 max-w-lg text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
-            No traditional credit history? Explore a demo score built around your PayPal income — not your employment status.
+          <motion.p variants={fadeUp} className="mt-5 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            More than traditional credit history. Explore what 12 months of freelance earnings can tell you, with an AI copilot that explains, not decides.
           </motion.p>
-          <motion.div variants={fadeUp} className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <motion.div variants={fadeUp} className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <PayPalLoginButton onClick={onLogin} busy={busy} />
             <Button variant="ghost" className="border-paypal/20" onClick={enterDemo}>
-              Tour the cockpit
+              Tour the cockpit <span aria-hidden="true">→</span>
             </Button>
           </motion.div>
           {notice && (
@@ -91,16 +80,12 @@ export function Landing() {
               {notice}
             </motion.p>
           )}
-          <motion.div variants={fadeUp} className="mt-10 grid max-w-lg grid-cols-3 gap-3">
-            {stats.map(([value, label]) => (
-              <GlassCard key={label} className="px-3 py-4 text-center">
-                <p className="text-lg font-bold">{value}</p>
-                <p className="text-[11px] uppercase tracking-wider text-slate-500">{label}</p>
-              </GlassCard>
-            ))}
+          <motion.div variants={fadeUp} className="mt-6 flex items-start gap-3 text-xs text-slate-600">
+            <span className="mt-2 h-px w-5 shrink-0 bg-amber-500" />
+            <span>A demo, not a bank decision. No guaranteed lending access.</span>
           </motion.div>
         </div>
-        <motion.div variants={fadeUp}>
+        <motion.div variants={fadeUp} className="relative min-w-0 rounded-[2rem] bg-[#eaf4fb] px-4 py-3 sm:px-8 lg:px-5">
           <FloatingCards />
         </motion.div>
       </motion.main>
@@ -110,21 +95,24 @@ export function Landing() {
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
-        className="relative z-10 mx-auto grid max-w-6xl gap-4 px-5 pb-20 md:grid-cols-3"
+        className="relative z-10 mx-auto grid w-full max-w-[1600px] gap-4 border-t border-[rgb(var(--line))] px-5 py-6 md:grid-cols-3 lg:px-10"
       >
         {steps.map((step) => (
           <motion.div key={step.n} variants={fadeUp}>
-            <GlassCard className="h-full">
-              <p className="text-xs font-bold tracking-[0.2em] text-paypal">{step.n}</p>
-              <h2 className="mt-2 text-lg font-semibold">{step.title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{step.copy}</p>
-            </GlassCard>
+            <div className="flex gap-3 py-2">
+              <p className="font-display text-xl text-paypal">{step.n}</p>
+              <div>
+                <h2 className="text-sm font-semibold">{step.title}</h2>
+                <p className="mt-1 text-xs leading-relaxed text-slate-500">{step.copy}</p>
+              </div>
+            </div>
           </motion.div>
         ))}
       </motion.section>
 
-      <footer className="relative z-10 border-t border-navy-900/5 px-5 py-8 text-center text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
-        Paypilot AI is a sandbox demo. Scores are not credit decisions. No real lending, disbursement, or repayment.
+      <footer className="relative z-10 flex flex-wrap justify-between gap-3 border-t border-[rgb(var(--line))] px-5 py-5 text-[10px] text-slate-500 lg:px-10">
+        <span>PAYPILOT AI · A little clarity goes a long way.</span>
+        <span>Synthetic financial information · No real money movement</span>
       </footer>
     </div>
   )
