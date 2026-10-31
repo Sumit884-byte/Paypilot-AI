@@ -19,6 +19,7 @@
       "active_months_12m": 12,
       "age_years": 34,
       "applicant_id": "PSC-EXAMPLE-001",
+      "avg_client_turnaround_days": 18.0,
       "avg_monthly_expenses_inr": 84000,
       "avg_monthly_revenue_inr": 140000,
       "avg_txn_value_inr": 4500,
@@ -26,12 +27,14 @@
       "dispute_rate_12m": 0.0,
       "employment_type": "self_employed",
       "existing_monthly_debt_payments_inr": 6000,
+      "late_payment_rate_90d": 0.05,
       "monthly_income_inr": 55000,
       "prior_defaults_count": 0,
       "refund_rate_90d": 0.02,
       "requested_loan_amount_inr": 400000,
       "requested_term_months": 18,
       "revenue_volatility_cv": 0.08,
+      "top_client_revenue_share": 0.35,
       "txn_count_90d": 95
     }
   ],
@@ -206,6 +209,51 @@
       "default": null,
       "description": "Disputes / sales (count), last 12 months.",
       "title": "Dispute Rate 12M"
+    },
+    "avg_client_turnaround_days": {
+      "anyOf": [
+        {
+          "maximum": 365,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Mean days from invoice creation to client settlement.",
+      "title": "Avg Client Turnaround Days"
+    },
+    "late_payment_rate_90d": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Ratio of client invoices paid after due date, last 90 days.",
+      "title": "Late Payment Rate 90D"
+    },
+    "top_client_revenue_share": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Share of total revenue from the single largest client (0 to 1).",
+      "title": "Top Client Revenue Share"
     },
     "existing_monthly_debt_payments_inr": {
       "anyOf": [

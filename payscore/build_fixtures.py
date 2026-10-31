@@ -42,7 +42,10 @@ PERSONAS: list[dict[str, Any]] = [
         "refund_prob": 0.02, "disputes": [], "expense_ratio": 0.58,
         "expense_cats": ["supplier_materials", "shipping", "packaging", "marketplace_fees", "software_subscriptions"],
         "sale_cats": ["international_buyer", "domestic_buyer"],
-        "inputs": {"monthly_income_inr": 55000, "existing_monthly_debt_payments_inr": 6000, "prior_defaults_count": 0},
+        "inputs": {
+            "monthly_income_inr": 55000, "existing_monthly_debt_payments_inr": 6000, "prior_defaults_count": 0,
+            "avg_client_turnaround_days": 12.0, "late_payment_rate_90d": 0.01, "top_client_revenue_share": 0.18,
+        },
     },
     {
         "file": "arjun.json", "tag": "ARJUN", "seed": 202, "persona_id": "PSC-ARJUN-002", "display_name": "Arjun Mehta (fictional)",
@@ -62,7 +65,10 @@ PERSONAS: list[dict[str, Any]] = [
         "refund_prob": 0.01, "disputes": [], "expense_ratio": 0.35,
         "expense_cats": ["software_subscriptions", "coworking", "internet_phone", "hardware", "professional_fees"],
         "sale_cats": ["international_client", "international_client", "domestic_client"],
-        "inputs": {"monthly_income_inr": 65000, "existing_monthly_debt_payments_inr": 8000, "prior_defaults_count": 0},
+        "inputs": {
+            "monthly_income_inr": 65000, "existing_monthly_debt_payments_inr": 8000, "prior_defaults_count": 0,
+            "avg_client_turnaround_days": 26.0, "late_payment_rate_90d": 0.12, "top_client_revenue_share": 0.42,
+        },
     },
     {
         "file": "rohan.json", "tag": "ROHAN", "seed": 303, "persona_id": "PSC-ROHAN-003", "display_name": "Rohan Kulkarni (fictional)",
@@ -82,7 +88,10 @@ PERSONAS: list[dict[str, Any]] = [
         "refund_prob": 0.07, "disputes": [(5, 1100)], "expense_ratio": 0.90,
         "expense_cats": ["inventory", "shipping", "packaging", "marketplace_fees", "ads"],
         "sale_cats": ["domestic_buyer"],
-        "inputs": {"monthly_income_inr": 17500, "existing_monthly_debt_payments_inr": 9500, "prior_defaults_count": 1},
+        "inputs": {
+            "monthly_income_inr": 17500, "existing_monthly_debt_payments_inr": 9500, "prior_defaults_count": 1,
+            "avg_client_turnaround_days": 38.0, "late_payment_rate_90d": 0.32, "top_client_revenue_share": 0.65,
+        },
     },
 ]
 

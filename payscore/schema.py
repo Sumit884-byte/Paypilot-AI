@@ -38,6 +38,9 @@ EXAMPLE_REQUEST = {
     "active_months_12m": 12,
     "refund_rate_90d": 0.02,
     "dispute_rate_12m": 0.0,
+    "avg_client_turnaround_days": 18.0,
+    "late_payment_rate_90d": 0.05,
+    "top_client_revenue_share": 0.35,
     "existing_monthly_debt_payments_inr": 6000,
     "prior_defaults_count": 0,
     "requested_loan_amount_inr": 400000,
@@ -75,6 +78,15 @@ class ScoreRequest(BaseModel):
     active_months_12m: Optional[int] = Field(None, ge=0, le=12, description="Months with >=1 sale, last 12.")
     refund_rate_90d: Optional[Ratio] = Field(None, description="Refunds / sales (count), last 90 days.")
     dispute_rate_12m: Optional[Ratio] = Field(None, description="Disputes / sales (count), last 12 months.")
+    avg_client_turnaround_days: Optional[Annotated[float, Field(ge=0, le=365, allow_inf_nan=False)]] = Field(
+        None, description="Mean days from invoice creation to client settlement."
+    )
+    late_payment_rate_90d: Optional[Ratio] = Field(
+        None, description="Ratio of client invoices paid after due date, last 90 days."
+    )
+    top_client_revenue_share: Optional[Ratio] = Field(
+        None, description="Share of total revenue from the single largest client (0 to 1)."
+    )
     existing_monthly_debt_payments_inr: Optional[Money] = None
     prior_defaults_count: Optional[int] = Field(None, ge=0, le=50)
 

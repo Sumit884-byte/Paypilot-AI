@@ -43,6 +43,9 @@ def generate(n_rows: int = 30_000, seed: int = 42) -> pd.DataFrame:
     active = np.clip(np.minimum(12, biz_age) - rng.binomial(12, np.clip(cv * 0.15, 0, 0.9)), 0, 12)
     refund = np.clip(rng.beta(1.5, 30, n), 0, 1)
     dispute = np.clip(rng.beta(1, 150, n), 0, 1)
+    turnaround = np.where(is_biz, np.clip(rng.normal(20, 10, n), 2, 90), np.nan)
+    late_rate = np.where(is_biz, np.clip(rng.beta(1.5, 12, n) + 0.1 * (cv > 0.5), 0, 1), np.nan)
+    top_client = np.where(is_biz, np.clip(rng.beta(2, 4, n), 0.05, 0.95), np.nan)
     debt = np.where(rng.random(n) < 0.65, income * rng.beta(2, 6, n), 0.0)
     defaults = rng.poisson(0.15, n)
     amount = rng.lognormal(np.log(300_000), 0.8, n)
@@ -50,9 +53,17 @@ def generate(n_rows: int = 30_000, seed: int = 42) -> pd.DataFrame:
 
     dti = debt / income
     inst = (amount / term) / income
+    client_risk = np.where(
+        is_biz,
+        2.5 * np.nan_to_num(late_rate, nan=0.0)
+        + 0.03 * np.clip(np.nan_to_num(turnaround, nan=15.0) - 15, 0, 60)
+        + 1.0 * np.nan_to_num(top_client, nan=0.0) * np.nan_to_num(late_rate, nan=0.0),
+        0.0,
+    )
     z = (
         2.0 * np.clip(dti, 0, 1.5) + 1.8 * np.clip(inst, 0, 2) + 1.2 * np.clip(cv, 0, 2)
         + 0.8 * (expense_ratio - 0.67) + 6.0 * refund + 25.0 * dispute + 0.7 * defaults
+        + client_risk
         - 0.01 * np.minimum(biz_age, 120) - 0.5 * (np.log(income) - 10.5) - 0.02 * (age - 36)
         + 1.0 * ((cv > 0.8) & (inst > 0.5))
         + rng.normal(0, LABEL_NOISE, n)
@@ -79,6 +90,9 @@ def generate(n_rows: int = 30_000, seed: int = 42) -> pd.DataFrame:
         "active_months_12m": active.astype(float),
         "refund_rate_90d": refund.round(4),
         "dispute_rate_12m": dispute.round(4),
+        "avg_client_turnaround_days": np.where(is_biz, np.round(turnaround, 1), np.nan),
+        "late_payment_rate_90d": np.where(is_biz, np.round(late_rate, 4), np.nan),
+        "top_client_revenue_share": np.where(is_biz, np.round(top_client, 4), np.nan),
         "existing_monthly_debt_payments_inr": debt.round(0),
         "prior_defaults_count": defaults.astype(float),
         "requested_loan_amount_inr": amount.round(0),
@@ -86,11 +100,13 @@ def generate(n_rows: int = 30_000, seed: int = 42) -> pd.DataFrame:
     })
     # Missingness: salaried/other mostly lack business metrics; plus random gaps.
     biz_cols = ["avg_monthly_revenue_inr", "avg_monthly_expenses_inr", "revenue_volatility_cv",
-                "txn_count_90d", "avg_txn_value_inr", "active_months_12m", "refund_rate_90d", "dispute_rate_12m"]
+                "txn_count_90d", "avg_txn_value_inr", "active_months_12m", "refund_rate_90d", "dispute_rate_12m",
+                "avg_client_turnaround_days", "late_payment_rate_90d", "top_client_revenue_share"]
     structural = (~is_biz) & (rng.random(n) < 0.7)
     df.loc[structural, biz_cols] = np.nan
     for col in ["revenue_volatility_cv", "dispute_rate_12m", "prior_defaults_count",
-                "existing_monthly_debt_payments_inr", "refund_rate_90d"]:
+                "existing_monthly_debt_payments_inr", "refund_rate_90d",
+                "avg_client_turnaround_days", "late_payment_rate_90d", "top_client_revenue_share"]:
         df.loc[rng.random(n) < 0.10, col] = np.nan
     df["TARGET"] = target
     return df[["applicant_id", *INPUT_COLUMNS, "TARGET"]]
