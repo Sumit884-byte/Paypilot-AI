@@ -12,6 +12,7 @@ NUMERIC_INPUTS = [
     "age_years", "business_age_months", "monthly_income_inr", "avg_monthly_revenue_inr",
     "avg_monthly_expenses_inr", "revenue_volatility_cv", "txn_count_90d", "avg_txn_value_inr",
     "active_months_12m", "refund_rate_90d", "dispute_rate_12m",
+    "avg_client_turnaround_days", "late_payment_rate_90d", "top_client_revenue_share",
     "existing_monthly_debt_payments_inr", "prior_defaults_count",
     "requested_loan_amount_inr", "requested_term_months",
 ]

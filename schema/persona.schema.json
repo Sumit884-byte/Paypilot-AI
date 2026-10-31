@@ -397,6 +397,51 @@
           "description": "Disputes / sales (count), last 12 months.",
           "title": "Dispute Rate 12M"
         },
+        "avg_client_turnaround_days": {
+          "anyOf": [
+            {
+              "maximum": 365,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Mean days from invoice creation to client settlement.",
+          "title": "Avg Client Turnaround Days"
+        },
+        "late_payment_rate_90d": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ratio of client invoices paid after due date, last 90 days.",
+          "title": "Late Payment Rate 90D"
+        },
+        "top_client_revenue_share": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Share of total revenue from the single largest client (0 to 1).",
+          "title": "Top Client Revenue Share"
+        },
         "existing_monthly_debt_payments_inr": {
           "anyOf": [
             {

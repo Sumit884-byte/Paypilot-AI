@@ -90,6 +90,9 @@ def fallback_pd(records: pd.DataFrame) -> np.ndarray:
         + 1.0 * f["revenue_volatility_cv"].clip(0, 2)
         + 5.0 * f["refund_rate_90d"]
         + 20.0 * f["dispute_rate_12m"]
+        + 2.0 * f["late_payment_rate_90d"]
+        + 0.03 * f["avg_client_turnaround_days"].clip(0, 60)
+        + 0.8 * f["top_client_revenue_share"].clip(0, 1)
         + 0.7 * f["prior_defaults_count"]
         - 0.01 * f["business_age_months"].clip(0, 120)
         - 0.4 * (np.log(income) - 10.5)

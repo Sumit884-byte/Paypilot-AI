@@ -27,6 +27,9 @@ Reference implementation of the *derived* rows: `payscore/derive.py`. Windows ar
 | `active_months_12m` | no | derived | Distinct months with >= 1 sale, last 12 complete months |
 | `refund_rate_90d` | no | derived | refunds / sales (count), 90 days, capped at 1 |
 | `dispute_rate_12m` | no | derived | disputes / sales (count), 12 months, capped at 1 |
+| `avg_client_turnaround_days` | no | derived / declared | Mean days elapsed between invoice issuance and settlement; null if no invoices |
+| `late_payment_rate_90d` | no | derived | Invoices paid after due date / paid invoices (count), 90 days, capped at 1 |
+| `top_client_revenue_share` | no | derived | Revenue share of single largest client, capped at 1 |
 | `existing_monthly_debt_payments_inr` | no | declared (or bureau, if ever available) | Sum of monthly obligations |
 | `prior_defaults_count` | no | declared / bureau | Count of past defaults |
 
@@ -50,6 +53,9 @@ All amounts are INR, rates are ratios from `0` to `1`, counts are integer counts
 | `total_income_12m_inr` | number, INR | Sum of monthly income after refunds |
 | `monthly_income_12m` | array | 12 entries, each `{month: YYYY-MM, income_inr: number}` |
 | `distinct_client_count_12m` | integer, clients | Distinct payer account identifiers; payer identifiers are never returned |
+| `top_client_revenue_share_12m` | number, ratio | Share of revenue from the largest payer, capped at 1; null if no sales |
+| `avg_client_turnaround_days_12m` | number, days | Mean days between invoice issuance and settlement; null if no paid invoices |
+| `late_payment_rate_12m` | number, ratio | Paid invoices settled after due date / total paid invoices; null if no paid invoices |
 | `refund_rate_12m` | number, ratio | Refund event count / completed sale count, capped at 1 |
 | `dispute_rate_12m` | number, ratio | Dispute count / completed sale count, capped at 1 |
 | `longest_income_gap_days_12m` | integer, days | Longest interval between completed payment dates; 0 for fewer than two payment dates |
@@ -92,6 +98,9 @@ No field below is a *verified* PayPal API field. Nothing in this repository call
 | `active_months_12m` | int, 0-12 | `12` | TXN-DERIVED | null -> NaN | — |
 | `refund_rate_90d` | float, 0-1 | `0.0` | TXN-DERIVED | null if no sales | — |
 | `dispute_rate_12m` | float, 0-1 | `0.0` | TXN-DERIVED | null if no sales | — |
+| `avg_client_turnaround_days` | float, 0-365 | `18.0` | INVOICE-DERIVED / USER | null -> NaN | Days between invoice and payment |
+| `late_payment_rate_90d` | float, 0-1 | `0.05` | INVOICE-DERIVED | null if no paid invoices | Invoices paid after due date |
+| `top_client_revenue_share` | float, 0-1 | `0.35` | TXN-DERIVED | null if no sales | Largest payer revenue ratio |
 | `existing_monthly_debt_payments_inr` | float, INR/month | `6000` | USER | null -> NaN (never `0` for unknown) | Self-declared total |
 | `prior_defaults_count` | int, count | `0` | USER | null -> NaN | Self-declared; sensitive |
 

@@ -162,6 +162,66 @@ def test_fixture_fallback_uses_documented_shape():
     assert "longest_income_gap_days_12m" in result
 
 
+def test_profile_calculates_client_turnaround_and_late_invoices():
+    start = date(2025, 10, 1)
+    end = date(2026, 9, 30)
+    txns = [
+        {
+            "transaction_info": {
+                "transaction_initiation_date": "2026-05-10T10:00:00Z",
+                "transaction_status": "S",
+                "transaction_type": "sale",
+                "transaction_amount": {"currency_code": "INR", "value": "20000"},
+            },
+            "payer_info": {"account_id": "client-alpha"},
+        },
+        {
+            "transaction_info": {
+                "transaction_initiation_date": "2026-06-15T10:00:00Z",
+                "transaction_status": "S",
+                "transaction_type": "sale",
+                "transaction_amount": {"currency_code": "INR", "value": "10000"},
+            },
+            "payer_info": {"account_id": "client-beta"},
+        },
+    ]
+    invoices = [
+        {
+            "status": "PAID",
+            "detail": {
+                "invoice_date": "2026-05-01",
+                "payment_term": {"due_date": "2026-05-15"},
+            },
+            "payments": {
+                "transactions": [{"payment_date": "2026-05-10"}],  # 9 days turnaround, on time
+            },
+        },
+        {
+            "status": "PAID",
+            "detail": {
+                "invoice_date": "2026-06-01",
+                "payment_term": {"due_date": "2026-06-15"},
+            },
+            "payments": {
+                "transactions": [{"payment_date": "2026-06-25"}],  # 24 days turnaround, 10 days late
+            },
+        },
+        {
+            "status": "UNPAID",
+            "due_amount": {"currency_code": "INR", "value": "5000"},
+        },
+    ]
+    profile = build_profile(txns, [], invoices, start=start, end=end, source="paypal")
+    assert profile["distinct_client_count_12m"] == 2
+    # client-alpha had 20,000 / 30,000 = 0.6667
+    assert profile["top_client_revenue_share_12m"] == 0.6667
+    # turnaround: (9 + 24) / 2 = 16.5 days
+    assert profile["avg_client_turnaround_days_12m"] == 16.5
+    # late rate: 1 late out of 2 paid = 0.50
+    assert profile["late_payment_rate_12m"] == 0.5
+    assert profile["outstanding_invoices_inr"] == 5000
+
+
 def test_consent_page_discloses_read_categories():
     body = _app().get("/paypal/auth/consent").text
     for phrase in ("payment amount", "payer account identifier", "Refund amounts", "Dispute dates", "Outstanding invoice"):

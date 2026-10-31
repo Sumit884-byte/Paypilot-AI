@@ -79,6 +79,31 @@ def test_model_responds_sensibly_to_risk(example_request):
     assert scorer.score(ScoreRequest.model_validate(risky))["score"] < base - 50
 
 
+def test_client_payment_latency_penalizes_score_even_with_high_income(example_request):
+    """Even if borrower has high income, delayed client payments increase default risk and lower score."""
+    scorer = Scorer.from_dir(ROOT / "models")
+    high_income_prompt_client = {
+        **example_request,
+        "monthly_income_inr": 120_000,
+        "avg_monthly_revenue_inr": 250_000,
+        "avg_client_turnaround_days": 10.0,
+        "late_payment_rate_90d": 0.0,
+        "top_client_revenue_share": 0.20,
+    }
+    high_income_late_client = {
+        **example_request,
+        "monthly_income_inr": 120_000,
+        "avg_monthly_revenue_inr": 250_000,
+        "avg_client_turnaround_days": 48.0,
+        "late_payment_rate_90d": 0.45,
+        "top_client_revenue_share": 0.75,
+    }
+    good_score = scorer.score(ScoreRequest.model_validate(high_income_prompt_client))
+    bad_score = scorer.score(ScoreRequest.model_validate(high_income_late_client))
+    assert bad_score["score"] < good_score["score"]
+    assert bad_score["probability_of_default"] > good_score["probability_of_default"]
+
+
 def test_metadata_matches_features_and_no_leakage():
     import json
     md = json.loads((ROOT / "models" / "model_metadata.json").read_text())

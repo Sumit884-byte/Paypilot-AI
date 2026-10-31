@@ -88,6 +88,7 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
     sales: list[tuple[date, float]] = []
     refunds = 0
     clients: set[str] = set()
+    client_sales: dict[str, float] = {}
     sale_count = 0
     dispute_count = 0
 
@@ -119,7 +120,9 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
             client_id = (payer.get("account_id") or payer.get("email_address") or
                          info.get("paypal_account_id") or info.get("payer_id"))
             if client_id:
-                clients.add(str(client_id))
+                cid = str(client_id)
+                clients.add(cid)
+                client_sales[cid] = client_sales.get(cid, 0.0) + amount
 
     for dispute in disputes:
         occurred = _date(dispute.get("create_time") or dispute.get("dispute_time") or dispute.get("update_time"))
@@ -134,19 +137,57 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
     trend = "increasing" if latest > prior else "decreasing" if latest < prior else "stable"
     outstanding = 0.0
     invoice_count = 0
+    turnaround_days: list[int] = []
+    late_invoice_count = 0
+    paid_invoice_count = 0
+
     for invoice in invoices:
-        if str(invoice.get("status", "")).upper() not in {"SENT", "UNPAID", "OVERDUE", "PARTIALLY_PAID"}:
-            continue
-        invoice_count += 1
-        amount = invoice.get("amount") or {}
-        due = invoice.get("due_amount") or invoice.get("remaining_balance") or amount
-        currency = str(due.get("currency_code", "INR")).upper()
-        outstanding += _amount(due) * INR_PER_CURRENCY.get(currency, 0.0)
+        status = str(invoice.get("status", "")).upper()
+        if status in {"SENT", "UNPAID", "OVERDUE", "PARTIALLY_PAID"}:
+            invoice_count += 1
+            amount = invoice.get("amount") or {}
+            due = invoice.get("due_amount") or invoice.get("remaining_balance") or amount
+            currency = str(due.get("currency_code", "INR")).upper()
+            outstanding += _amount(due) * INR_PER_CURRENCY.get(currency, 0.0)
+        elif status in {"PAID", "MARKED_AS_PAID"}:
+            paid_invoice_count += 1
+            detail = invoice.get("detail") or invoice
+            inv_date = _date(detail.get("invoice_date") or invoice.get("invoice_date") or invoice.get("create_time"))
+            term = detail.get("payment_term") or {}
+            due_date = _date(term.get("due_date") or detail.get("due_date") or invoice.get("due_date"))
+            payments = invoice.get("payments") or {}
+            txn_records = payments.get("transactions") or []
+            paid_date = None
+            if txn_records and isinstance(txn_records, list):
+                paid_date = _date(txn_records[0].get("payment_date"))
+            if not paid_date:
+                paid_date = _date(invoice.get("paid_date") or invoice.get("update_time"))
+            if inv_date and paid_date and paid_date >= inv_date:
+                turnaround_days.append((paid_date - inv_date).days)
+            if due_date and paid_date and paid_date > due_date:
+                late_invoice_count += 1
+
+    total_sales_amount = sum(s[1] for s in sales)
+    top_client_share = (
+        round(max(client_sales.values()) / total_sales_amount, 4)
+        if (client_sales and total_sales_amount > 0) else None
+    )
+    avg_turnaround = (
+        round(sum(turnaround_days) / len(turnaround_days), 1)
+        if turnaround_days else None
+    )
+    late_rate = (
+        round(late_invoice_count / paid_invoice_count, 4)
+        if paid_invoice_count else None
+    )
 
     return {
         "currency": "INR", "window_start": start.isoformat(), "window_end": end.isoformat(),
         "total_income_12m_inr": round(sum(populated), 2), "monthly_income_12m": monthly,
         "distinct_client_count_12m": len(clients),
+        "top_client_revenue_share_12m": top_client_share,
+        "avg_client_turnaround_days_12m": avg_turnaround,
+        "late_payment_rate_12m": late_rate,
         "refund_rate_12m": round(min(refunds / sale_count, 1.0), 4) if sale_count else 0.0,
         "dispute_rate_12m": round(min(dispute_count / sale_count, 1.0), 4) if sale_count else 0.0,
         "longest_income_gap_days_12m": longest_gap, "income_trend_12m": trend,

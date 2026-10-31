@@ -28,6 +28,9 @@ def test_optional_fields_may_be_omitted(example_request):
     ("refund_rate_90d", 1.5), ("dispute_rate_12m", -0.1), ("active_months_12m", 13),
     ("applicant_id", ""), ("applicant_id", "has space"), ("applicant_id", "a@b.com"),
     ("prior_defaults_count", -1), ("revenue_volatility_cv", float("inf")),
+    ("avg_client_turnaround_days", -1.0), ("avg_client_turnaround_days", 400.0),
+    ("late_payment_rate_90d", 1.2), ("late_payment_rate_90d", -0.05),
+    ("top_client_revenue_share", 1.5), ("top_client_revenue_share", -0.1),
 ])
 def test_invalid_values_rejected(example_request, field, value):
     with pytest.raises(ValidationError):
