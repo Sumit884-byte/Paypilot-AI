@@ -141,6 +141,15 @@ export function OfferGuard() {
                   onChange={handleFileChange}
                 />
               </label>
+              {file && !filePreview && (
+                <button
+                  type="button"
+                  onClick={clearFile}
+                  className="mt-2 text-xs font-semibold text-paypal underline underline-offset-4"
+                >
+                  Remove file
+                </button>
+              )}
               {filePreview && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95, y: 8 }}

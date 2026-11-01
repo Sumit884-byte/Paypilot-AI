@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useCallback, useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { GlassCard } from '../components/ui/GlassCard'
@@ -22,8 +22,11 @@ type Message = {
 
 const applicant = 'PSC-PRIYA-001'
 
+const DEFAULT_QUESTION = 'Can I afford ₹50k?'
+const DEFAULT_PAYOUT_INR = 50000
+
 const SUGGESTED_QUESTIONS = [
-  'Can I afford ₹50k?',
+  DEFAULT_QUESTION,
   'What\'s my income trend?',
   'How does my PayScore compare?',
   'Should I take this loan offer?',
@@ -31,9 +34,10 @@ const SUGGESTED_QUESTIONS = [
 ]
 
 export function Copilot() {
-  const [text, setText] = useState('Can I afford ₹50k?')
+  const [text, setText] = useState(DEFAULT_QUESTION)
   const [messages, setMessages] = useState<Message[]>([])
   const [busy, setBusy] = useState(false)
+  const [approving, setApproving] = useState(false)
   const [error, setError] = useState('')
   const [pendingApproval, setPendingApproval] = useState<Message | null>(null)
   const [showSuggestions, setShowSuggestions] = useState(true)
@@ -44,20 +48,7 @@ export function Copilot() {
     inputRef.current?.focus()
   })
 
-  // Auto-send the default question on first load for demo
-  useEffect(() => {
-    if (messages.length === 0 && text === 'Can I afford ₹50k?') {
-      const timer = setTimeout(() => {
-        send()
-      }, 800)
-      return () => clearTimeout(timer)
-    }
-  }, [])
-
-  async function send(e?: React.FormEvent) {
-    e?.preventDefault()
-    if (!text.trim()) return
-    const question = text.trim()
+  const ask = useCallback(async (question: string) => {
     setMessages((v) => [...v, { from: 'you', text: question }])
     setText('')
     setBusy(true)
@@ -80,7 +71,7 @@ export function Copilot() {
           ? {
               required: true,
               action: res.approval.action || 'Execute financial operation',
-              amount: res.approval.amount,
+              amount: res.approval.amount ?? DEFAULT_PAYOUT_INR,
               details: res.approval.details,
             }
           : undefined,
@@ -97,15 +88,29 @@ export function Copilot() {
     } finally {
       setBusy(false)
     }
+  }, [])
+
+  // Auto-send the default question on first load for demo, unless the visitor edits it first
+  useEffect(() => {
+    if (messages.length > 0 || text !== DEFAULT_QUESTION) return
+    const timer = setTimeout(() => {
+      void ask(DEFAULT_QUESTION)
+    }, 800)
+    return () => clearTimeout(timer)
+  }, [messages.length, text, ask])
+
+  function send(e: React.FormEvent) {
+    e.preventDefault()
+    if (text.trim()) void ask(text.trim())
   }
 
-  function useSuggestion(q: string) {
+  function applySuggestion(q: string) {
     setText(q)
     setShowSuggestions(false)
   }
 
   async function approve() {
-    if (!pendingApproval) return
+    if (!pendingApproval || approving) return
 
     const sc = JSON.parse(sessionStorage.getItem('paypilot.score') || 'null')
     if (!sc) {
@@ -113,11 +118,12 @@ export function Copilot() {
       return
     }
 
+    setApproving(true)
     try {
       const res = await postJson<any>('/disburse', {
         applicant_id: applicant,
         recipient_email: 'priya@example.test',
-        approved_loan_amount_inr: (pendingApproval.approval as any)?.amount || 50000,
+        approved_loan_amount_inr: pendingApproval.approval?.amount ?? DEFAULT_PAYOUT_INR,
         note: 'Borrower explicitly approved sandbox demo payout',
       })
       sessionStorage.setItem('paypilot.payout_batch_id', res.payout_batch_id)
@@ -135,6 +141,8 @@ export function Copilot() {
       setError('')
     } catch (x) {
       setError(x instanceof Error ? x.message : 'Payout request failed')
+    } finally {
+      setApproving(false)
     }
   }
 
@@ -192,7 +200,7 @@ export function Copilot() {
                           initial={{ opacity: 0, scale: 0.9, y: 8 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           transition={{ delay: 0.05 * i, type: 'spring', stiffness: 200, damping: 20 }}
-                          onClick={() => useSuggestion(q)}
+                          onClick={() => applySuggestion(q)}
                           className="rounded-xl bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-paypal/10 hover:text-paypal transition-colors"
                         >
                           {q}
@@ -297,10 +305,10 @@ export function Copilot() {
                             <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">{msg.approval.details}</p>
                           )}
                           <div className="mt-3 flex gap-2">
-                            <Button onClick={approve}>
+                            <Button onClick={approve} disabled={approving}>
                               Approve
                             </Button>
-                            <Button variant="ghost" onClick={decline}>
+                            <Button variant="ghost" onClick={decline} disabled={approving}>
                               Decline
                             </Button>
                           </div>
@@ -363,7 +371,7 @@ export function Copilot() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.05 * i }}
-                    onClick={() => useSuggestion(q)}
+                    onClick={() => applySuggestion(q)}
                     className="rounded-xl bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-paypal/10 hover:text-paypal transition-colors"
                   >
                     {q}
