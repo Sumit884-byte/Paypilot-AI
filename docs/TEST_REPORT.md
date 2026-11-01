@@ -59,10 +59,19 @@ Result: **37 tests collected**. 157 existing + 37 new = 194. No existing test wa
 - No live OpenAI call. The offer LLM stays off unless `PAYSCORE_OFFER_LLM` and `PAYSCORE_OFFER_LLM_ALLOW_EXTERNAL` are both true.
 - No live download of the RBI page. `PAYSCORE_RBI_FETCH` defaults to false, and the snapshot has no entries.
 - OCR libraries are not installed, so a blank PDF is asserted as `ocr_status` unavailable or not needed, not as recognised text.
-- The browser PDF file picker and a copilot disbursement sentence were not exercised in the UI. The API tests cover both.
+- No successful payout from the copilot UI against PayPal. Without credentials the real `POST /disburse` returned 503 `paypal_not_configured`. The success path was checked with that response mocked in the browser.
 
 ## Browser
 
 API: `http://127.0.0.1:8000`. UI: `http://localhost:5173`.
 
 Checked in the browser: demo login via “Tour the cockpit”, PayScore TreeSHAP for Priya (score 771) and the eligible-change list, manual offer analysis (advertised 18% versus effective 27.55%, RBI unverified), and copilot affordability plus “Explain my score” (`explanation · available`).
+
+Follow-up pass, 1 November 2026, scripted in headless Chromium against the local API and UI:
+
+- Income: the AG Grid transaction feed renders with no console errors and sorts by date. Before this pass it failed to create because no row model was registered.
+- Offer guard: a labelled PDF selected through the file input posts to `/offer-guard/upload` and returned advertised 10% versus effective 55.7%. The new remove control returns the form to manual analysis, and a non-PDF is refused.
+- Copilot: “Please disburse Rs 50,000” shows the approval card. Approve is refused until PayScore has run, Decline records the refusal, and a server failure leaves the card available to retry. A request with no amount shows the ₹50,000 default on the card. A double click on Approve sent one request.
+- Copilot auto-send fires once per visit, and is cancelled if the input is edited first.
+
+`npm run build` completes with no chunk warning. The 852 kB lazy-loaded AG Grid chunk sits under the 900 kB `chunkSizeWarningLimit`. `npm run lint` reports 0 errors and 7 warnings, none in the copilot page.

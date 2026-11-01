@@ -3,6 +3,11 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    // AG Grid's lazy-loaded chunk cannot be split further. The limit sits just
+    // above it (kB) so any other oversized chunk still warns.
+    chunkSizeWarningLimit: 900,
+  },
   server: {
     port: 5173,
     proxy: {

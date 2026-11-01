@@ -108,22 +108,7 @@
     letter-spacing: 0;
   }
 
-  /* Minimal local AG Grid structure + Paypilot theme (keeps the grid usable
-     when the optional upstream theme stylesheet is unavailable offline). */
   .paypilot-grid { color: rgb(var(--text)); font-size: 12px; }
-  .paypilot-grid .ag-root-wrapper { display: flex; flex-direction: column; position: relative; width: 100%; height: 100%; overflow: hidden; border: 1px solid rgb(0 112 186 / .16); border-radius: 14px; background: rgb(var(--surface) / .42); }
-  .paypilot-grid .ag-root-wrapper-body, .paypilot-grid .ag-root { display: flex; flex: 1 1 auto; position: relative; min-height: 0; flex-direction: column; overflow: hidden; }
-  .paypilot-grid .ag-header { display: block; flex: 0 0 auto; min-height: 42px; overflow: hidden; background: rgb(0 112 186 / .06); border-bottom: 1px solid rgb(0 112 186 / .16); }
-  .paypilot-grid .ag-header-viewport, .paypilot-grid .ag-header-container { position: relative; height: 100%; }
-  .paypilot-grid .ag-header-row { display: flex; position: absolute; inset: 0; }
-  .paypilot-grid .ag-header-cell { position: absolute; display: flex; align-items: center; padding: 0 12px; color: #0070ba; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-  .paypilot-grid .ag-body { display: flex; flex: 1 1 auto; min-height: 0; overflow: hidden; }
-  .paypilot-grid .ag-body-viewport, .paypilot-grid .ag-center-cols-viewport { position: relative; flex: 1 1 auto; min-height: 0; overflow: auto; }
-  .paypilot-grid .ag-center-cols-container { position: relative; }
-  .paypilot-grid .ag-row { display: flex; position: absolute; width: 100%; min-height: 44px; border-bottom: 1px solid rgb(148 163 184 / .16); }
-  .paypilot-grid .ag-row:hover { background: rgb(0 112 186 / .05); }
-  .paypilot-grid .ag-cell { position: absolute; display: flex; align-items: center; padding: 0 12px; overflow: hidden; }
-  .paypilot-grid .ag-paging-panel { display: flex; align-items: center; justify-content: flex-end; gap: 12px; min-height: 40px; padding: 0 12px; border-top: 1px solid rgb(0 112 186 / .12); }
 }
 
 @layer utilities {
