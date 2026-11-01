@@ -3,6 +3,20 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            {
+              name: 'ag-grid',
+              test: /node_modules[\\/]@ag-grid-community[\\/]/,
+            },
+          ],
+        },
+      },
+    },
+  },
   server: {
     port: 5173,
     proxy: {

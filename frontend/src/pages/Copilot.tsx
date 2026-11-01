@@ -99,7 +99,7 @@ export function Copilot() {
     }
   }
 
-  function useSuggestion(q: string) {
+  function selectSuggestion(q: string) {
     setText(q)
     setShowSuggestions(false)
   }
@@ -192,7 +192,7 @@ export function Copilot() {
                           initial={{ opacity: 0, scale: 0.9, y: 8 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           transition={{ delay: 0.05 * i, type: 'spring', stiffness: 200, damping: 20 }}
-                          onClick={() => useSuggestion(q)}
+                          onClick={() => selectSuggestion(q)}
                           className="rounded-xl bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-paypal/10 hover:text-paypal transition-colors"
                         >
                           {q}
@@ -363,7 +363,7 @@ export function Copilot() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.05 * i }}
-                    onClick={() => useSuggestion(q)}
+                    onClick={() => selectSuggestion(q)}
                     className="rounded-xl bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-paypal/10 hover:text-paypal transition-colors"
                   >
                     {q}
