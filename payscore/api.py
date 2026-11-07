@@ -32,8 +32,11 @@ from .copilot import router as copilot_router
 from .counterfactual import router as counterfactual_router
 from .demo import router as demo_router
 from .explain import router as explain_router
+from .income_passport import router as income_passport_router
 from .live_state import LIVE_SCORES, record_score
 from .model import DEFAULT_MODEL_DIR, ModelUnavailableError, Scorer
+from .model_card import router as model_card_router
+from .negotiation import router as negotiation_router
 from .offer_guard import router as offer_guard_router
 from .paypal.advance import router as advance_router
 from .paypal.disbursements import record_approval
@@ -105,6 +108,9 @@ def create_app(
     app.include_router(affordability_router)
     app.include_router(revenue_router)
     app.include_router(demo_router)
+    app.include_router(model_card_router)
+    app.include_router(income_passport_router)
+    app.include_router(negotiation_router)
     if origins:
         app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False,
                            allow_methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
@@ -144,7 +150,13 @@ def create_app(
                               "offer_guard": "POST /offer-guard", "offer_guard_upload": "POST /offer-guard/upload",
                               "copilot": "POST /copilot/chat", "explain": "POST /explain",
                               "counterfactuals": "POST /counterfactuals", "affordability": "POST /affordability",
-                              "revenue_volatility": "POST /revenue-volatility"}}
+                              "revenue_volatility": "POST /revenue-volatility",
+                              "model_card": "GET /model-card",
+                              "model_card_evaluation": "GET /model-card/evaluation",
+                              "income_passport": "POST /income-passport",
+                              "verify_income_passport": "GET /verify/income-passport/{token}",
+                              "negotiate_start": "POST /negotiate/start",
+                              "negotiate_respond": "POST /negotiate/respond"}}
 
     @app.get("/health", summary="Health check")
     def health() -> dict:

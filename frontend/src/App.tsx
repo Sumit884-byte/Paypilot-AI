@@ -15,6 +15,10 @@ const OfferGuard = lazy(() => import('./pages/OfferGuard').then((mod) => ({ defa
 const Copilot = lazy(() => import('./pages/Copilot').then((mod) => ({ default: mod.Copilot })))
 const Repayment = lazy(() => import('./pages/Repayment').then((mod) => ({ default: mod.Repayment })))
 const Cockpit = lazy(() => import('./pages/Cockpit').then((mod) => ({ default: mod.Cockpit })))
+const ModelCard = lazy(() => import('./pages/ModelCard').then((mod) => ({ default: mod.ModelCard })))
+const IncomePassport = lazy(() => import('./pages/IncomePassport').then((mod) => ({ default: mod.IncomePassport })))
+const VerifyIncomePassport = lazy(() => import('./pages/VerifyIncomePassport').then((mod) => ({ default: mod.VerifyIncomePassport })))
+const Negotiation = lazy(() => import('./pages/Negotiation').then((mod) => ({ default: mod.Negotiation })))
 
 function LoadingScreen() {
   return <div className="mx-auto max-w-6xl space-y-5 p-6"><Skeleton className="h-8 w-48"/><Skeleton className="h-36"/><div className="grid gap-4 md:grid-cols-3">{[1, 2, 3].map((n) => <Skeleton key={n} className="h-32" />)}</div></div>
@@ -30,10 +34,14 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
+                <Route path="/verify/income-passport/:token" element={<VerifyIncomePassport />} />
                 <Route path="/app" element={<AppShell />}>
                   <Route index element={<Overview />} />
                   <Route path="income" element={<Income />} />
                   <Route path="score" element={<Score />} />
+                  <Route path="model-card" element={<ModelCard />} />
+                  <Route path="passport" element={<IncomePassport />} />
+                  <Route path="negotiate" element={<Negotiation />} />
                   <Route path="offer-guard" element={<OfferGuard />} />
                   <Route path="copilot" element={<Copilot />} />
                   <Route path="repay" element={<Repayment />} />

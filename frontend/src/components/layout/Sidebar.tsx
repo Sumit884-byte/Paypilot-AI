@@ -6,6 +6,9 @@ const links = [
   { to: '/app', label: 'Overview', icon: OverviewIcon, end: true },
   { to: '/app/income', label: 'Income', icon: IncomeIcon },
   { to: '/app/score', label: 'PayScore', icon: ScoreIcon },
+  { to: '/app/model-card', label: 'Model card', icon: ModelCardIcon },
+  { to: '/app/passport', label: 'Passport', icon: PassportIcon },
+  { to: '/app/negotiate', label: 'Negotiate', icon: NegotiateIcon },
   { to: '/app/offer-guard', label: 'Offer guard', icon: ShieldIcon },
   { to: '/app/copilot', label: 'AI copilot', icon: CopilotIcon },
   { to: '/app/repay', label: 'Repayment', icon: RepayIcon },
@@ -101,6 +104,18 @@ function CopilotIcon({ active }: { active: boolean }) {
 
 function CockpitIcon({ active }: { active: boolean }) {
   return <svg width="18" height="18" viewBox="0 0 24 24" className={active ? 'text-paypal' : 'opacity-70'}><path fill="currentColor" d="M3 3h8v8H3V3Zm10 0h8v5h-8V3ZM13 10h8v11h-8V10ZM3 13h8v8H3v-8Z" /></svg>
+}
+
+function ModelCardIcon({ active }: { active: boolean }) {
+  return <svg width="18" height="18" viewBox="0 0 24 24" className={active ? 'text-paypal' : 'opacity-70'}><path fill="currentColor" d="M4 4h16v4H4V4Zm0 6h10v2H4v-2Zm0 4h16v2H4v-2Zm0 4h10v2H4v-2Z" /></svg>
+}
+
+function PassportIcon({ active }: { active: boolean }) {
+  return <svg width="18" height="18" viewBox="0 0 24 24" className={active ? 'text-paypal' : 'opacity-70'}><path fill="currentColor" d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Z" /></svg>
+}
+
+function NegotiateIcon({ active }: { active: boolean }) {
+  return <svg width="18" height="18" viewBox="0 0 24 24" className={active ? 'text-paypal' : 'opacity-70'}><path fill="currentColor" d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm12.5 1.5L14 17l2.5 2.5L19 17l-2.5-2.5Z" /></svg>
 }
 
 

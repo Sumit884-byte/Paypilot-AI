@@ -1,5 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { GlassCard } from '../components/ui/GlassCard'
+import { Button } from '../components/ui/Button'
 import { MetricCard, Notice, PageHeading, Icon, CountUp } from '../components/ui/Workspace'
 import type { TransactionRow } from '../components/TransactionGrid'
 import { apiRequest, money, type Persona } from '../lib/api'
@@ -168,6 +170,18 @@ export function Income() {
           </div>
         </GlassCard>
       </div>
+
+      <GlassCard>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-semibold">Income Passport</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Generate a one-page shareable summary with a public verification link. Aggregates only — no raw statements.
+            </p>
+          </div>
+          <Link to="/app/passport"><Button>Open passport</Button></Link>
+        </div>
+      </GlassCard>
 
       {/* AG Grid Transaction Feed */}
       <GlassCard className="overflow-hidden p-0">
