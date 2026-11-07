@@ -25,6 +25,31 @@ MIN_TEXT_CHARS = 40
 
 _NUMBER = r"([0-9][0-9,]*(?:\.[0-9]{1,2})?)"
 
+# Prompt-injection guard: hidden adversarial text in a loan PDF must never reach
+# the LLM or be treated as part of the offer. Default on so the demo is safe.
+_INJECTION = [
+    (re.compile(r"ignore\s+(all\s+)?previous\s+(instructions|directives)", re.I), "ignore_previous_instructions"),
+    (re.compile(r"disregard\s+(all\s+)?(previous\s+)?(instructions|directives)", re.I), "disregard_instructions"),
+    (re.compile(r"system\s+(prompt|override|instruction)", re.I), "system_override"),
+    (re.compile(r"jailbreak", re.I), "jailbreak"),
+    (re.compile(r"reveal\s+your\s+(system\s+)?prompt", re.I), "reveal_system_prompt"),
+    (re.compile(r"print\s+your\s+instructions", re.I), "print_instructions"),
+    (re.compile(r"you\s+are\s+now\s+(a\s+)?(different\s+)?ai", re.I), "role_reassignment"),
+    (re.compile(r"forget\s+(everything|all)\s+(above|before)", re.I), "forget_prior_context"),
+]
+
+
+def guard_enabled() -> bool:
+    return _env_on("PAYSCORE_PDF_INJECTION_GUARD")
+
+
+def scan_injection(text: str) -> tuple[bool, list[str]]:
+    """Return (found, reasons) for hidden adversarial prompt text in the document."""
+    if not guard_enabled():
+        return False, []
+    reasons = [label for pattern, label in _INJECTION if pattern.search(text)]
+    return bool(reasons), reasons
+
 
 class PdfRejected(Exception):
     def __init__(self, code: str, message: str):
@@ -368,24 +393,41 @@ def analyse_pdf_path(path: Path) -> dict[str, Any]:
             meta["text_source"] = "pdf_text"
     else:
         meta["text_source"] = "pdf_text"
+
+    injection_found, injection_reasons = scan_injection(text)
+    meta["injection_detected"] = injection_found
+    meta["injection_reasons"] = injection_reasons
+
     rules = extract_labeled_fields(text)
-    if meta.get("text_source") == "ocr":
+    if injection_found:
         for field in rules.values():
-            if field["status"] == "extracted":
-                field["status"] = "low_confidence"
-                field["source"] = "ocr"
-                field["note"] = "OCR text. Low confidence and not audited."
-    llm = llm_extract(text) if meta["text_chars"] >= MIN_TEXT_CHARS else llm_status()
-    if llm.get("status") != "ok":
-        llm = {**llm_status(), "fields": {}} if "fields" not in llm else llm
+            field["status"] = "rejected"
+            field["note"] = ("Extraction blocked: hidden adversarial (prompt-injection) text "
+                             "detected in the document; nothing was sent to the LLM.")
+        llm = {"status": "blocked_injection", "reason": "prompt_injection_guard", "fields": {}}
+    else:
+        if meta.get("text_source") == "ocr":
+            for field in rules.values():
+                if field["status"] == "extracted":
+                    field["status"] = "low_confidence"
+                    field["source"] = "ocr"
+                    field["note"] = "OCR text. Low confidence and not audited."
+        llm = llm_extract(text) if meta["text_chars"] >= MIN_TEXT_CHARS else llm_status()
+        if llm.get("status") != "ok":
+            llm = {**llm_status(), "fields": {}} if "fields" not in llm else llm
+
     fields = merge_extractions(rules, llm if llm.get("status") == "ok" else None)
     result = analyse(fields, input_mode="pdf")
+    result["injection_detected"] = injection_found
+    result["injection_reasons"] = injection_reasons
     result["extraction"] = {
         "page_count": meta["page_count"],
         "text_chars": meta["text_chars"],
         "text_source": meta.get("text_source"),
         "ocr_status": meta.get("ocr_status"),
         "ocr_reason": meta.get("ocr_reason"),
+        "injection_detected": injection_found,
+        "injection_reasons": injection_reasons,
         "llm_status": llm.get("status"),
         "llm_reason": llm.get("reason"),
     }

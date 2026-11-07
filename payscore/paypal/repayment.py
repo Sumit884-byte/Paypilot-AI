@@ -15,6 +15,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from .client import PayPalClient, PayPalError, SANDBOX_API_BASE
+from .hardship import record_income
 
 router = APIRouter(prefix="/repayment", tags=["repayment"])
 webhook_router = APIRouter(prefix="/paypal", tags=["paypal webhooks"])
@@ -424,6 +425,21 @@ async def paypal_webhook(request: Request, client: RepaymentClient) -> dict | JS
     if event_type != "PAYMENT.CAPTURE.COMPLETED":
         return {"processed": False, "reason": "event_not_handled", "sandbox": True,
                 "disclaimer": SANDBOX_NOTICE}
+    resource = payload.get("resource") or {}
+    amount = resource.get("amount") or {}
+    try:
+        gross = Decimal(str(amount.get("value")))
+        currency = amount.get("currency_code") or "INR"
+        captured_at = payload.get("create_time") or payload.get("resource", {}).get("status_transition_options", {}).get("last_capture_time")
+        custom_id = resource.get("custom_id") or resource.get("invoice_id")
+        event_id = payload.get("id") or payload.get("resource", {}).get("id")
+        applicant_for_hardship = custom_id or (payload.get("resource", {}) or {}).get("custom_id")
+        record_income(applicant_for_hardship or "PSC-UNKNOWN",
+                     float(gross) if gross > 0 else 0.0,
+                     captured_at,
+                     event_id)
+    except Exception:
+        pass  # non-fatal: hardship detection is best-effort
     if not event_id:
         return JSONResponse(status_code=400, content={"error": "webhook_event_id_missing", "sandbox": True,
                              "disclaimer": SANDBOX_NOTICE})
@@ -451,6 +467,16 @@ async def paypal_webhook(request: Request, client: RepaymentClient) -> dict | JS
     except (InvalidOperation, TypeError, ValueError):
         return JSONResponse(status_code=400, content={"error": "invalid_capture_amount", "sandbox": True,
                              "disclaimer": SANDBOX_NOTICE})
+
+    if custom_id:
+        from ..hardship import record_income
+
+        record_income(
+            str(custom_id),
+            float(gross),
+            resource.get("update_time") or resource.get("create_time"),
+            str(event_id),
+        )
     currency = str(amount.get("currency_code") or "")
     precision = Decimal("1") if currency in ZERO_DECIMAL_CURRENCIES else Decimal("0.01")
     deduction = (gross * percentage / Decimal("100")).quantize(precision, rounding=ROUND_HALF_UP)
@@ -491,3 +517,18 @@ def repayment_status(applicant_id: str | None = None) -> dict:
     if applicant_id:
         rows = [row for row in rows if str(row.get("applicant_id")) == applicant_id]
     return {"entries": rows, "count": len(rows), "sandbox": True, "disclaimer": SANDBOX_NOTICE}
+
+
+@router.get("/hardship", summary="List open hardship cases flagged by the agent")
+def list_hardship_cases() -> dict:
+    from ..hardship import DISCLAIMER as HARDSHIP_DISCLAIMER, list_hardship
+
+    return {"cases": list_hardship(), "sandbox": True, "disclaimer": HARDSHIP_DISCLAIMER}
+
+
+@router.get("/hardship/{applicant_id}", summary="Get the hardship case for an applicant")
+def get_hardship_case(applicant_id: str) -> dict:
+    from ..hardship import DISCLAIMER as HARDSHIP_DISCLAIMER, get_hardship
+
+    return {"applicant_id": applicant_id, **get_hardship(applicant_id),
+            "sandbox": True, "disclaimer": HARDSHIP_DISCLAIMER}
