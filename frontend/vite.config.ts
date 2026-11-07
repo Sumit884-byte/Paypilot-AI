@@ -24,6 +24,10 @@ export default defineConfig({
       '/counterfactuals': 'http://127.0.0.1:8000',
       '/affordability': 'http://127.0.0.1:8000',
       '/revenue-volatility': 'http://127.0.0.1:8000',
+      '/model-card': 'http://127.0.0.1:8000',
+      '/income-passport': 'http://127.0.0.1:8000',
+      '/verify': 'http://127.0.0.1:8000',
+      '/negotiate': 'http://127.0.0.1:8000',
     },
   },
 })
