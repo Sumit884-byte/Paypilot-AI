@@ -23,6 +23,8 @@ from .client import PayPalClient, PayPalError
 from . import linked_accounts
 from .income import paypal_profile, fixture_profile
 
+from ..disputes import DisputeDraftRequest, draft_response, list_open_chargebacks
+
 log = logging.getLogger("payscore.paypal")
 router = APIRouter(prefix="/paypal", tags=["paypal"])
 income_router = APIRouter(tags=["income profile"])
@@ -176,6 +178,37 @@ async def income_profile(persona: str = Query(default="priya", pattern="^(priya|
     except PayPalError as exc:
         log.warning("Income profile fetch failed: %s — falling back to fixture data for %s", exc, persona)
         return fixture_profile(persona)
+
+
+@router.get("/disputes/{applicant_id}", summary="List open chargebacks/disputes for an applicant")
+def list_disputes(applicant_id: str) -> dict:
+    account_id = linked_accounts.ACTIVE_ACCOUNT_ID
+    account = linked_accounts.LINKED_ACCOUNTS.get(account_id) if account_id else None
+    paypal_account_id = account.get("paypal_account_id") if account else None
+    if not paypal_account_id:
+        paypal_account_id = applicant_id
+    return list_open_chargebacks(str(paypal_account_id))
+
+
+@router.post("/disputes/draft", response_model=None,
+             summary="Draft a borrower-protective response to an open dispute")
+async def draft_dispute(request: Request) -> dict | JSONResponse:
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse(status_code=400, content={"error": "invalid_json"})
+    try:
+        req = DisputeDraftRequest.model_validate(body)
+    except Exception as exc:  # validation errors surface as a clear 422
+        return JSONResponse(status_code=422, content={"error": "validation_error", "detail": str(exc)})
+    disputes_payload = list_open_chargebacks(req.applicant_id)
+    dispute = next(
+        (d for d in disputes_payload.get("disputes", []) if str(d.get("dispute_id")) == req.dispute_id),
+        None,
+    )
+    if dispute is None:
+        return JSONResponse(status_code=404, content={"error": "dispute_not_found"})
+    return draft_response(dispute, req.applicant_id)
 
 
 def mount(app, client_factory: Optional[callable] = None) -> None:

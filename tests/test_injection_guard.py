@@ -1,7 +1,7 @@
 """Prompt-injection guardrail (Person A, Task 2): adversarial text in an uploaded
 offer PDF must block extraction and never reach the LLM."""
 
-from payscore.offer_pdf import analyse_upload, guard_enabled, scan_injection
+from payscore.offer_pdf import scan_injection
 from tests.pdf_factory import build_text_pdf
 
 

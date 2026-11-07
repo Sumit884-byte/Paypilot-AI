@@ -64,3 +64,13 @@ def test_hardship_endpoint_returns_case(client):
     assert got["status"] == "flagged"
     listed = client.get("/repayment/hardship").json()
     assert any(c["applicant_id"] == applicant for c in listed["cases"])
+
+
+def test_duplicate_event_id_is_ignored():
+    from payscore.hardship import INCOME_EVENTS
+
+    applicant = "PSC-HARDSHIP-006"
+    record_income(applicant, 10000.0, _days_ago(15), "evt-dup")
+    record_income(applicant, 10000.0, _days_ago(1), "evt-new")
+    record_income(applicant, 10000.0, _days_ago(15), "evt-dup")  # webhook retry
+    assert len(INCOME_EVENTS[applicant]) == 2

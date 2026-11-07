@@ -40,7 +40,8 @@ _INJECTION = [
 
 
 def guard_enabled() -> bool:
-    return _env_on("PAYSCORE_PDF_INJECTION_GUARD")
+    """On unless explicitly disabled (set PAYSCORE_PDF_INJECTION_GUARD=false)."""
+    return os.getenv("PAYSCORE_PDF_INJECTION_GUARD", "true").strip().lower() in {"1", "true", "yes", "on"}
 
 
 def scan_injection(text: str) -> tuple[bool, list[str]]:

@@ -20,6 +20,7 @@ from .schema import ScoreRequest
 DISCLAIMER = "Sandbox copilot. It cannot move money without an explicit Approve tap."
 
 _DISBURSE = re.compile(r"\b(disburse|payout|pay\s+out|send\s+(?:me\s+)?(?:the\s+)?money|transfer\s+funds)\b", re.I)
+_HARDSHIP = re.compile(r"\b(hardship|payment\s+holiday|lower\s+revenue.?share|reduce\s+revenue|no\s+income|haven.t\s+been\s+paid)\b", re.I)
 _AFFORD = re.compile(r"\b(afford|affordability|stress[\s-]?test|can\s+i\s+pay)\b", re.I)
 _COUNTER = re.compile(r"\b(counterfactual|what\s+if|improve|move\s+up|raise\s+my\s+score)\b", re.I)
 _EXPLAIN = re.compile(r"\b(explain|shap|why|what\s+shaped|drivers|contribut)\b", re.I)
@@ -291,10 +292,35 @@ def _disburse(message: str, applicant_id: str) -> dict[str, Any]:
     )
 
 
+def _hardship(applicant_id: str) -> dict[str, Any]:
+    from .hardship import get_hardship
+
+    case = get_hardship(applicant_id)
+    if case.get("status") == "none":
+        return _envelope(
+            "I do not see a hardship flag for that applicant. Income events come from PayPal capture webhooks; "
+            "when about two weeks pass with no income, a relief offer (payment holiday or lower revenue-share) "
+            "is drafted here and nothing is applied without your approval.",
+            [{"label": "hardship.review", "status": "none"}],
+            {"kind": "hardship", "result": case},
+        )
+    offer = case.get("offer") or {}
+    return _envelope(
+        f"Hardship flagged: {case.get('reason')}. {offer.get('summary', '')} "
+        "No subscription or revenue-share change is applied unless you approve it.",
+        [{"label": "hardship.review", "status": "flagged"}],
+        approval={"required": True, "action": "Approve hardship relief?",
+                  "applicant_id": applicant_id, "kind": offer.get("kind")},
+        analysis={"kind": "hardship", "result": case},
+    )
+
+
 def handle_chat(message: str, applicant_id: str, scorer: Any) -> dict[str, Any]:
     try:
         if _DISBURSE.search(message):
             return _disburse(message, applicant_id)
+        if _HARDSHIP.search(message):
+            return _hardship(applicant_id)
         if _AFFORD.search(message) or (_LOAN.search(message) and parse_amount_inr(message) is not None):
             return _afford(message, applicant_id, emi_only=False)
         if _COUNTER.search(message):
