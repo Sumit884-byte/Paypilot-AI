@@ -10,7 +10,7 @@ PERSONA_FILES = sorted(PERSONA_DIR.glob("*.json"))
 
 @pytest.fixture(scope="session")
 def personas():
-    return {p.stem: json.loads(p.read_text()) for p in PERSONA_FILES}
+    return {p.stem: json.loads(p.read_text(encoding="utf-8")) for p in PERSONA_FILES}
 
 
 @pytest.fixture(scope="session")

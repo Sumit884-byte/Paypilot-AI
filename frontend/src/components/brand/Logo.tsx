@@ -82,7 +82,7 @@ export function Mark({ className = 'h-9 w-9' }: { className?: string }) {
   )
 }
 
-export function Logo({ compact = false }: { compact?: boolean }) {
+export function Logo({ compact = false, wordmarkClassName }: { compact?: boolean; wordmarkClassName?: string }) {
   const reduce = useReducedMotion()
 
   return (
@@ -114,7 +114,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
           />
         )}
       </div>
-      <Wordmark compact={compact} />
+      <Wordmark compact={compact} className={wordmarkClassName} />
     </span>
   )
 }

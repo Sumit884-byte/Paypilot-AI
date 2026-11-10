@@ -8,22 +8,21 @@ Endpoints:
 
 from __future__ import annotations
 
-import logging
 import base64
 import hashlib
+import logging
 import os
 import time
-from urllib.parse import urlencode
 from typing import Annotated, Optional
+from urllib.parse import urlencode
 
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
-from .client import PayPalClient, PayPalError
-from . import linked_accounts
-from .income import paypal_profile, fixture_profile
-
 from ..disputes import DisputeDraftRequest, draft_response, list_open_chargebacks
+from . import linked_accounts
+from .client import PayPalClient, PayPalError
+from .income import fixture_profile, paypal_profile
 
 log = logging.getLogger("payscore.paypal")
 router = APIRouter(prefix="/paypal", tags=["paypal"])

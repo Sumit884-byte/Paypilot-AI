@@ -24,7 +24,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--model-dir", default=str(DEFAULT_MODEL_DIR))
     ap.add_argument("--no-fallback", action="store_true", help="fail instead of using the development fallback")
     a = ap.parse_args(argv)
-    payload = json.loads(Path(a.input).read_text())
+    payload = json.loads(Path(a.input).read_text(encoding="utf-8"))
     payload = payload.get("model_input", payload)
     try:
         req = ScoreRequest.model_validate(payload)

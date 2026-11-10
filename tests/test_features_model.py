@@ -106,7 +106,7 @@ def test_client_payment_latency_penalizes_score_even_with_high_income(example_re
 
 def test_metadata_matches_features_and_no_leakage():
     import json
-    md = json.loads((ROOT / "models" / "model_metadata.json").read_text())
+    md = json.loads((ROOT / "models" / "model_metadata.json").read_text(encoding="utf-8"))
     assert md["feature_names"] == FEATURE_NAMES
     assert "TARGET" not in md["feature_names"]
     assert md["training_data"]["kind"] == "synthetic_development_dataset"
@@ -126,10 +126,10 @@ def test_no_model_and_no_fallback_unavailable(tmp_path):
 
 
 def test_corrupt_and_incomplete_artifacts_raise(tmp_path):
-    (tmp_path / "payscore_lgbm.txt").write_text("not a model")
+    (tmp_path / "payscore_lgbm.txt").write_text("not a model", encoding="utf-8")
     with pytest.raises(ModelArtifactError):  # incomplete: no metadata
         load_model(tmp_path)
-    (tmp_path / "model_metadata.json").write_text("{}")
+    (tmp_path / "model_metadata.json").write_text("{}", encoding="utf-8")
     with pytest.raises(ModelArtifactError):  # corrupt
         load_model(tmp_path)
 

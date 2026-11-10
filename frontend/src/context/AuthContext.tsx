@@ -12,13 +12,21 @@ type AuthContextValue = {
   session: Session | null
   isAuthed: boolean
   loginWithPaypal: () => Promise<'redirect' | 'unavailable'>
-  enterDemo: () => void
+  enterDemo: (persona?: string) => void
   completeLink: () => void
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 const STORAGE_KEY = 'paypilot.session'
+
+function clearWorkspaceState() {
+  try {
+    Object.keys(sessionStorage)
+      .filter((key) => key.startsWith('paypilot.') && key !== STORAGE_KEY)
+      .forEach((key) => sessionStorage.removeItem(key))
+  } catch {}
+}
 
 function readSession(): Session | null {
   try {
@@ -54,9 +62,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       isAuthed: Boolean(session?.linked),
       loginWithPaypal,
-      enterDemo: () => persist({ linked: true, demo: true, persona: 'priya', at: new Date().toISOString() }),
+      enterDemo: (persona = 'priya') => {
+        if (session?.persona !== persona) clearWorkspaceState()
+        persist({ linked: true, demo: true, persona, at: new Date().toISOString() })
+      },
       completeLink: () => persist({ linked: true, demo: false, persona: 'priya', at: new Date().toISOString() }),
-      logout: () => persist(null),
+      logout: () => {
+        clearWorkspaceState()
+        persist(null)
+      },
     }),
     [loginWithPaypal, persist, session],
   )

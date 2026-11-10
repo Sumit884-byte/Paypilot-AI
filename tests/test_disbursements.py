@@ -8,8 +8,13 @@ from fastapi.testclient import TestClient
 
 from payscore.paypal.client import PayPalClient
 from payscore.paypal.disbursements import (
-    APPROVALS, DISBURSEMENT_LEDGER, SANDBOX_DISCLAIMER,
-    disbursement_client, router as disbursements_router,
+    APPROVALS,
+    DISBURSEMENT_LEDGER,
+    SANDBOX_DISCLAIMER,
+    disbursement_client,
+)
+from payscore.paypal.disbursements import (
+    router as disbursements_router,
 )
 
 

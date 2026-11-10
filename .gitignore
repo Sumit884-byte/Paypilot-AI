@@ -13,3 +13,5 @@ __pycache__/
 data/
 *.csv
 .DS_Store
+# Local model weights, never part of the repo
+NVIDIA-Nemotron-*/

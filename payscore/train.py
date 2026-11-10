@@ -130,7 +130,7 @@ def train(
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     booster.save_model(str(out / MODEL_FILE), num_iteration=best_iter)
-    (out / META_FILE).write_text(json.dumps(metadata, indent=2) + "\n")
+    (out / META_FILE).write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     return metadata
 
 

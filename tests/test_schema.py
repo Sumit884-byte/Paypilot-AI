@@ -53,8 +53,8 @@ def test_required_fields(example_request, missing):
 
 def test_committed_schemas_match_code():
     """schema/*.json must be regenerated whenever the pydantic model changes."""
-    on_disk_req = json.loads((ROOT / "schema" / "score_request.schema.json").read_text())
-    on_disk_persona = json.loads((ROOT / "schema" / "persona.schema.json").read_text())
+    on_disk_req = json.loads((ROOT / "schema" / "score_request.schema.json").read_text(encoding="utf-8"))
+    on_disk_persona = json.loads((ROOT / "schema" / "persona.schema.json").read_text(encoding="utf-8"))
     assert on_disk_req == request_schema()
     assert on_disk_persona == persona_schema()
 

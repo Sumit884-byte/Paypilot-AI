@@ -93,8 +93,8 @@ def persona_schema() -> dict:
 
 def main() -> None:
     SCHEMA_DIR.mkdir(exist_ok=True)
-    (SCHEMA_DIR / "score_request.schema.json").write_text(json.dumps(request_schema(), indent=2) + "\n")
-    (SCHEMA_DIR / "persona.schema.json").write_text(json.dumps(persona_schema(), indent=2) + "\n")
+    (SCHEMA_DIR / "score_request.schema.json").write_text(json.dumps(request_schema(), indent=2) + "\n", encoding="utf-8")
+    (SCHEMA_DIR / "persona.schema.json").write_text(json.dumps(persona_schema(), indent=2) + "\n", encoding="utf-8")
     print(f"wrote schemas to {SCHEMA_DIR}")
 
 

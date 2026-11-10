@@ -30,15 +30,12 @@ type PublicPassport = {
 export function VerifyIncomePassport() {
   const { token } = useParams<{ token: string }>()
   const [data, setData] = useState<PublicPassport | null>(null)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [fetchError, setError] = useState('')
+  const [loading, setLoading] = useState(Boolean(token))
+  const error = token ? fetchError : 'Missing verification token.'
 
   useEffect(() => {
-    if (!token) {
-      setError('Missing verification token.')
-      setLoading(false)
-      return
-    }
+    if (!token) return
     apiRequest<PublicPassport>(`/api/verify/income-passport/${encodeURIComponent(token)}`)
       .then(setData)
       .catch((e) => setError(e instanceof Error ? e.message : 'Passport not found'))

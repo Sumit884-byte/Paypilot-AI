@@ -7,9 +7,9 @@ import httpx
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from payscore.paypal.client import PayPalClient
 from payscore.paypal import linked_accounts
-from payscore.paypal.income import build_profile, fixture_profile, paypal_profile
+from payscore.paypal.client import PayPalClient
+from payscore.paypal.income import build_profile, fixture_profile
 from payscore.paypal.routes import income_router, paypal_client, router
 
 
@@ -129,7 +129,8 @@ def test_profile_aggregates_mocks_all_paypal_apis():
         if request.url.path == "/v1/customer/disputes":
             return httpx.Response(200, json={"items": [{"create_time": sale_day + "T00:00:00Z"}], "total_pages": 1})
         if request.url.path == "/v2/invoicing/invoices":
-            return httpx.Response(200, json={"items": [{"status": "UNPAID", "due_amount": {"currency_code": "INR", "value": "500"}}], "total_pages": 1})
+            unpaid = {"status": "UNPAID", "due_amount": {"currency_code": "INR", "value": "500"}}
+            return httpx.Response(200, json={"items": [unpaid], "total_pages": 1})
         raise AssertionError(request.url)
 
     linked_accounts.store_account("linked", {"access_token": "user-token"})
@@ -160,6 +161,23 @@ def test_fixture_fallback_uses_documented_shape():
     assert len(result["monthly_income_12m"]) == 12
     assert result["currency"] == "INR"
     assert "longest_income_gap_days_12m" in result
+
+
+def test_trend_uses_three_month_averages_with_a_stable_band():
+    from payscore.paypal.income import _trend
+
+    assert _trend([10, 10, 10, 20, 30, 25]) == "increasing"  # a dip in the last month does not flip it
+    assert _trend([30, 30, 30, 20, 20, 20]) == "decreasing"
+    assert _trend([100, 100, 100, 102, 98, 101]) == "stable"
+    assert _trend([0, 0, 0, 0, 0, 0]) == "stable"
+    assert _trend([0, 0, 0, 5, 6, 7]) == "increasing"
+
+
+def test_fixture_window_ends_at_the_fixture_as_of_date_not_today():
+    result = fixture_profile("priya")
+    months = [m["month"] for m in result["monthly_income_12m"]]
+    assert months[0] == "2025-10" and months[-1] == "2026-09"
+    assert all(m["income_inr"] > 0 for m in result["monthly_income_12m"])
 
 
 def test_profile_calculates_client_turnaround_and_late_invoices():

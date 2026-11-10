@@ -66,7 +66,7 @@ def load_model(model_dir: Path | str) -> Optional[TrainedModel]:
     if not (model_path.exists() and meta_path.exists()):
         raise ModelArtifactError(f"Incomplete model artifact in {d}: need both {MODEL_FILE} and {META_FILE}")
     try:
-        metadata = json.loads(meta_path.read_text())
+        metadata = json.loads(meta_path.read_text(encoding="utf-8"))
         booster = lgb.Booster(model_file=str(model_path))
     except Exception as exc:  # noqa: BLE001
         raise ModelArtifactError(f"Could not load model artifact from {d}: {exc}") from exc

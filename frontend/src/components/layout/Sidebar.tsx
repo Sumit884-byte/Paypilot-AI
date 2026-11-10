@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { NavLink, useLocation } from 'react-router-dom'
 import { cn } from '../../lib/cn'
+import { useActivePersona } from '../../lib/personas'
 
 const links = [
   { to: '/app', label: 'Overview', icon: OverviewIcon, end: true },
@@ -17,6 +18,7 @@ const links = [
 
 export function Sidebar() {
   const location = useLocation()
+  const persona = useActivePersona()
 
   return (
     <nav aria-label="Main navigation" className="border-b border-[rgb(var(--line))] bg-[rgb(var(--surface))]">
@@ -53,8 +55,8 @@ export function Sidebar() {
         ))}
         </div>
         <div className="hidden shrink-0 items-center gap-2 py-2 text-[11px] text-slate-600 md:flex">
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-amber-50 font-semibold text-amber-800">P</span>
-          <span>Priya · PSC-PRIYA-001</span>
+          <span className="grid h-7 w-7 place-items-center rounded-full bg-amber-50 font-semibold text-amber-800">{persona.initial}</span>
+          <span>{persona.firstName} · {persona.applicantId}</span>
         </div>
       </div>
     </nav>

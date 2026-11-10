@@ -6,8 +6,8 @@ import { Icon, inputClass, Notice, PageHeading, Field } from '../components/ui/W
 import { ConfettiBurst } from '../components/ui/Confetti'
 import { SuccessAnimation } from '../components/ui/SuccessAnimation'
 import { apiRequest, postJson } from '../lib/api'
+import { useActivePersona } from '../lib/personas'
 
-const applicant = 'PSC-PRIYA-001'
 const demoNotice = 'Sandbox demo only · No real money movement.'
 
 type ScheduleItem = {
@@ -27,6 +27,8 @@ type RepaymentEntry = {
 }
 
 export function Repayment() {
+  const persona = useActivePersona()
+  const applicant = persona.applicantId
   const [mode, setMode] = useState<'fixed' | 'revenue' | 'one-off'>('fixed')
   const [schedule, setSchedule] = useState<ScheduleItem[]>([])
   const [_entries, setEntries] = useState<RepaymentEntry[]>([])
@@ -35,7 +37,7 @@ export function Repayment() {
   const [liveScore, setLiveScore] = useState<any>(null)
   const [scoreUpdated, setScoreUpdated] = useState(false)
   const previousLiveScore = useRef<number | null>(null)
-  const [paypalReady, setPaypalReady] = useState(false)
+  const [readyCheckout, setReadyCheckout] = useState<string | null>(null)
   const paypalSession = useRef<any>(null)
   const [payoutBatchId, setPayoutBatchId] = useState(() => sessionStorage.getItem('paypilot.payout_batch_id') || '')
   const [payoutStatus, setPayoutStatus] = useState('')
@@ -44,6 +46,7 @@ export function Repayment() {
   const [amount, setAmount] = useState('5000')
   const [count, setCount] = useState('12')
   const [paypalOrderId, setPaypalOrderId] = useState('')
+  const paypalReady = mode === 'one-off' && !!paypalOrderId && readyCheckout === paypalOrderId
 
   useEffect(() => {
     apiRequest<any>('/repayment/status?applicant_id=' + applicant)
@@ -58,7 +61,7 @@ export function Repayment() {
       15000
     )
     return () => clearInterval(timer)
-  }, [])
+  }, [applicant])
 
   useEffect(() => {
     if (!payoutBatchId) return
@@ -102,13 +105,13 @@ export function Repayment() {
       5000
     )
     return () => clearInterval(timer)
-  }, [])
+  }, [applicant])
 
   async function createFixed() {
     try {
       const r = await postJson<any>('/repayment/subscription', {
         applicant_id: applicant,
-        subscriber_email: 'priya@example.test',
+        subscriber_email: persona.email,
         emi_amount_inr: Number(amount),
         number_of_emis: Number(count),
         note: 'PayScore demo fixed EMI',
@@ -139,7 +142,7 @@ export function Repayment() {
     try {
       const r = await postJson<any>('/repayment/revenue-share', {
         applicant_id: applicant,
-        paypal_account_id: 'DEMO-PRIYA',
+        paypal_account_id: persona.paypalDemoId,
         percentage: 5,
       })
       setSchedule(r.repayment_schedule ?? [])
@@ -171,7 +174,7 @@ export function Repayment() {
               onCancel: () => setError('Checkout cancelled. No repayment was captured.'),
               onError: (err: any) => setError(err?.message || 'PayPal checkout failed.'),
             })
-            if (active) setPaypalReady(true)
+            if (active) setReadyCheckout(paypalOrderId)
           } catch (err) { if (active) setError(err instanceof Error ? err.message : 'PayPal SDK could not initialize.') }
         }
         if (win.paypal?.createInstance) { await launch(); return }
@@ -186,7 +189,6 @@ export function Repayment() {
         script.addEventListener('error', () => { if (active) setError('Could not load PayPal sandbox checkout.') }, { once: true })
       } catch (err) { if (active) setError(err instanceof Error ? err.message : 'PayPal sandbox configuration unavailable.') }
     }
-    setPaypalReady(false)
     void initialize()
     return () => { active = false; paypalSession.current = null }
   }, [mode, paypalOrderId])
@@ -266,7 +268,7 @@ export function Repayment() {
                   <input defaultValue="5" type="number" step="0.1" className={inputClass} />
                 </Field>
                 <Field label="PayPal account ID">
-                  <input defaultValue="DEMO-PRIYA" className={inputClass} />
+                  <input defaultValue={persona.paypalDemoId} className={inputClass} />
                 </Field>
                 <Button onClick={share} className="w-full">
                   Configure revenue share

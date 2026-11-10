@@ -170,7 +170,7 @@ def main() -> None:
         errors = list(validator.iter_errors(persona))
         if errors:
             raise SystemExit(f"{spec['file']} fails schema: {errors[0].message}")
-        (OUT_DIR / spec["file"]).write_text(json.dumps(persona, indent=1) + "\n")
+        (OUT_DIR / spec["file"]).write_text(json.dumps(persona, indent=1) + "\n", encoding="utf-8")
         print(f"wrote {spec['file']}: {len(persona['transactions'])} txns; input={persona['model_input']}")
 
 

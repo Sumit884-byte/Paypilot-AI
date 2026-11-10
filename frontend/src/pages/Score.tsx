@@ -4,6 +4,7 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, ProgressRing, Icon } from '../components/ui/Workspace'
 import { apiRequest, postJson, type Persona } from '../lib/api'
+import { useActivePersona } from '../lib/personas'
 
 type Factor = {
   feature?: string
@@ -38,10 +39,11 @@ type Score = {
 const demoNotice = 'Synthetic demo data · PayPal sandbox only · no real lending or money movement.'
 
 function usePersona() {
+  const { key } = useActivePersona()
   const [p, setP] = useState<Persona | null>(null)
   useEffect(() => {
-    apiRequest<Persona>('/demo/persona/priya').then(setP).catch(() => {})
-  }, [])
+    apiRequest<Persona>(`/demo/persona/${key}`).then(setP).catch(() => {})
+  }, [key])
   return p
 }
 

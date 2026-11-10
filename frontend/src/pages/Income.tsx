@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { MetricCard, Notice, PageHeading, Icon, CountUp } from '../components/ui/Workspace'
-import type { TransactionRow } from '../components/TransactionGrid'
+import type { TransactionRow } from '../components/income/TransactionGrid'
 import { apiRequest, money, type Persona } from '../lib/api'
+import { useActivePersona } from '../lib/personas'
 import { useAuth } from '../context/AuthContext'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 // AG Grid is the largest dependency in the app, so it loads only with this feed
-const TransactionGrid = lazy(() => import('../components/TransactionGrid'))
+const TransactionGrid = lazy(() => import('../components/income/TransactionGrid'))
 
 type Profile = {
   total_income_12m_inr: number
@@ -25,10 +26,11 @@ type Profile = {
 const demoNotice = 'Synthetic demo data · PayPal sandbox only · no real lending or money movement.'
 
 function usePersona() {
+  const { key } = useActivePersona()
   const [p, setP] = useState<Persona | null>(null)
   useEffect(() => {
-    apiRequest<Persona>('/demo/persona/priya').then(setP).catch(() => {})
-  }, [])
+    apiRequest<Persona>(`/demo/persona/${key}`).then(setP).catch(() => {})
+  }, [key])
   return p
 }
 
@@ -68,7 +70,7 @@ export function Income() {
       </Notice>
       {error && <Notice tone="warning">{error} · Start the API to load data.</Notice>}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         {profile ? (
           <>
             <MetricCard

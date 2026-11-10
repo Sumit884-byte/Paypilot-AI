@@ -2,7 +2,7 @@
 
 The scoring API works today on **normalised mock input**. It never talks to PayPal and moves no money.
 
-> **Read first:** the shipped model is trained on **synthetic data**. Its reported test AUC of 0.855 comes from that synthetic data
+> **Read first:** the shipped model is trained on **synthetic data**. Its reported test AUC of 0.848 comes from that synthetic data
 > and is **not** evidence of real-world credit-risk accuracy. All PayPal field mappings are **provisional and unverified**.
 
 ## 1. Run it locally

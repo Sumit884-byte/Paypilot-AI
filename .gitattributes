@@ -1,4 +1,21 @@
-*.py text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
+# Store text files with LF line endings, whatever OS commits them, so Windows, macOS and Linux
+# checkouts produce identical diffs. Editors on Windows handle LF files fine.
+* text=auto eol=lf
+
+# Windows-only scripts must keep CRLF to run in cmd and PowerShell
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files: never convert
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+
+# LightGBM model file is compared byte-for-byte by the reproducibility tests
 models/payscore_lgbm.txt -text

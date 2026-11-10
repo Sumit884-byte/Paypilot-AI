@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import json
 from calendar import monthrange
 from datetime import date, datetime, timedelta, timezone
-import json
 from pathlib import Path
 from typing import Any
 
@@ -80,6 +80,21 @@ async def paypal_profile(client: PayPalClient, token: str, *, today: date | None
     return build_profile(transactions, disputes, invoices, start=start, end=end, source="paypal")
 
 
+TREND_BAND = 0.05  # recent average within 5% of the earlier one counts as stable
+
+
+def _trend(values: list[float]) -> str:
+    """Average of the last 3 months against the 3 before, so one noisy month does not flip the direction."""
+    recent, earlier = values[-3:], values[-6:-3]
+    if not earlier:
+        return "stable"
+    recent_avg, earlier_avg = sum(recent) / len(recent), sum(earlier) / len(earlier)
+    if earlier_avg <= 0:
+        return "increasing" if recent_avg > 0 else "stable"
+    change = (recent_avg - earlier_avg) / earlier_avg
+    return "increasing" if change > TREND_BAND else "decreasing" if change < -TREND_BAND else "stable"
+
+
 def build_profile(transactions: list[dict], disputes: list[dict], invoices: list[dict], *,
                   start: date, end: date, source: str) -> dict:
     months = [(_shift_month(start.replace(day=1), offset).strftime("%Y-%m"), 0.0)
@@ -131,10 +146,9 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
 
     monthly = [{"month": month, "income_inr": round(value, 2)} for month, value in month_values.items()]
     dated = sorted(day for day, _ in sales)
-    longest_gap = max(((b - a).days for a, b in zip(dated, dated[1:])), default=0)
+    longest_gap = max(((b - a).days for a, b in zip(dated, dated[1:], strict=False)), default=0)
     populated = list(month_values.values())
-    prior, latest = populated[-2:]
-    trend = "increasing" if latest > prior else "decreasing" if latest < prior else "stable"
+    trend = _trend(populated)
     outstanding = 0.0
     invoice_count = 0
     turnaround_days: list[int] = []
@@ -200,7 +214,11 @@ def fixture_profile(persona: str = "priya", *, today: date | None = None) -> dic
     if persona not in {"priya", "arjun", "rohan"}:
         persona = "priya"
     data = json.loads((FIXTURES / f"{persona}.json").read_text(encoding="utf-8"))
-    today = today or datetime.now(timezone.utc).date()
+    if today is None:
+        # Fixture history stops the day before its as-of date. Anchoring to the wall clock would leave the
+        # most recent months empty, and the demo would look like income had stopped.
+        as_of = data.get("as_of_date")
+        today = (date.fromisoformat(as_of) - timedelta(days=1)) if as_of else datetime.now(timezone.utc).date()
     start = _shift_month(today.replace(day=1), -11)
     transactions = []
     for txn in data.get("transactions", []):

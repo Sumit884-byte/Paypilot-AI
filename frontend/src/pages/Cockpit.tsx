@@ -5,10 +5,11 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, Icon, inputClass } from '../components/ui/Workspace'
 import { apiRequest, type Persona } from '../lib/api'
+import { useActivePersona } from '../lib/personas'
 
-function usePersona() {
+function usePersona(key: string) {
   const [p, setP] = useState<Persona | null>(null)
-  useEffect(() => { apiRequest<Persona>('/demo/persona/priya').then(setP).catch(() => {}) }, [])
+  useEffect(() => { apiRequest<Persona>(`/demo/persona/${key}`).then(setP).catch(() => {}) }, [key])
   return p
 }
 
@@ -142,11 +143,12 @@ const widgetColors: Record<string, string> = {
 export function Cockpit() {
   const [widgets, setWidgets] = useState(['Advertised vs real APR', 'Score drivers', 'Repayment progress'])
   const [q, setQ] = useState('')
-  const p = usePersona()
+  const persona = useActivePersona()
+  const p = usePersona(persona.key)
   const [offer] = useState<any>(() => { try { return JSON.parse(sessionStorage.getItem('paypilot.offer') || 'null') } catch { return null } })
   const [score] = useState<any>(() => { try { return JSON.parse(sessionStorage.getItem('paypilot.score') || 'null') } catch { return null } })
   const [repayment, setRepayment] = useState<any[]>([])
-  useEffect(() => { apiRequest<any>('/repayment/status?applicant_id=PSC-PRIYA-001').then((r) => setRepayment(r.entries ?? [])).catch(() => {}) }, [])
+  useEffect(() => { apiRequest<any>(`/repayment/status?applicant_id=${persona.applicantId}`).then((r) => setRepayment(r.entries ?? [])).catch(() => {}) }, [persona.applicantId])
 
   function addWidget() {
     if (q.trim()) {

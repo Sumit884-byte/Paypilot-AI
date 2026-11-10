@@ -5,6 +5,7 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Icon, inputClass, Notice, PageHeading, PulseDot, useKeyboardShortcut } from '../components/ui/Workspace'
 import { postJson } from '../lib/api'
+import { useActivePersona } from '../lib/personas'
 
 type Message = {
   from: 'you' | 'agent'
@@ -20,8 +21,6 @@ type Message = {
   approved?: boolean
 }
 
-const applicant = 'PSC-PRIYA-001'
-
 const DEFAULT_QUESTION = 'Can I afford ₹50k?'
 const DEFAULT_PAYOUT_INR = 50000
 
@@ -34,13 +33,14 @@ const SUGGESTED_QUESTIONS = [
 ]
 
 export function Copilot() {
+  const persona = useActivePersona()
+  const applicant = persona.applicantId
   const [text, setText] = useState(DEFAULT_QUESTION)
   const [messages, setMessages] = useState<Message[]>([])
   const [busy, setBusy] = useState(false)
   const [approving, setApproving] = useState(false)
   const [error, setError] = useState('')
   const [pendingApproval, setPendingApproval] = useState<Message | null>(null)
-  const [showSuggestions, setShowSuggestions] = useState(true)
   const inputRef = useRef<HTMLInputElement>(null)
 
   // Cmd+K to focus copilot input when on copilot page
@@ -53,7 +53,6 @@ export function Copilot() {
     setText('')
     setBusy(true)
     setError('')
-    setShowSuggestions(false)
 
     try {
       const res = await postJson<any>('/copilot/chat', {
@@ -88,7 +87,7 @@ export function Copilot() {
     } finally {
       setBusy(false)
     }
-  }, [])
+  }, [applicant])
 
   // Auto-send the default question on first load for demo, unless the visitor edits it first
   useEffect(() => {
@@ -104,9 +103,12 @@ export function Copilot() {
     if (text.trim()) void ask(text.trim())
   }
 
+  // Quick questions stay available between replies; ones already asked drop out of the list
+  const asked = new Set(messages.filter((m) => m.from === 'you').map((m) => m.text))
+  const remainingSuggestions = SUGGESTED_QUESTIONS.filter((q) => !asked.has(q))
+
   function applySuggestion(q: string) {
-    setText(q)
-    setShowSuggestions(false)
+    if (!busy) void ask(q)
   }
 
   async function approve() {
@@ -122,7 +124,7 @@ export function Copilot() {
     try {
       const res = await postJson<any>('/disburse', {
         applicant_id: applicant,
-        recipient_email: 'priya@example.test',
+        recipient_email: persona.email,
         approved_loan_amount_inr: pendingApproval.approval?.amount ?? DEFAULT_PAYOUT_INR,
         note: 'Borrower explicitly approved sandbox demo payout',
       })
@@ -185,7 +187,7 @@ export function Copilot() {
                 </span>
                 <p className="mt-4 font-semibold">Try "Can I afford ₹50k?"</p>
                 <p className="mt-1 text-xs text-slate-500">I'll check your income and PayScore</p>
-                {showSuggestions && (
+                {!busy && (
                   <motion.div
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -357,7 +359,7 @@ export function Copilot() {
               <Icon name="arrow" size={16} />
             </Button>
           </form>
-          {showSuggestions && messages.length > 0 && (
+          {!busy && messages.length > 0 && remainingSuggestions.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -365,7 +367,7 @@ export function Copilot() {
             >
               <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">Quick questions</p>
               <div className="flex flex-wrap gap-2">
-                {SUGGESTED_QUESTIONS.filter(q => q !== text).map((q, i) => (
+                {remainingSuggestions.map((q, i) => (
                   <motion.button
                     key={q}
                     initial={{ opacity: 0, scale: 0.9 }}

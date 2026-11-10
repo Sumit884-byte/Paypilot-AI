@@ -3,8 +3,8 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, MetricCard, Icon } from '../components/ui/Workspace'
 import { apiRequest, apiUrl, money, postJson } from '../lib/api'
+import { useActivePersona } from '../lib/personas'
 
-const APPLICANT_ID = 'PSC-PRIYA-001'
 
 type PassportView = {
   passport_id: string
@@ -32,7 +32,19 @@ type PassportView = {
   disclaimer?: string
 }
 
+async function loadPassport(applicantId: string): Promise<{ passport: PassportView | null } | { error: string }> {
+  try {
+    return { passport: await apiRequest<PassportView>(`/income-passport?applicant_id=${encodeURIComponent(applicantId)}`) }
+  } catch (e) {
+    const status = e && typeof e === 'object' && 'status' in e ? Number((e as { status: number }).status) : 0
+    if (status === 404) return { passport: null }
+    return { error: e instanceof Error ? e.message : 'Could not load passport' }
+  }
+}
+
 export function IncomePassport() {
+  const persona = useActivePersona()
+  const APPLICANT_ID = persona.applicantId
   const [passport, setPassport] = useState<PassportView | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -40,23 +52,24 @@ export function IncomePassport() {
   const [copied, setCopied] = useState(false)
 
   const refresh = useCallback(async () => {
-    try {
-      const view = await apiRequest<PassportView>(`/income-passport?applicant_id=${encodeURIComponent(APPLICANT_ID)}`)
-      setPassport(view)
+    const result = await loadPassport(APPLICANT_ID)
+    if ('passport' in result) {
+      setPassport(result.passport)
       setError('')
-    } catch (e) {
-      const status = e && typeof e === 'object' && 'status' in e ? Number((e as { status: number }).status) : 0
-      if (status === 404) {
-        setPassport(null)
-        return
-      }
-      setError(e instanceof Error ? e.message : 'Could not load passport')
+    } else {
+      setError(result.error)
     }
-  }, [])
+  }, [APPLICANT_ID])
 
   useEffect(() => {
-    void refresh()
-  }, [refresh])
+    let current = true
+    void loadPassport(APPLICANT_ID).then((result) => {
+      if (!current) return
+      if ('passport' in result) setPassport(result.passport)
+      else setError(result.error)
+    })
+    return () => { current = false }
+  }, [APPLICANT_ID])
 
   async function generate() {
     setBusy(true)
@@ -65,7 +78,7 @@ export function IncomePassport() {
     try {
       const view = await postJson<PassportView>('/income-passport', {
         applicant_id: APPLICANT_ID,
-        persona: 'priya',
+        persona: persona.key,
         ttl_days: 30,
         include_pdf_share: false,
       })

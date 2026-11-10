@@ -29,13 +29,14 @@ const DEMO_STEPS = [
 ]
 
 function useDemoProgress() {
-  const [completed, setCompleted] = useState<Set<string>>(new Set())
-  useEffect(() => {
+  const [completed, setCompleted] = useState<Set<string>>(() => {
     try {
       const stored = sessionStorage.getItem('paypilot.demo_progress')
-      if (stored) setCompleted(new Set(JSON.parse(stored)))
-    } catch {}
-  }, [])
+      return new Set(stored ? JSON.parse(stored) : [])
+    } catch {
+      return new Set()
+    }
+  })
   const mark = (id: string) => {
     setCompleted((prev) => {
       const next = new Set(prev)
@@ -148,7 +149,7 @@ export function Overview() {
         </GlassCard>
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[.9fr_1.5fr]">
+      <div className="grid gap-5 xl:grid-cols-[.9fr_1.5fr] [&>*]:min-w-0">
         <section>
           <h2 className="mb-2 font-display text-2xl">Make the numbers useful.</h2>
           {[
