@@ -12,6 +12,124 @@ function usePersona() {
   return p
 }
 
+type ModelCardSummary = {
+  status: string
+  metrics: { auc_roc: number | null; brier: number | null }
+  metric_availability?: Record<string, string>
+  calibration_status?: string
+  fairness?: { sensitive_attributes_excluded?: string[] }
+}
+
+type CalibrationPoint = { mean_predicted: number; fraction_positives: number }
+
+type EvaluationSummary = {
+  status: string
+  calibration_curve: null | {
+    points: CalibrationPoint[]
+    note?: string
+  }
+}
+
+function ModelCardWidget() {
+  const [card, setCard] = useState<ModelCardSummary | null>(null)
+  const [calibration, setCalibration] = useState<CalibrationPoint[] | null>(null)
+  const [loadError, setLoadError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+    apiRequest<ModelCardSummary>('/model-card')
+      .then((payload) => {
+        if (!cancelled) setCard(payload)
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError('Model card metadata unavailable.')
+      })
+    apiRequest<EvaluationSummary>('/model-card/evaluation?threshold=0.5')
+      .then((payload) => {
+        if (cancelled) return
+        const points = payload.calibration_curve?.points
+        if (payload.status === 'available' && Array.isArray(points) && points.length > 0) {
+          setCalibration(points)
+        }
+      })
+      .catch(() => {
+        /* Evaluation curves are optional; summary metrics still render. */
+      })
+    return () => { cancelled = true }
+  }, [])
+
+  const auc = card?.metrics?.auc_roc
+  const excluded = card?.fairness?.sensitive_attributes_excluded?.length ?? 0
+  const aucLabel = typeof auc === 'number' ? auc.toFixed(3) : 'Not evaluated'
+
+  return (
+    <GlassCard className="border border-paypal/25 bg-gradient-to-br from-paypal/10 to-amber-glow/10">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-paypal">Model Card</p>
+          <h2 className="mt-2 font-semibold">Trained model summary</h2>
+          <p className="mt-1 text-xs text-slate-500">
+            Live metrics from committed metadata — not fabricated demo values.
+          </p>
+        </div>
+        <Link to="/app/model-card" className="text-xs font-semibold text-paypal hover:underline">
+          Full Model Card →
+        </Link>
+      </div>
+
+      {loadError && <p className="mt-4 text-sm text-rose-600">{loadError}</p>}
+
+      {card && (
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-xl bg-white/60 p-3 dark:bg-white/5">
+            <p className="text-[10px] uppercase tracking-wide text-slate-500">Test AUC</p>
+            <p className="mt-1 text-2xl font-semibold tabular-nums">{aucLabel}</p>
+            <p className="mt-1 text-[11px] text-slate-500">
+              {card.metric_availability?.auc_roc === 'available' ? 'Synthetic test split' : 'Unavailable'}
+            </p>
+          </div>
+          <div className="rounded-xl bg-white/60 p-3 dark:bg-white/5">
+            <p className="text-[10px] uppercase tracking-wide text-slate-500">Excluded sensitive features</p>
+            <p className="mt-1 text-2xl font-semibold tabular-nums">{excluded}</p>
+            <p className="mt-1 text-[11px] text-slate-500">Never ingested by the scorer</p>
+          </div>
+          <div className="rounded-xl bg-white/60 p-3 dark:bg-white/5">
+            <p className="text-[10px] uppercase tracking-wide text-slate-500">Calibration</p>
+            {calibration && calibration.length > 1 ? (
+              <svg viewBox="0 0 120 48" className="mt-2 h-12 w-full" role="img" aria-label="Calibration sparkline">
+                <line x1="8" y1="40" x2="112" y2="8" stroke="currentColor" strokeOpacity="0.25" strokeWidth="1" />
+                <polyline
+                  fill="none"
+                  stroke="#0070BA"
+                  strokeWidth="2"
+                  points={calibration
+                    .map((p) => {
+                      const x = 8 + Math.max(0, Math.min(1, p.mean_predicted)) * 104
+                      const y = 40 - Math.max(0, Math.min(1, p.fraction_positives)) * 32
+                      return `${x},${y}`
+                    })
+                    .join(' ')}
+                />
+              </svg>
+            ) : (
+              <>
+                <p className="mt-1 text-sm font-medium leading-snug">
+                  {typeof card.metrics.brier === 'number'
+                    ? `Brier ${card.metrics.brier.toFixed(3)}`
+                    : 'No curve yet'}
+                </p>
+                <p className="mt-1 text-[11px] leading-snug text-slate-500">
+                  {card.calibration_status || 'Calibration curve not evaluated in this session.'}
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </GlassCard>
+  )
+}
+
 const widgetColors: Record<string, string> = {
   'Advertised vs real APR': 'from-rose-500/15 to-amber-500/15 border-rose-500/30',
   'Score drivers': 'from-paypal/15 to-amber-glow/15 border-paypal/30',
@@ -51,6 +169,8 @@ export function Cockpit() {
       <Notice>
         Demo widgets use synthetic fixtures. Score factors are SHAP attributions when the trained model is loaded. No live lending decision is made.
       </Notice>
+
+      <ModelCardWidget />
 
       <GlassCard>
         <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); addWidget() }}>

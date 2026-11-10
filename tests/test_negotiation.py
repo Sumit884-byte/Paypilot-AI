@@ -51,7 +51,7 @@ def test_accept_marks_simulated_settlement(client):
 
 def test_reject_ends_session(client):
     started = client.post("/negotiate/start", json={
-        "applicant_id": "PSC-ARJUN-001",
+        "applicant_id": "PSC-ARJUN-002",
         "persona": "arjun",
         "requested_amount_inr": 200000,
         "requested_term_months": 12,
@@ -71,7 +71,7 @@ def test_reject_ends_session(client):
 
 def test_counter_round_trip(client):
     started = client.post("/negotiate/start", json={
-        "applicant_id": "PSC-ROHAN-001",
+        "applicant_id": "PSC-ROHAN-003",
         "persona": "rohan",
         "requested_amount_inr": 300000,
         "requested_term_months": 12,

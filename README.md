@@ -115,6 +115,8 @@ It never downloads anything.
 | `PAYSCORE_MODEL_DIR` | `./models` | Directory with `payscore_lgbm.txt` + `model_metadata.json` |
 | `PAYSCORE_ALLOW_FALLBACK` | `true` | Serve the labelled development fallback when no model exists (`false` -> 503) |
 | `PAYSCORE_CORS_ORIGINS` | `http://localhost:3000,http://localhost:5173` | Allowed origins; `""` disables CORS; `*` allows all (avoid) |
+| `PAYSCORE_FRONTEND_URL` | empty | Public frontend origin used in Income Passport PDF verification links (trailing slash stripped) |
+| `PAYSCORE_PASSPORT_SIGNING_KEY` | empty | Optional HMAC-SHA256 key for Income Passport content integrity; leave empty to skip content signatures |
 
 ## Example requests and responses (captured from a live `uvicorn` run)
 
@@ -235,7 +237,12 @@ uvicorn payscore.api:app --port 8000
 
 On Windows, LightGBM's wheel imports `VCOMP140.dll` (the MSVC OpenMP runtime). If import fails with "module could not be found", install the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist). The project does not vendor that DLL.
 
-The frontend is unchanged in how it is started (`frontend/`, `npm install`, `npm run dev`). Vite proxies `/score`, `/offer-guard`, `/copilot`, `/counterfactuals`, `/affordability`, and `/revenue-volatility` to port 8000.
+The frontend is unchanged in how it is started (`frontend/`, `npm install`, `npm run dev`). Vite proxies API paths (including `/api`) to port 8000. The React public verification page stays at `/verify/income-passport/:token` and is **not** proxied; the JSON API is `GET /api/verify/income-passport/{token}`.
+
+### Income Passport and negotiation (Person C)
+
+* **Income Passport** — `POST /income-passport` builds a one-page PDF whose footer embeds the public verification URL from `PAYSCORE_FRONTEND_URL` plus the real token. Public React page: `/verify/income-passport/:token`. Public API: `/api/verify/income-passport/{token}`. When `PAYSCORE_PASSPORT_SIGNING_KEY` is set, verification also checks an HMAC-SHA256 over the canonical passport snapshot and can report `integrity_status: tampered`.
+* **Negotiation** — `POST /negotiate/start` and `/negotiate/respond` run **two rule-based negotiation agents with simulated settlement**. Settlement always returns `paypal_payout: false`; no PayPal payout is created by this flow.
 
 Copy `.env.example` to `.env` if you need PayPal sandbox or the optional LLM. Do not commit `.env`.
 
@@ -333,4 +340,5 @@ Tests use synthetic fixtures, generated PDFs, and mocks. They do not call PayPal
 * OCR and the external LLM are optional and off in a normal install.
 * The revenue-share percentages are a documented deterministic policy, not a fitted model.
 * Affordability does not know essential living costs unless the caller sends them. The copilot does not invent that figure.
+* Negotiation is rule-based with simulated settlement only — not dual LLM agents and not live PayPal payouts.
 * Windows needs the MSVC OpenMP runtime to import LightGBM, as noted above.

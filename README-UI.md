@@ -17,7 +17,7 @@ Responsive React 18 + Vite frontend for the Paypilot AI hackathon demo. The app 
 4. **Offer guard** — enter an advertised APR and fee, attach a local screenshot/PDF if desired, and inspect the fee-adjusted estimate and checklist. The current API accepts typed terms; file contents are not uploaded or parsed.
 5. **Copilot** — ask “Can I afford ₹50k?” The reply is the affordability calculator, not an approval card. A payout request such as “disburse” still shows an approval card. Decline does nothing; Approve calls the sandbox disbursement API and still requires an eligible score and amount within its ceiling.
 6. **Repayment** — create a fixed EMI schedule or set revenue share. The one-off order endpoint returns the PayPal JS SDK v6 `orderId` shape; checkout needs PayPal sandbox browser configuration. Poll payout status with the batch id returned by the copilot.
-7. **AG Studio** — add “show my income by client” to spawn a widget. The API only provides synthetic categories here, not client identities; the widget states that limitation.
+7. **AG Studio** — opens with a compact Model Card summary (test AUC, calibration sparkline when available, excluded sensitive features) plus a link to `/app/model-card`. Add “show my income by client” to spawn extra widgets. The API only provides synthetic categories here, not client identities; the widget states that limitation.
 
 ## Routes
 

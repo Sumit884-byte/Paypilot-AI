@@ -1,8 +1,10 @@
 """Shareable Income Passport — generate, verify, revoke.
 
 Tokens are cryptographically random. Only SHA-256 hashes are stored in the
-in-process demo ledger (same pattern as other sandbox ledgers). Public
-verification never exposes internal applicant IDs, auth tokens, or raw
+in-process demo ledger (same pattern as other sandbox ledgers). Passport
+snapshots are also authenticated with HMAC-SHA256 when
+``PAYSCORE_PASSPORT_SIGNING_KEY`` is configured. Public verification never
+exposes internal applicant IDs, auth tokens, signing secrets, or raw
 transaction descriptions.
 """
 
@@ -10,6 +12,8 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import json
+import os
 import secrets
 import threading
 import time
@@ -22,6 +26,7 @@ from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
 
+from .applicant_context import display_name_for_persona, persona_key_for
 from .income_passport_pdf import build_passport_pdf
 from .paypal.income import fixture_profile
 
@@ -38,17 +43,12 @@ RATE_LIMIT_WINDOW = 60
 RATE_LIMIT_MAX = 30
 _rate_store: dict[str, list[float]] = defaultdict(list)
 
-PERSONA_BY_APPLICANT = {
-    "PSC-PRIYA-001": "priya",
-    "PSC-ARJUN-001": "arjun",
-    "PSC-ROHAN-001": "rohan",
-}
+PUBLIC_VERIFY_PATH_PREFIX = "/verify/income-passport"
+API_VERIFY_PATH_PREFIX = "/api/verify/income-passport"
 
-DISPLAY_NAMES = {
-    "priya": "Priya Nair (fictional)",
-    "arjun": "Arjun Mehta (fictional)",
-    "rohan": "Rohan Desai (fictional)",
-}
+
+class UnknownApplicantError(ValueError):
+    """Applicant ID is not present in the fixture registry."""
 
 
 class GeneratePassportRequest(BaseModel):
@@ -69,6 +69,60 @@ def _hash_token(token: str) -> str:
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
+def _signing_key() -> Optional[bytes]:
+    raw = os.getenv("PAYSCORE_PASSPORT_SIGNING_KEY", "").strip()
+    if not raw:
+        return None
+    return raw.encode("utf-8")
+
+
+def frontend_origin() -> Optional[str]:
+    """Public frontend origin from env. No hard-coded hostnames."""
+    raw = os.getenv("PAYSCORE_FRONTEND_URL", "").strip()
+    if not raw:
+        return None
+    return raw.rstrip("/")
+
+
+def public_verification_path(token: str) -> str:
+    return f"{PUBLIC_VERIFY_PATH_PREFIX}/{token}"
+
+
+def public_verification_url(token: str) -> Optional[str]:
+    origin = frontend_origin()
+    if not origin:
+        return None
+    return f"{origin}{public_verification_path(token)}"
+
+
+def canonicalize_snapshot(snapshot: dict[str, Any]) -> bytes:
+    """Deterministic JSON encoding for HMAC input."""
+    return json.dumps(snapshot, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+
+
+def sign_snapshot(snapshot: dict[str, Any], key: Optional[bytes] = None) -> Optional[str]:
+    secret = key if key is not None else _signing_key()
+    if not secret:
+        return None
+    digest = hmac.new(secret, canonicalize_snapshot(snapshot), hashlib.sha256).hexdigest()
+    return digest
+
+
+def verify_snapshot_signature(snapshot: dict[str, Any], signature: Optional[str]) -> str:
+    """Return content integrity: valid | tampered | unsigned | unavailable."""
+    key = _signing_key()
+    if not key:
+        return "unavailable"
+    if not signature:
+        return "unsigned"
+    expected = sign_snapshot(snapshot, key)
+    if expected is None:
+        return "unavailable"
+    if hmac.compare_digest(expected, signature):
+        return "valid"
+    return "tampered"
+
+
 def _check_public_rate_limit(key: str) -> bool:
     now = time.time()
     window_start = now - RATE_LIMIT_WINDOW
@@ -82,7 +136,16 @@ def _check_public_rate_limit(key: str) -> bool:
 def _resolve_persona(applicant_id: str, persona: Optional[str]) -> str:
     if persona in {"priya", "arjun", "rohan"}:
         return persona
-    return PERSONA_BY_APPLICANT.get(applicant_id, "priya")
+    key = persona_key_for(applicant_id)
+    if key:
+        return key
+    raise UnknownApplicantError(
+        f"Unknown applicant_id '{applicant_id}'. Pass persona explicitly or use a fixture applicant ID."
+    )
+
+
+def _display_name(persona: str) -> str:
+    return display_name_for_persona(persona) or persona
 
 
 def _income_consistency(monthly: list[dict[str, Any]]) -> dict[str, Any]:
@@ -161,7 +224,7 @@ def _build_snapshot(applicant_id: str, persona: str) -> dict[str, Any]:
     # model_input income is NOT copied here as independently verified.
     return {
         "borrower": {
-            "display_name": DISPLAY_NAMES.get(persona, persona),
+            "display_name": _display_name(persona),
             "persona_key": persona,
             "applicant_ref": applicant_id,  # public-facing demo ID, not a DB primary key
             "classification": "demo_persona" if source == "fixture" else "linked_paypal",
@@ -246,12 +309,17 @@ def _public_view(record: dict[str, Any]) -> dict[str, Any]:
     expires = datetime.fromisoformat(record["expires_at_utc"])
     revoked = record.get("revoked_at_utc") is not None
     expired = now >= expires
+    content_integrity = verify_snapshot_signature(snap, record.get("content_hmac"))
+
     if revoked:
         integrity = "revoked"
         status = "revoked"
     elif expired:
         integrity = "expired"
         status = "expired"
+    elif content_integrity == "tampered":
+        integrity = "tampered"
+        status = "tampered"
     else:
         integrity = "valid"
         status = record["verification_status"]
@@ -260,6 +328,7 @@ def _public_view(record: dict[str, Any]) -> dict[str, Any]:
         "passport_reference": record["passport_reference"],
         "verification_status": status,
         "integrity_status": integrity,
+        "content_integrity": content_integrity,
         "issued_at_utc": record["issued_at_utc"],
         "expires_at_utc": record["expires_at_utc"],
         "revoked_at_utc": record.get("revoked_at_utc"),
@@ -295,7 +364,10 @@ def _owner_view(record: dict[str, Any], *, verification_token: Optional[str] = N
     }
     if verification_token:
         out["verification_token"] = verification_token
-        out["verification_path"] = f"/verify/income-passport/{verification_token}"
+        out["verification_path"] = public_verification_path(verification_token)
+        full = public_verification_url(verification_token)
+        if full:
+            out["verification_url"] = full
     return out
 
 
@@ -308,29 +380,35 @@ def create_passport(
 ) -> dict[str, Any]:
     persona_key = _resolve_persona(applicant_id, persona)
     snapshot = _build_snapshot(applicant_id, persona_key)
+    # Token must exist before PDF generation so the document embeds a working verify URL.
     token = secrets.token_urlsafe(32)
     token_hash = _hash_token(token)
+    content_hmac = sign_snapshot(snapshot)
     now = _utcnow()
     passport_id = str(uuid4())
     reference = f"IPP-{now.strftime('%Y%m%d')}-{secrets.token_hex(4).upper()}"
+    verify_url = public_verification_url(token)
+    pdf_bytes = build_passport_pdf(
+        passport_reference=reference,
+        issued_at=now,
+        expires_at=now + timedelta(days=ttl_days),
+        snapshot=snapshot,
+        verification_url=verify_url or public_verification_path(token),
+    )
     record = {
         "passport_id": passport_id,
         "passport_reference": reference,
         "applicant_id": applicant_id,
         "persona": persona_key,
         "token_hash": token_hash,
+        "content_hmac": content_hmac,
         "issued_at_utc": now.isoformat(timespec="seconds"),
         "expires_at_utc": (now + timedelta(days=ttl_days)).isoformat(timespec="seconds"),
         "revoked_at_utc": None,
         "verification_status": snapshot["verification"]["status"],
         "include_pdf_share": include_pdf_share,
         "snapshot": snapshot,
-        "pdf_bytes": build_passport_pdf(
-            passport_reference=reference,
-            issued_at=now,
-            expires_at=now + timedelta(days=ttl_days),
-            snapshot=snapshot,
-        ),
+        "pdf_bytes": pdf_bytes,
     }
     with _lock:
         # Revoke any prior active passport for this applicant (prevent duplicate actives).
@@ -413,12 +491,18 @@ def generate_income_passport(body: GeneratePassportRequest) -> dict | JSONRespon
                             "passport_reference": existing["passport_reference"],
                         },
                     )
-    result = create_passport(
-        body.applicant_id,
-        persona=body.persona,
-        ttl_days=body.ttl_days,
-        include_pdf_share=body.include_pdf_share,
-    )
+    try:
+        result = create_passport(
+            body.applicant_id,
+            persona=body.persona,
+            ttl_days=body.ttl_days,
+            include_pdf_share=body.include_pdf_share,
+        )
+    except UnknownApplicantError as exc:
+        return JSONResponse(
+            status_code=400,
+            content={"error": "unknown_applicant", "detail": str(exc)},
+        )
     return result
 
 
@@ -458,12 +542,7 @@ def revoke_income_passport(passport_id: str, applicant_id: str = Query(..., min_
     return view
 
 
-@router.get(
-    "/verify/income-passport/{token}",
-    summary="Public Income Passport verification (no account required)",
-    response_model=None,
-)
-def verify_income_passport(token: str, request: Request) -> dict | JSONResponse:
+def _verify_response(token: str, request: Request) -> dict | JSONResponse:
     client = request.client.host if request.client else "unknown"
     if not _check_public_rate_limit(f"verify:{client}"):
         return JSONResponse(
@@ -478,12 +557,7 @@ def verify_income_passport(token: str, request: Request) -> dict | JSONResponse:
     return _public_view(record)
 
 
-@router.get(
-    "/verify/income-passport/{token}/pdf",
-    summary="Public PDF download only when the borrower enabled sharing",
-    response_model=None,
-)
-def verify_passport_pdf(token: str, request: Request) -> Response | JSONResponse:
+def _verify_pdf_response(token: str, request: Request) -> Response | JSONResponse:
     client = request.client.host if request.client else "unknown"
     if not _check_public_rate_limit(f"verify-pdf:{client}"):
         return JSONResponse(status_code=429, content={"error": "rate_limit_exceeded"})
@@ -506,3 +580,21 @@ def verify_passport_pdf(token: str, request: Request) -> Response | JSONResponse
             "Content-Disposition": f'inline; filename="income-passport-{record["passport_reference"]}.pdf"'
         },
     )
+
+
+@router.get(
+    "/api/verify/income-passport/{token}",
+    summary="Public Income Passport verification API (no account required)",
+    response_model=None,
+)
+def verify_income_passport(token: str, request: Request) -> dict | JSONResponse:
+    return _verify_response(token, request)
+
+
+@router.get(
+    "/api/verify/income-passport/{token}/pdf",
+    summary="Public PDF download only when the borrower enabled sharing",
+    response_model=None,
+)
+def verify_passport_pdf(token: str, request: Request) -> Response | JSONResponse:
+    return _verify_pdf_response(token, request)

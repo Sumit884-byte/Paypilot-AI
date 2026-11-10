@@ -96,7 +96,7 @@ def main() -> int:
     token = passport.get("verification_token")
     r = client.get(f"/income-passport/{pid}/pdf", params={"applicant_id": "PSC-PRIYA-001"})
     check("passport_pdf", r.status_code == 200 and r.content.startswith(b"%PDF"))
-    r = client.get(f"/verify/income-passport/{token}")
+    r = client.get(f"/api/verify/income-passport/{token}")
     pub = r.json() if r.status_code == 200 else {}
     check(
         "public_verify_limited",
@@ -108,7 +108,7 @@ def main() -> int:
     )
     r = client.post(f"/income-passport/{pid}/revoke", params={"applicant_id": "PSC-PRIYA-001"})
     check("passport_revoke", r.status_code == 200)
-    r = client.get(f"/verify/income-passport/{token}")
+    r = client.get(f"/api/verify/income-passport/{token}")
     check("public_revoked", r.status_code == 200 and r.json().get("integrity_status") == "revoked")
 
     # 13-15 Negotiation
@@ -143,7 +143,7 @@ def main() -> int:
         )
         reset_negotiation_store()
         started = client.post("/negotiate/start", json={
-            "applicant_id": "PSC-ARJUN-001", "persona": "arjun",
+            "applicant_id": "PSC-ARJUN-002", "persona": "arjun",
             "requested_amount_inr": 200000, "requested_term_months": 12, "annual_interest_rate_pct": 14,
         }).json()
         if started.get("status") != "agreement_reached":

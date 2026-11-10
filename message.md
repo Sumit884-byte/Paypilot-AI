@@ -44,8 +44,8 @@
   * *Tech / APIs:* AG Grid / AG Studio[cite: 1]
   * *Target Window:* 5–6 Nov[cite: 2]
 * **Task 2: Agent-to-Agent Negotiation (#6)** *(Conditional / Ambitious)*[cite: 1]
-  * *Details:* Build two-agent negotiation (Lender Agent terms vs. Priya's Agent counter) settling via Payouts[cite: 1].
-  * *Tech / APIs:* PayPal Payouts, Dual LLM Agents[cite: 1]
+  * *Details:* Build two rule-based negotiation agents (Lender Agent terms vs. borrower Agent counter) with simulated settlement. No PayPal payout is executed from this flow.[cite: 1].
+  * *Tech / APIs:* Rule-based agents, simulated settlement (not Dual LLM / not live Payouts)[cite: 1]
   * *Target Window:* 6–8 Nov[cite: 2]
 * **Task 3: Shareable Income Passport (#7)**[cite: 1]
   * *Details:* Generate 1-page verified income summary PDF with verification link for third-party view[cite: 1].

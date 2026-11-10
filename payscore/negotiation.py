@@ -17,24 +17,23 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from .affordability import assess
+from .applicant_context import persona_key_for
 from .paypal.income import fixture_profile
 
 router = APIRouter(tags=["negotiation"])
 
 MAX_ROUNDS = 3
 SIMULATION_BANNER = (
-    "SIMULATED negotiation only. Terms are not lender-approved and do not move money. "
-    "No PayPal payout is created by this flow."
+    "SIMULATED negotiation only. Two rule-based negotiation agents with simulated settlement. "
+    "Terms are not lender-approved and do not move money. No PayPal payout is created by this flow."
 )
-
-PERSONA_BY_APPLICANT = {
-    "PSC-PRIYA-001": "priya",
-    "PSC-ARJUN-001": "arjun",
-    "PSC-ROHAN-001": "rohan",
-}
 
 _SESSIONS: dict[str, dict[str, Any]] = {}
 _lock = threading.Lock()
+
+
+class UnknownApplicantError(ValueError):
+    """Applicant ID is not present in the fixture registry."""
 
 
 class StartNegotiationRequest(BaseModel):
@@ -61,7 +60,12 @@ def _utcnow() -> str:
 def _persona(applicant_id: str, persona: Optional[str]) -> str:
     if persona in {"priya", "arjun", "rohan"}:
         return persona
-    return PERSONA_BY_APPLICANT.get(applicant_id, "priya")
+    key = persona_key_for(applicant_id)
+    if key:
+        return key
+    raise UnknownApplicantError(
+        f"Unknown applicant_id '{applicant_id}'. Pass persona explicitly or use a fixture applicant ID."
+    )
 
 
 def _load_evidence(applicant_id: str, persona: str) -> dict[str, Any]:
@@ -271,6 +275,7 @@ def _session_view(session: dict[str, Any]) -> dict[str, Any]:
     return {
         "session_id": session["session_id"],
         "applicant_id": session["applicant_id"],
+        "persona": session.get("persona"),
         "status": session["status"],
         "round": session["round"],
         "max_rounds": MAX_ROUNDS,
@@ -291,8 +296,14 @@ def reset_negotiation_store() -> None:
 
 
 @router.post("/negotiate/start", summary="Start lender/borrower negotiation (simulated)", response_model=None)
-def start_negotiation(body: StartNegotiationRequest) -> dict:
-    persona = _persona(body.applicant_id, body.persona)
+def start_negotiation(body: StartNegotiationRequest) -> dict | JSONResponse:
+    try:
+        persona = _persona(body.applicant_id, body.persona)
+    except UnknownApplicantError as exc:
+        return JSONResponse(
+            status_code=400,
+            content={"error": "unknown_applicant", "detail": str(exc)},
+        )
     evidence = _load_evidence(body.applicant_id, persona)
     proposal = _lender_initial(evidence, body)
     borrower = _borrower_evaluate(evidence, proposal, body.annual_interest_rate_pct)
