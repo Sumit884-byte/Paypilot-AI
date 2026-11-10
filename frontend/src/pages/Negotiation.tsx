@@ -105,13 +105,13 @@ export function Negotiation() {
       <PageHeading
         eyebrow="Agent negotiation"
         title="Lender meets borrower."
-        detail="Two agents negotiate repayment terms from the same verified aggregates. No money moves."
+        detail="Two rule-based negotiation agents with simulated settlement. Same verified aggregates. No money moves."
         action={<Button onClick={start} disabled={busy}>{busy ? 'Working…' : session ? 'Restart' : 'Start negotiation'}</Button>}
       />
 
       <Notice tone="warning">
         {session?.simulation_banner
-          || 'SIMULATED negotiation only. Terms are not lender-approved and do not move money.'}
+          || 'SIMULATED negotiation only. Two rule-based negotiation agents with simulated settlement. Terms are not lender-approved and do not move money.'}
       </Notice>
       {error && <Notice tone="error">{error}</Notice>}
 

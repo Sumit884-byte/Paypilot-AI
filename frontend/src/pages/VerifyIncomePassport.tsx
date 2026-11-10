@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { GlassCard } from '../components/ui/GlassCard'
 import { Logo } from '../components/brand/Logo'
 import { Notice } from '../components/ui/Workspace'
-import { apiRequest, money } from '../lib/api'
+import { apiRequest, apiUrl, money } from '../lib/api'
 
 type PublicPassport = {
   passport_reference: string
@@ -39,7 +39,7 @@ export function VerifyIncomePassport() {
       setLoading(false)
       return
     }
-    apiRequest<PublicPassport>(`/verify/income-passport/${encodeURIComponent(token)}`)
+    apiRequest<PublicPassport>(`/api/verify/income-passport/${encodeURIComponent(token)}`)
       .then(setData)
       .catch((e) => setError(e instanceof Error ? e.message : 'Passport not found'))
       .finally(() => setLoading(false))
@@ -47,7 +47,9 @@ export function VerifyIncomePassport() {
 
   const tone =
     data?.integrity_status === 'valid' ? 'success'
-      : data?.integrity_status === 'revoked' || data?.integrity_status === 'expired' ? 'warning'
+      : data?.integrity_status === 'revoked'
+        || data?.integrity_status === 'expired'
+        || data?.integrity_status === 'tampered' ? 'warning'
         : 'info'
 
   return (
@@ -90,7 +92,7 @@ export function VerifyIncomePassport() {
               {data.pdf_share_enabled && data.integrity_status === 'valid' && token && (
                 <a
                   className="inline-flex text-sm font-medium text-paypal underline"
-                  href={`/verify/income-passport/${encodeURIComponent(token)}/pdf`}
+                  href={apiUrl(`/api/verify/income-passport/${encodeURIComponent(token)}/pdf`)}
                   target="_blank"
                   rel="noreferrer"
                 >

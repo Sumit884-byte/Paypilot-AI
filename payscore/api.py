@@ -154,7 +154,7 @@ def create_app(
                               "model_card": "GET /model-card",
                               "model_card_evaluation": "GET /model-card/evaluation",
                               "income_passport": "POST /income-passport",
-                              "verify_income_passport": "GET /verify/income-passport/{token}",
+                              "verify_income_passport": "GET /api/verify/income-passport/{token}",
                               "negotiate_start": "POST /negotiate/start",
                               "negotiate_respond": "POST /negotiate/respond"}}
 

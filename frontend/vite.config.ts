@@ -26,7 +26,8 @@ export default defineConfig({
       '/revenue-volatility': 'http://127.0.0.1:8000',
       '/model-card': 'http://127.0.0.1:8000',
       '/income-passport': 'http://127.0.0.1:8000',
-      '/verify': 'http://127.0.0.1:8000',
+      // Public React page is /verify/... — do not proxy that path to the API.
+      '/api': 'http://127.0.0.1:8000',
       '/negotiate': 'http://127.0.0.1:8000',
     },
   },

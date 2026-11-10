@@ -2,12 +2,15 @@
 
 Produces a selectable-text PDF using Helvetica, matching the project's existing
 minimal PDF approach in ``tests/pdf_factory.py``, with a clearer layout for demos.
+When a public verification URL is supplied, the footer includes that URL and a
+clickable URI link annotation.
 """
 
 from __future__ import annotations
 
 from datetime import datetime
 from typing import Any
+from urllib.parse import quote
 
 
 def _esc(text: str) -> str:
@@ -45,6 +48,7 @@ def build_passport_pdf(
     issued_at: datetime,
     expires_at: datetime,
     snapshot: dict[str, Any],
+    verification_url: str | None = None,
 ) -> bytes:
     borrower = snapshot.get("borrower") or {}
     income = snapshot.get("income_summary") or {}
@@ -169,8 +173,31 @@ def build_passport_pdf(
     y -= 12
     add(48, y, "PayScore provides decision-support insights, not guaranteed credit approval.", 7)
 
-    add(40, 52, "Footer: Demo / sandbox document. Not a regulated credit report. Verify at /verify/income-passport/{token}.", 7)
-    add(40, 38, "Classifications distinguish verified aggregates, fixture demo data, derived metrics, and missing fields.", 7)
+    links: list[tuple[float, float, float, float, str]] = []
+    verify_label = "Footer: Demo / sandbox document. Not a regulated credit report."
+    if verification_url:
+        add(40, 52, verify_label, 7)
+        # Long absolute URLs may wrap; keep the live token URL intact for verification.
+        url_text = verification_url
+        if len(url_text) > 100:
+            add(40, 40, url_text[:100], 6)
+            add(40, 30, url_text[100:], 6)
+            link_bottom = 28.0
+        else:
+            add(40, 38, f"Verify at {url_text}", 7)
+            link_bottom = 34.0
+        # Approximate clickable region over the URL line(s).
+        links.append((40.0, link_bottom, 572.0, 54.0, verification_url))
+        add(40, 18, "Classifications distinguish verified aggregates, fixture demo data, derived metrics, and missing fields.", 6)
+    else:
+        add(
+            40,
+            52,
+            "Footer: Demo / sandbox document. Not a regulated credit report. "
+            "Verification URL unavailable (PAYSCORE_FRONTEND_URL unset).",
+            7,
+        )
+        add(40, 38, "Classifications distinguish verified aggregates, fixture demo data, derived metrics, and missing fields.", 7)
 
     # Build content stream with a simple header rectangle (non-text).
     ops: list[str] = [
@@ -194,32 +221,62 @@ def build_passport_pdf(
         ops.extend(["0.86 0.88 0.89 RG", "0.5 w", f"40 {rule_y} m 572 {rule_y} l S"])
 
     stream = "\n".join(ops).encode("latin-1", "replace")
-    return _assemble_pdf(stream)
+    return _assemble_pdf(stream, links=links)
 
 
-def _assemble_pdf(stream: bytes) -> bytes:
-    objects: list[tuple[int, bytes]] = []
-    # 1 catalog, 2 pages, 3 content, 4 page, 5 font
-    objects.append((3, b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream"))
-    objects.append((
-        4,
+def _pdf_uri(uri: str) -> str:
+    """Escape a URI for a PDF literal string (keep the token readable)."""
+    # quote unsafe bytes but preserve URL structure characters already present.
+    safe = quote(uri, safe=":/?&=%+-_.~")
+    return _esc(safe)
+
+
+def _assemble_pdf(
+    stream: bytes,
+    *,
+    links: list[tuple[float, float, float, float, str]] | None = None,
+) -> bytes:
+    links = links or []
+    objects: dict[int, bytes] = {}
+    # Fixed objects: 1 catalog, 2 pages, 3 content, 4 page, 5 font; annots from 6.
+    objects[3] = b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream"
+    objects[5] = b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>"
+
+    annot_ids: list[int] = []
+    next_id = 6
+    for x0, y0, x1, y1, uri in links:
+        annot_ids.append(next_id)
+        objects[next_id] = (
+            f"<< /Type /Annot /Subtype /Link /Rect [{x0:.1f} {y0:.1f} {x1:.1f} {y1:.1f}] "
+            f"/Border [0 0 0] /A << /S /URI /URI ({_pdf_uri(uri)}) >> >>"
+        ).encode("latin-1", "replace")
+        next_id += 1
+
+    annots = ""
+    if annot_ids:
+        refs = " ".join(f"{n} 0 R" for n in annot_ids)
+        annots = f" /Annots [{refs}]"
+
+    objects[4] = (
         b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 3 0 R "
-        b"/Resources << /Font << /F1 5 0 R >> >> >>",
-    ))
-    objects.append((5, b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>"))
-    objects.append((2, b"<< /Type /Pages /Count 1 /Kids [4 0 R] >>"))
-    objects.append((1, b"<< /Type /Catalog /Pages 2 0 R >>"))
-    objects.sort(key=lambda item: item[0])
+        b"/Resources << /Font << /F1 5 0 R >> >>"
+        + annots.encode("latin-1")
+        + b" >>"
+    )
+    objects[2] = b"<< /Type /Pages /Count 1 /Kids [4 0 R] >>"
+    objects[1] = b"<< /Type /Catalog /Pages 2 0 R >>"
 
+    max_id = max(objects)
     out = bytearray(b"%PDF-1.4\n")
-    offsets = [0] * (objects[-1][0] + 1)
-    for number, body in objects:
+    offsets = [0] * (max_id + 1)
+    for number in range(1, max_id + 1):
+        body = objects[number]
         offsets[number] = len(out)
         out.extend(f"{number} 0 obj\n".encode())
         out.extend(body)
         out.extend(b"\nendobj\n")
     xref = len(out)
-    size = objects[-1][0] + 1
+    size = max_id + 1
     out.extend(f"xref\n0 {size}\n".encode())
     out.extend(b"0000000000 65535 f \n")
     for number in range(1, size):
