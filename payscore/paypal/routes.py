@@ -61,7 +61,6 @@ def _disputes_account_id(applicant_id: str) -> str:
     account = linked_accounts.LINKED_ACCOUNTS.get(account_id) if account_id else None
     paypal_account_id = account.get("paypal_account_id") if account else None
     return str(paypal_account_id or applicant_id)
-    return f"…{client_id[-4:]}" if len(client_id) >= 4 else "…"
 
 
 @router.get("/status", response_model=None, summary="PayPal sandbox credential check")
