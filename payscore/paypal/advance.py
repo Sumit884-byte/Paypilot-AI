@@ -2,17 +2,17 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from decimal import Decimal
 import os
 import uuid
+from datetime import datetime, timezone
+from decimal import Decimal
 from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
-from .client import PayPalClient, PayPalError, SANDBOX_API_BASE
+from .client import SANDBOX_API_BASE, PayPalClient, PayPalError
 from .income import fixture_profile
 
 router = APIRouter(tags=["invoice-backed advance"])
@@ -41,14 +41,14 @@ def _draft_reminder_llm(client: str, invoice_id: str, tone_hint: str) -> str | N
         return None  # No LLM configured; caller should use TONES templates
     # Mock LLM response for demo: combine tone hint with structured prompt
     # In production this would call the LLM endpoint
-    prompt = f"Draft a short, professional invoice reminder for {client} about invoice {invoice_id}. Tone: {tone_hint}."
     # Mock response that incorporates the tone
     if tone_hint == "warm":
         return f"Hello {client}, just a kind reminder about invoice {invoice_id}. No rush — please pay when it's convenient. Thanks!"
     elif tone_hint == "firm":
         return f"{client}, please note that invoice {invoice_id} is still outstanding. We would appreciate settlement this week."
     else:
-        return f"Dear {client}, this is a formal reminder that invoice {invoice_id} remains unpaid. Please remit at your earliest convenience."
+        return (f"Dear {client}, this is a formal reminder that invoice {invoice_id} remains unpaid. "
+                "Please remit at your earliest convenience.")
 
 
 def draft_reminder_message(client: str, invoice_id: str, tone: str = "warm") -> str:

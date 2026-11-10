@@ -58,7 +58,7 @@ def load_persona(name: str) -> dict:
     path = FIXTURE_DIR / f"{name}.json"
     if not path.is_file():
         raise SystemExit(f"unknown persona {name!r}: no such fixture {path}")
-    persona = json.loads(path.read_text())
+    persona = json.loads(path.read_text(encoding="utf-8"))
     if not persona.get("synthetic"):
         raise SystemExit(f"{path} is not marked synthetic; refusing to seed")
     return persona

@@ -3,8 +3,8 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, MetricCard, Icon } from '../components/ui/Workspace'
 import { money, postJson } from '../lib/api'
+import { useActivePersona } from '../lib/personas'
 
-const APPLICANT_ID = 'PSC-PRIYA-001'
 
 type Proposal = {
   agent?: string
@@ -45,10 +45,11 @@ type Session = {
 }
 
 export function Negotiation() {
+  const persona = useActivePersona()
   const [session, setSession] = useState<Session | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
-  const [term, setTerm] = useState(18)
+  const [term, setTerm] = useState(persona.requestedTermMonths)
   const [share, setShare] = useState(10)
   const [holiday, setHoliday] = useState(1)
 
@@ -57,10 +58,10 @@ export function Negotiation() {
     setError('')
     try {
       const result = await postJson<Session>('/negotiate/start', {
-        applicant_id: APPLICANT_ID,
-        persona: 'priya',
-        requested_amount_inr: 400000,
-        requested_term_months: 18,
+        applicant_id: persona.applicantId,
+        persona: persona.key,
+        requested_amount_inr: persona.requestedAmountInr,
+        requested_term_months: persona.requestedTermMonths,
         annual_interest_rate_pct: 12,
       })
       setSession(result)
@@ -214,7 +215,7 @@ export function Negotiation() {
         <GlassCard>
           <h2 className="font-semibold">Ready when you are</h2>
           <p className="mt-2 text-sm text-slate-500">
-            Starts from Priya&apos;s fixture income aggregates and a ₹4,00,000 / 18-month request. Both agents cite the same evidence.
+            Starts from {persona.firstName}&apos;s fixture income aggregates and a {money(persona.requestedAmountInr)} / {persona.requestedTermMonths}-month request. Both agents cite the same evidence.
           </p>
         </GlassCard>
       )}

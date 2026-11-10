@@ -69,14 +69,14 @@ def test_fixtures_are_reproducible(tmp_path):
     """Committed fixtures must equal a fresh deterministic rebuild."""
     for spec in PERSONAS:
         rebuilt = json.loads(json.dumps(build_persona(spec)))
-        on_disk = json.loads((next(p for p in PERSONA_FILES if p.name == spec["file"])).read_text())
+        on_disk = json.loads((next(p for p in PERSONA_FILES if p.name == spec["file"])).read_text(encoding="utf-8"))
         assert rebuilt == on_disk, spec["file"]
 
 
 def test_pii_free():
     """Fixtures must contain no emails / phone-like strings."""
     for f in PERSONA_FILES:
-        text = f.read_text()
+        text = f.read_text(encoding="utf-8")
         assert not re.search(r"[\w.+-]+@[\w-]+\.[\w.]+", text)
         assert not re.search(r"\b\d{10}\b", text)
 

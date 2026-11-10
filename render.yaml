@@ -1,4 +1,4 @@
-# Render Blueprint for PayScore AI API (Paypilot-AI). Deploy: Render dashboard -> New -> Blueprint,
+# Render Blueprint for PayScore AI: the API plus the judge-facing frontend. Deploy: Render dashboard -> New -> Blueprint,
 # point it at this repo; or `render blueprint launch` with the Render CLI.
 # Sandbox-only: PayPal secrets are wired as synced secrets — set their values in the Render dashboard.
 services:
@@ -7,7 +7,6 @@ services:
     runtime: python
     plan: free
     pythonVersion: "3.12"
-    rootDir: Paypilot-AI   # remove if you deploy this repo root directly
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn payscore.api:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
@@ -18,7 +17,9 @@ services:
       - key: PAYSCORE_ALLOW_FALLBACK
         value: "true"
       - key: PAYSCORE_CORS_ORIGINS
-        value: ""                # set to your frontend origin(s) once deployed
+        value: https://paypilot-web.onrender.com   # change if the frontend is renamed or on a custom domain
+      - key: PAYSCORE_FRONTEND_URL
+        value: https://paypilot-web.onrender.com   # Income Passport PDFs link here for verification
       # --- PayPal sandbox: set these in the Render dashboard, never in git ---
       - key: PAYPAL_CLIENT_ID
         sync: false
@@ -30,3 +31,18 @@ services:
         sync: false
       - key: PAYPAL_API_BASE
         value: https://api-m.sandbox.paypal.com
+
+  # Judge demo frontend. /try/priya and /try/rohan open the demo with no login.
+  - type: web
+    name: paypilot-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_PAYSCORE_API_URL
+        value: https://payscore-ai-api.onrender.com   # change if the API service is renamed

@@ -39,7 +39,7 @@ export function AuthCallback() {
             <Button
               variant="ghost"
               onClick={() => {
-                enterDemo()
+                enterDemo('priya')
                 navigate('/app')
               }}
             >

@@ -24,13 +24,13 @@ export function MetricCard({ label, value, detail, icon, tone = 'blue', delay = 
     green: 'text-emerald-500 bg-emerald-400/15', rose: 'text-rose-500 bg-rose-400/15' }
   return (
     <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: .42 }}>
-      <GlassCard className="h-full p-5 sm:p-6">
-        <div className="flex items-start justify-between gap-3">
-          <div>
+      <GlassCard className="h-full p-4 sm:p-6">
+        <div className="flex items-start justify-between gap-2 sm:gap-3">
+          <div className="min-w-0">
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
-            <p className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-[1.7rem]">{value}</p>
+            <p className="mt-3 break-words font-display text-lg font-bold tracking-tight sm:text-2xl lg:text-[1.7rem]">{value}</p>
           </div>
-          <span className={`flex h-10 w-10 items-center justify-center rounded-2xl ${tones[tone]}`}>{icon}</span>
+          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10 sm:rounded-2xl ${tones[tone]}`}>{icon}</span>
         </div>
         <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">{detail}</p>
       </GlassCard>
@@ -55,9 +55,10 @@ export const inputClass = 'w-full rounded-2xl border border-slate-200/80 bg-whit
 
 export function CountUp({ to, decimals = 0, prefix = '', suffix = '' }: { to: number; decimals?: number; prefix?: string; suffix?: string }) {
   const reduce = useReducedMotion()
-  const [value, setValue] = useState(reduce ? to : 0)
+  const [animated, setValue] = useState(0)
+  const value = reduce ? to : animated
   useEffect(() => {
-    if (reduce) { setValue(to); return }
+    if (reduce) return
     let frame = 0
     const start = performance.now()
     const tick = (now: number) => {

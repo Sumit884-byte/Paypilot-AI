@@ -39,14 +39,14 @@ def test_riskier_applicant_scores_lower(trained_dir, valid_payload):
 
 
 def test_corrupt_artifact_raises(tmp_path):
-    (tmp_path / "payscore_lgbm.txt").write_text("garbage")
-    (tmp_path / "model_metadata.json").write_text(json.dumps({"feature_names": FEATURE_NAMES}))
+    (tmp_path / "payscore_lgbm.txt").write_text("garbage", encoding="utf-8")
+    (tmp_path / "model_metadata.json").write_text(json.dumps({"feature_names": FEATURE_NAMES}), encoding="utf-8")
     with pytest.raises(ModelArtifactError):
         load_model(tmp_path)
 
 
 def test_incomplete_artifact_raises(tmp_path):
-    (tmp_path / "model_metadata.json").write_text("{}")
+    (tmp_path / "model_metadata.json").write_text("{}", encoding="utf-8")
     with pytest.raises(ModelArtifactError):
         load_model(tmp_path)
 
@@ -64,11 +64,12 @@ def test_training_is_reproducible(tmp_path):
     m1 = train(out_dir=tmp_path / "a", **kw)
     m2 = train(out_dir=tmp_path / "b", **kw)
     assert m1["metrics"] == m2["metrics"] and m1["training_data"]["sha256"] == m2["training_data"]["sha256"]
-    assert (tmp_path / "a" / "payscore_lgbm.txt").read_text() == (tmp_path / "b" / "payscore_lgbm.txt").read_text()
+    first = (tmp_path / "a" / "payscore_lgbm.txt").read_text(encoding="utf-8")
+    assert first == (tmp_path / "b" / "payscore_lgbm.txt").read_text(encoding="utf-8")
 
 
 def test_metadata_documents_synthetic_and_no_target_feature(trained_dir):
-    meta = json.loads((trained_dir / "model_metadata.json").read_text())
+    meta = json.loads((trained_dir / "model_metadata.json").read_text(encoding="utf-8"))
     assert meta["training_data"]["kind"] == "synthetic_development_dataset"
     assert "NOT Home Credit" in meta["training_data"]["note"]
     assert not any("target" in f.lower() for f in meta["feature_names"])
@@ -99,7 +100,7 @@ def test_homecredit_loader_with_mock_csv(tmp_path):
         "SK_ID_CURR,TARGET,DAYS_BIRTH,AMT_INCOME_TOTAL,AMT_CREDIT,AMT_ANNUITY,NAME_INCOME_TYPE,DAYS_EMPLOYED\n"
         "100001,0,-12000,120000,300000,15000,Working,-1500\n"
         "100002,1,-20000,60000,100000,5000,Pensioner,365243\n"
-    )
+    , encoding="utf-8")
     df = load_homecredit(str(csv))
     assert list(df["TARGET"]) == [0, 1] and df.loc[0, "employment_type"] == "salaried"
     assert df.loc[1, "employment_type"] == "other" and pd.isna(df.loc[1, "business_age_months"])
@@ -107,7 +108,7 @@ def test_homecredit_loader_with_mock_csv(tmp_path):
     assert df["avg_monthly_revenue_inr"].isna().all()
     # and it trains end-to-end through the same pipeline (tiny mock file; metrics meaningless)
     bad = tmp_path / "bad.csv"
-    bad.write_text("a,b\n1,2\n")
+    bad.write_text("a,b\n1,2\n", encoding="utf-8")
     with pytest.raises(ValueError):
         load_homecredit(str(bad))
 

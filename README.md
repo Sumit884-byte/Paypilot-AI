@@ -1,4 +1,97 @@
-# PayScore AI — Week 1 deliverables (AI component)
+# Paypilot AI — PayScore
+
+A cash-flow credit copilot for India's online sellers and freelancers. PayScore reads 12 months of PayPal income,
+explains a 300–850 score, catches loan offers that hide their real cost, and keeps every money movement behind
+explicit borrower approval. **Sandbox only:** synthetic personas, PayPal sandbox, no real lending.
+
+## For judges
+
+No login is needed. Open either link to land in the demo workspace as that persona:
+
+| Persona | Link | Committed-model score |
+|---|---|---|
+| Priya Nair, stable online seller | `<frontend-url>/try/priya` | 731 (low risk) |
+| Rohan Kulkarni, risky borrower | `<frontend-url>/try/rohan` | 465 (high risk) |
+
+The landing page has the same two buttons, and the top bar has a toggle to switch persona mid-demo. Switching clears
+the previous persona's score, offer, and payout state.
+
+Things to try:
+
+1. **PayScore:** run the score, then read the TreeSHAP drivers and the eligible changes that would raise it.
+2. **Offer Guard:** enter or upload a loan offer to compare the advertised APR with the IRR of the cash flows. Then use
+   **Is PayPal Pay Later cheaper?** to price the same purchase with PayPal Pay Later. PayPal does not offer Pay Later
+   in India, so INR purchases report it as unavailable. Choose the US market to see Pay in 4 and Pay Monthly priced
+   from PayPal's published terms.
+3. **AI copilot:** ask "Can I afford ₹50k?" or "Please disburse Rs 50,000". Payouts wait for an explicit Approve.
+4. **Model card, Income Passport, Negotiation:** under the matching nav items.
+
+### Deploy the demo
+
+`render.yaml` is a Render Blueprint for both services: the API (`payscore-ai-api`) and the static frontend
+(`paypilot-web`). In Render, choose **New → Blueprint** and point it at this repo, then set the PayPal sandbox secrets
+in the dashboard. The Blueprint wires each service to the other's default `onrender.com` URL. If Render assigns
+different names, update `VITE_PAYSCORE_API_URL` and `PAYSCORE_CORS_ORIGINS` to match.
+
+## Run locally on Windows, macOS, or Linux
+
+**Prerequisites**
+
+| | Version | Notes |
+|---|---|---|
+| Python | 3.10 or newer (tested on 3.12) | `python.org` installer on Windows; tick "Add python.exe to PATH" |
+| Node.js | 20.19+ or 22.12+ (22 LTS recommended) | Required by Vite 8 |
+| macOS only | `brew install libomp` | LightGBM needs the OpenMP runtime |
+| Windows only | [Visual C++ Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe) | LightGBM needs `VCOMP140.dll` |
+| Linux only | `libgomp1` (preinstalled on most distros) | LightGBM's OpenMP runtime |
+
+**One command.** It creates `.venv`, installs Python and npm dependencies on first run, starts the API and the
+frontend, and prints the demo links. Ctrl+C stops both.
+
+```bash
+python3 scripts/dev.py        # macOS / Linux
+py scripts\dev.py             # Windows (PowerShell or cmd)
+```
+
+No `.env` is needed for demo mode. To use PayPal sandbox features, copy `.env.example` to `.env` and fill in section 1.
+
+**Manual setup.** Only the virtual-environment activation differs by shell:
+
+| Shell | Activate `.venv` |
+|---|---|
+| bash / zsh (macOS, Linux, Git Bash) | `source .venv/bin/activate` |
+| fish | `source .venv/bin/activate.fish` |
+| PowerShell | `.venv\Scripts\Activate.ps1` |
+| cmd | `.venv\Scripts\activate.bat` |
+
+```text
+python -m venv .venv            # then activate it as above
+pip install -r requirements.txt
+uvicorn payscore.api:app --port 8000
+cd frontend && npm install && npm run dev      # in a second terminal
+```
+
+If PowerShell refuses to run `Activate.ps1`, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once.
+
+## Repository layout
+
+```text
+payscore/        FastAPI app and all backend logic (scoring, offers, copilot, passport, negotiation)
+  paypal/        PayPal sandbox client, income, disbursements, repayment, webhooks
+frontend/        React + Vite app (see frontend/README.md)
+tests/           pytest suite
+fixtures/        synthetic personas and the demo prompt-injection PDF
+models/          committed LightGBM model and its metadata
+schema/          JSON schemas for personas and score requests
+reference/       RBI digital-lending snapshot used by Offer Guard
+scripts/         end-to-end smoke tests against a running API
+docs/            all documentation (index: docs/README.md)
+render.yaml      Render Blueprint for the API and the frontend
+```
+
+## Developer reference
+
+The sections below are the original engineering notes, starting with the Week 1 AI component.
 
 Early, **development-only** credit-scoring baseline for small online sellers/freelancers.
 Everything runs on **synthetic / normalised data**. No PayPal API is called, no money moves, and the
@@ -37,6 +130,7 @@ python -m payscore.build_fixtures && python -m payscore.export_schema   # regene
 ```
 
 ```bash
+# bash/zsh only. On any OS, http://localhost:8000/docs can send the same request from the browser.
 curl -s localhost:8000/score -H 'Content-Type: application/json' \
   -d @<(python -c "import json;print(json.dumps(json.load(open('fixtures/personas/priya.json'))['model_input']))")
 ```
@@ -64,7 +158,7 @@ curl -s localhost:8000/score -H 'Content-Type: application/json' \
 ## Honest limitations (read before demoing)
 
 1. The shipped model is trained on **synthetic data** whose labels come from a hand-written risk rule + noise.
-   The reported test ROC-AUC of **0.855** comes from a split of that synthetic data. It only shows the pipeline works;
+   The reported test ROC-AUC of **0.848** comes from a split of that synthetic data. It only shows the pipeline works;
    it is **not** evidence of real-world credit-risk accuracy and is **not** a Home Credit or PayPal benchmark.
 2. The Home Credit loader maps **6 of the model's 16 input columns, plus the ID**: `age_years`, `employment_type`,
    `monthly_income_inr`, `requested_loan_amount_inr`, `requested_term_months`, and `business_age_months` (only a proxy,
@@ -81,14 +175,14 @@ curl -s localhost:8000/score -H 'Content-Type: application/json' \
 
 | Persona | Score | Band | PD |
 |---|---|---|---|
-| Priya (stable seller) | 771 | low | 0.008 |
-| Arjun (lumpy freelancer) | 742 | low | 0.012 |
-| Rohan (thin history, big loan) | 533 | high | 0.17 |
+| Priya (stable seller) | 731 | low | 0.013 |
+| Arjun (lumpy freelancer) | 727 | low | 0.014 |
+| Rohan (thin history, big loan) | 465 | high | 0.35 |
 
 ## Setup, run, test (exact commands)
 
 ```bash
-python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
+python -m venv .venv && source .venv/bin/activate     # other shells: see "Run locally" above
 pip install -r requirements.txt
 python -m payscore.train                              # optional: retrain (WRITES ./models by default; use --out-dir to avoid overwriting)
 python -m payscore.predict --input fixtures/personas/priya.json
@@ -163,6 +257,7 @@ See `docs/INTEGRATION.md` (how to call the API, provisional fields, frontend URL
 ```bash
 export PAYSCORE_API_URL=https://payscore-ai-api.onrender.com
 export RUN_ADVANCE=1          # optional: enable invoice-advance (2.8) steps
+# PowerShell: $env:PAYSCORE_API_URL = "https://payscore-ai-api.onrender.com"; $env:RUN_ADVANCE = "1"
 python scripts/e2e_smoke.py
 ```
 

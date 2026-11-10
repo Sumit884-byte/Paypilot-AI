@@ -18,6 +18,7 @@ const Cockpit = lazy(() => import('./pages/Cockpit').then((mod) => ({ default: m
 const ModelCard = lazy(() => import('./pages/ModelCard').then((mod) => ({ default: mod.ModelCard })))
 const IncomePassport = lazy(() => import('./pages/IncomePassport').then((mod) => ({ default: mod.IncomePassport })))
 const VerifyIncomePassport = lazy(() => import('./pages/VerifyIncomePassport').then((mod) => ({ default: mod.VerifyIncomePassport })))
+const TryDemo = lazy(() => import('./pages/TryDemo').then((mod) => ({ default: mod.TryDemo })))
 const Negotiation = lazy(() => import('./pages/Negotiation').then((mod) => ({ default: mod.Negotiation })))
 
 function LoadingScreen() {
@@ -34,6 +35,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
+                <Route path="/try/:persona" element={<TryDemo />} />
                 <Route path="/verify/income-passport/:token" element={<VerifyIncomePassport />} />
                 <Route path="/app" element={<AppShell />}>
                   <Route index element={<Overview />} />

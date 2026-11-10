@@ -1,0 +1,65 @@
+# Proves the project installs, starts, and passes its tests on Windows, macOS, and Linux.
+name: Cross-platform
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cross-platform-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    defaults:
+      run:
+        shell: bash   # Git Bash on Windows, so one script works everywhere
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install OpenMP for LightGBM (macOS)
+        if: runner.os == 'macOS'
+        run: brew install libomp
+
+      - name: Line endings are LF after checkout
+        run: |
+          if grep -rlI $'\r' --include='*.py' --include='*.ts' --include='*.tsx' payscore tests scripts frontend/src; then
+            echo "CRLF found in source files above"; exit 1
+          fi
+
+      - name: First-run setup and smoke test (scripts/dev.py)
+        run: python scripts/dev.py --smoke
+
+      - name: Test suite
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then PY=.venv/Scripts/python.exe; else PY=.venv/bin/python; fi
+          "$PY" -m pytest -q
+
+      - name: Lint (Python)
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then PY=.venv/Scripts/python.exe; else PY=.venv/bin/python; fi
+          "$PY" -m ruff check payscore tests scripts/dev.py
+
+      - name: Frontend build and lint
+        working-directory: frontend
+        run: |
+          npm run build
+          npm run lint

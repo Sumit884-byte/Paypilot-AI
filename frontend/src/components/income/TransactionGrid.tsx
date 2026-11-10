@@ -4,7 +4,7 @@ import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-mod
 import type { ColDef } from '@ag-grid-community/core'
 import '@ag-grid-community/styles/ag-grid.css'
 import '@ag-grid-community/styles/ag-theme-quartz.css'
-import { money } from '../lib/api'
+import { money } from '../../lib/api'
 
 export type TransactionRow = {
   txn_id: string

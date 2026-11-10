@@ -4,6 +4,7 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Icon, inputClass, Notice, PageHeading, Field, Toast } from '../components/ui/Workspace'
 import { postForm, postJson } from '../lib/api'
+import { PayLaterCompare, type OfferTerms } from '../components/offer-guard/PayLaterCompare'
 
 type OfferField = { value?: number | string | null; status?: string; note?: string; verified?: boolean }
 
@@ -33,6 +34,7 @@ export function OfferGuard() {
   const [error, setError] = useState('')
   const [analyzing, setAnalyzing] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
+  const [terms, setTerms] = useState<OfferTerms>({ advertised_apr_pct: 18, processing_fee_pct: 4, principal: 50000, term_months: 12, lender_name: 'Example NBFC' })
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -88,6 +90,7 @@ export function OfferGuard() {
     setAnalyzing(true)
     setError('')
     setToast(null)
+    setTerms({ advertised_apr_pct: apr, processing_fee_pct: fee, principal, term_months: months, lender_name: String(d.get('lender')) })
     try {
       const response = file
         ? await postForm<OfferResult>('/offer-guard/upload', (() => {
@@ -399,6 +402,8 @@ export function OfferGuard() {
           </AnimatePresence>
         </GlassCard>
       </div>
+
+      <PayLaterCompare key={JSON.stringify(terms)} terms={terms} />
     </div>
   )
 }

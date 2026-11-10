@@ -21,7 +21,8 @@ def test_train_is_deterministic(tmp_path):
     a = train(n_rows=2000, seed=3, out_dir=tmp_path / "a", num_boost_round=30)
     b = train(n_rows=2000, seed=3, out_dir=tmp_path / "b", num_boost_round=30)
     assert a["metrics"]["test"] == b["metrics"]["test"]
-    assert (tmp_path / "a" / "payscore_lgbm.txt").read_text() == (tmp_path / "b" / "payscore_lgbm.txt").read_text()
+    first = (tmp_path / "a" / "payscore_lgbm.txt").read_text(encoding="utf-8")
+    assert first == (tmp_path / "b" / "payscore_lgbm.txt").read_text(encoding="utf-8")
 
 
 def test_train_cli_errors(tmp_path):

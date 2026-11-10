@@ -1,20 +1,15 @@
 from __future__ import annotations
 
-import json
-
 import pytest
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
 from payscore.paypal.advance import (
     ADVANCES,
-    OUTSTANDING,
-    TONES,
-    draft_reminder_message,
     apply_invoice_payment,
+    draft_reminder_message,
     router,
-    create_advance,
 )
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
 
 
 def _app():

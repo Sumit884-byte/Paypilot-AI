@@ -71,10 +71,16 @@ export function Landing() {
           </motion.p>
           <motion.div variants={fadeUp} className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <PayPalLoginButton onClick={onLogin} busy={busy} />
-            <Button variant="ghost" className="border-paypal/20" onClick={enterDemo}>
-              Tour the cockpit <span aria-hidden="true">→</span>
+            <Button variant="ghost" className="border-paypal/20" onClick={() => enterDemo('priya')}>
+              Try as Priya <span aria-hidden="true">→</span>
+            </Button>
+            <Button variant="ghost" className="border-rose-500/30" onClick={() => enterDemo('rohan')}>
+              Try as risky borrower <span aria-hidden="true">→</span>
             </Button>
           </motion.div>
+          <motion.p variants={fadeUp} className="mt-3 text-xs text-slate-500">
+            No login needed. Both are synthetic sandbox personas.
+          </motion.p>
           {notice && (
             <motion.p variants={fadeUp} className="mt-4 max-w-md text-sm text-amber-700 dark:text-amber-glow">
               {notice}

@@ -38,6 +38,7 @@ from .model import DEFAULT_MODEL_DIR, ModelUnavailableError, Scorer
 from .model_card import router as model_card_router
 from .negotiation import router as negotiation_router
 from .offer_guard import router as offer_guard_router
+from .pay_later import router as pay_later_router
 from .paypal.advance import router as advance_router
 from .paypal.disbursements import record_approval
 from .paypal.disbursements import router as disbursements_router
@@ -102,6 +103,7 @@ def create_app(
     app.include_router(paypal_webhook_router)
     app.include_router(advance_router)
     app.include_router(offer_guard_router)
+    app.include_router(pay_later_router)
     app.include_router(copilot_router)
     app.include_router(explain_router)
     app.include_router(counterfactual_router)
@@ -148,6 +150,7 @@ def create_app(
                               "revenue_share": "POST /repayment/revenue-share", "paypal_webhook": "POST /paypal/webhook",
                               "score_live": "GET /score/live", "advance": "POST /advance",
                               "offer_guard": "POST /offer-guard", "offer_guard_upload": "POST /offer-guard/upload",
+                              "pay_later_compare": "POST /offer-guard/pay-later",
                               "copilot": "POST /copilot/chat", "explain": "POST /explain",
                               "counterfactuals": "POST /counterfactuals", "affordability": "POST /affordability",
                               "revenue_volatility": "POST /revenue-volatility",

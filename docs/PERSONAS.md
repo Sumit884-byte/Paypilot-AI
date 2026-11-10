@@ -6,10 +6,10 @@ computed from the file's own transactions by `payscore/derive.py` (tested for co
 
 | Persona | Story | Request | Committed-model score |
 |---|---|---|---|
-| Priya Nair — Kochi, handmade jewellery, 38-month business, stable growing sales | Festive inventory loan | INR 4,00,000 / 18 mo | 771 (low) |
-| Arjun Mehta — Bengaluru, freelance UX, lumpy project income | Equipment + runway | INR 2,50,000 / 12 mo | 742 (low) |
-| Rohan Kulkarni — Nagpur, tea/spice reseller, 7 months, thin margins, 1 dispute, 1 prior default | Large expansion loan | INR 6,00,000 / 36 mo | 533 (high) |
+| Priya Nair — Kochi, handmade jewellery, 38-month business, stable growing sales | Festive inventory loan | INR 4,00,000 / 18 mo | 731 (low) |
+| Arjun Mehta — Bengaluru, freelance UX, lumpy project income | Equipment + runway | INR 2,50,000 / 12 mo | 727 (low) |
+| Rohan Kulkarni — Nagpur, tea/spice reseller, 7 months, thin margins, 1 dispute, 1 prior default | Large expansion loan | INR 6,00,000 / 36 mo | 465 (high) |
 
 Note: narratives describe financing situations only; they do not assert a risk level. Scores come from the committed model and are not tuned to the stories.
 
-The scores come from a model trained on synthetic data (reported test AUC 0.855 is synthetic and not evidence of real-world accuracy). They are illustrations, not credit decisions.
+The scores come from a model trained on synthetic data (reported test AUC 0.848 is synthetic and not evidence of real-world accuracy). They are illustrations, not credit decisions.
