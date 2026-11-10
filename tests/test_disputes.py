@@ -2,6 +2,7 @@
 fallback without a server) and draft borrower-protective responses. Never sends."""
 
 from payscore.disputes import OPEN_DISPUTES, draft_response, list_open_chargebacks
+from payscore.paypal import linked_accounts
 
 
 def test_list_open_chargebacks_uses_local_fallback_without_mcp(monkeypatch):
@@ -47,3 +48,27 @@ def test_dispute_endpoints(client, monkeypatch):
         "applicant_id": "bad id!", "dispute_id": "DP-1001",
     })
     assert invalid.status_code == 422
+
+
+def test_disputes_list_and_draft_use_linked_account(client, monkeypatch):
+    """List and draft must resolve the same PayPal account when one is linked."""
+    monkeypatch.delenv("DISPUTES_MCP_ENDPOINT", raising=False)
+    prior_active = linked_accounts.ACTIVE_ACCOUNT_ID
+    linked_accounts.LINKED_ACCOUNTS.clear()
+    linked_accounts.ACTIVE_ACCOUNT_ID = None
+    try:
+        linked_accounts.store_account("linked-user", {"access_token": "tok"})
+        linked_accounts.LINKED_ACCOUNTS["linked-user"]["paypal_account_id"] = "PSC-PRIYA-001"
+
+        listed = client.get("/paypal/disputes/PSC-OTHER-001").json()
+        assert listed["source"] == "local_fallback"
+        assert listed["disputes"][0]["dispute_id"] == "DP-1001"
+
+        drafted = client.post("/paypal/disputes/draft", json={
+            "applicant_id": "PSC-OTHER-001", "dispute_id": "DP-1001",
+        }).json()
+        assert drafted["draft_source"] == "local_template"
+        assert "DP-1001" in drafted["draft"]
+    finally:
+        linked_accounts.LINKED_ACCOUNTS.clear()
+        linked_accounts.ACTIVE_ACCOUNT_ID = prior_active

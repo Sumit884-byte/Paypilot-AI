@@ -20,6 +20,8 @@ type OfferResult = {
   fields?: Record<string, OfferField>
   directory?: { warning?: string; source_url?: string; retrieved_at?: string | null; confirmed_violation?: boolean; load_status?: string }
   extraction?: { ocr_status?: string; llm_status?: string; llm_reason?: string; text_chars?: number }
+  injection_detected?: boolean
+  injection_reasons?: string[]
   calculation?: { method?: string; formula?: string; pricing_basis?: string | null; installment_inr?: number | null }
   disclaimer?: string
 }
@@ -232,6 +234,29 @@ export function OfferGuard() {
                 exit={{ opacity: 0, y: -12 }}
                 className="space-y-4"
               >
+                {result.injection_detected && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.1 }}
+                    className="rounded-2xl p-4 bg-rose-500/10 border-2 border-rose-500/30"
+                  >
+                    <div className="flex items-start gap-3">
+                      <Icon name="shield" className="mt-0.5 text-rose-600 dark:text-rose-400" />
+                      <div>
+                        <p className="font-semibold text-rose-800 dark:text-rose-200">
+                          Hidden instructions found in this PDF
+                        </p>
+                        <p className="mt-1 text-sm text-rose-700 dark:text-rose-300">
+                          Extraction was blocked and no AI model read it.
+                          {result.injection_reasons?.length ? (
+                            <span> Reasons: {result.injection_reasons.join(", ")}.</span>
+                          ) : null}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
                 {/* Red Flag Highlight */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}

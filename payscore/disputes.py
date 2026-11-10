@@ -1,9 +1,10 @@
 """Dispute helper: list open chargebacks and draft borrower-protective responses.
 
-Open chargebacks are listed through a configured MCP server
-(DISPUTES_MCP_ENDPOINT, JSON-RPC disputes.list). When no MCP server is
+Open chargebacks are listed through a pluggable disputes source
+(DISPUTES_MCP_ENDPOINT, JSON-RPC ``disputes.list``). When no source is
 configured or it cannot be reached, a labeled local fallback is used so the
-demo stays runnable without sandbox credentials.
+demo stays runnable without sandbox credentials. This is a JSON-RPC endpoint,
+not a full MCP protocol server (no initialize handshake or tools/call).
 
 Draft responses protect the borrower's income and PayScore: they ask PayPal to
 resolve the dispute quickly and to hold any revenue-share deduction while the

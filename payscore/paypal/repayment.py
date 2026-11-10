@@ -425,6 +425,11 @@ async def paypal_webhook(request: Request, client: RepaymentClient) -> dict | JS
     if event_type != "PAYMENT.CAPTURE.COMPLETED":
         return {"processed": False, "reason": "event_not_handled", "sandbox": True,
                 "disclaimer": SANDBOX_NOTICE}
+    # Reject a webhook without an event id before recording income: it cannot be
+    # verified or made idempotent, so a rejected webhook must never count as a capture.
+    if not event_id:
+        return JSONResponse(status_code=400, content={"error": "webhook_event_id_missing", "sandbox": True,
+                             "disclaimer": SANDBOX_NOTICE})
     # Hardship detection (Person A, Task 1): record every capture for a known applicant.
     # record_income is idempotent per event_id, so webhook retries do not double-count.
     resource = payload.get("resource") or {}
@@ -441,9 +446,6 @@ async def paypal_webhook(request: Request, client: RepaymentClient) -> dict | JS
             resource.get("update_time") or resource.get("create_time") or payload.get("create_time"),
             str(event_id) if event_id else None,
         )
-    if not event_id:
-        return JSONResponse(status_code=400, content={"error": "webhook_event_id_missing", "sandbox": True,
-                             "disclaimer": SANDBOX_NOTICE})
     if event_id in REPAYMENT_LEDGER:
         existing = REPAYMENT_LEDGER[event_id]
         return {"processed": True, "duplicate": True, "deduction": existing["deduction"],

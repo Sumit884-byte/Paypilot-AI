@@ -21,6 +21,7 @@ DISCLAIMER = "Sandbox copilot. It cannot move money without an explicit Approve 
 
 _DISBURSE = re.compile(r"\b(disburse|payout|pay\s+out|send\s+(?:me\s+)?(?:the\s+)?money|transfer\s+funds)\b", re.I)
 _HARDSHIP = re.compile(r"\b(hardship|payment\s+holiday|lower\s+revenue.?share|reduce\s+revenue|no\s+income|haven.t\s+been\s+paid)\b", re.I)
+_DISPUTE = re.compile(r"\b(chargeback|dispute|charge back)\b", re.I)
 _AFFORD = re.compile(r"\b(afford|affordability|stress[\s-]?test|can\s+i\s+pay)\b", re.I)
 _COUNTER = re.compile(r"\b(counterfactual|what\s+if|improve|move\s+up|raise\s+my\s+score)\b", re.I)
 _EXPLAIN = re.compile(r"\b(explain|shap|why|what\s+shaped|drivers|contribut)\b", re.I)
@@ -315,12 +316,43 @@ def _hardship(applicant_id: str) -> dict[str, Any]:
     )
 
 
+def _dispute(applicant_id: str) -> dict[str, Any]:
+    """Draft a borrower-protective response to an open chargeback. Never sends it."""
+    from .disputes import draft_response, list_open_chargebacks
+
+    payload = list_open_chargebacks(applicant_id)
+    disputes = payload.get("disputes") or []
+    if not disputes:
+        return _envelope(
+            "I don't see any open chargebacks for that applicant, so there's nothing to draft a response to.",
+            [{"label": "disputes.draft", "status": "none"}],
+            {"kind": "dispute", "result": {"disputes": [], "source": payload.get("source")}},
+        )
+    dispute = disputes[0]
+    drafted = draft_response(dispute, applicant_id)
+    amount = dispute.get("amount_inr")
+    currency = dispute.get("currency") or "INR"
+    reply = (
+        f"Open chargeback {drafted['dispute_id']} for {amount} {currency} "
+        f"({dispute.get('reason')}), opened {dispute.get('opened_at')}. "
+        "Here is a borrower-protective draft you can review and send — PayScore does not file it for you: "
+        f"{drafted['draft']}"
+    )
+    return _envelope(
+        reply,
+        [{"label": "disputes.draft", "status": "done"}],
+        {"kind": "dispute", "result": drafted},
+    )
+
+
 def handle_chat(message: str, applicant_id: str, scorer: Any) -> dict[str, Any]:
     try:
         if _DISBURSE.search(message):
             return _disburse(message, applicant_id)
         if _HARDSHIP.search(message):
             return _hardship(applicant_id)
+        if _DISPUTE.search(message):
+            return _dispute(applicant_id)
         if _AFFORD.search(message) or (_LOAN.search(message) and parse_amount_inr(message) is not None):
             return _afford(message, applicant_id, emi_only=False)
         if _COUNTER.search(message):

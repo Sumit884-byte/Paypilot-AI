@@ -229,3 +229,28 @@ def test_revenue_share_requires_a_valid_percentage():
     response = _app(lambda: None).post("/repayment/revenue-share", json={"applicant_id": "P1",
         "paypal_account_id": "A1", "percentage": 100.01})
     assert response.status_code == 422
+
+
+def test_webhook_without_event_id_is_rejected_before_recording_income(monkeypatch):
+    """A webhook with no event id must be rejected before record_income runs."""
+    monkeypatch.setenv("PAYPAL_WEBHOOK_ID", "WH-TEST-ID")
+
+    def handler(request):
+        if request.url.path == "/v1/oauth2/token":
+            return httpx.Response(200, json={"access_token": "api-token", "expires_in": 3600})
+        if request.url.path == "/v1/notifications/verify-webhook-signature":
+            return httpx.Response(200, json={"verification_status": "SUCCESS"})
+        raise AssertionError(request.url)
+
+    headers = {"paypal-auth-algo": "SHA256withRSA", "paypal-cert-url": "https://api-m.sandbox.paypal.com/cert",
+               "paypal-transmission-id": "t", "paypal-transmission-sig": "s", "paypal-transmission-time": "now"}
+    # No id at all: no top-level id and no resource id -> event_id is None.
+    event = {"event_type": "PAYMENT.CAPTURE.COMPLETED", "resource": {
+        "custom_id": "PSC-WH-001",
+        "amount": {"value": "1000.00", "currency_code": "INR"}}}
+    client = _app(lambda: _paypal(handler))
+    response = client.post("/paypal/webhook", json=event, headers=headers)
+    assert response.status_code == 400
+    assert response.json()["error"] == "webhook_event_id_missing"
+    # No income was recorded for the applicant.
+    assert client.get("/repayment/hardship/PSC-WH-001").json()["status"] == "none"

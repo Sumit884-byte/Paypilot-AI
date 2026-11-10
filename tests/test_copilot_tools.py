@@ -67,3 +67,15 @@ def test_score_and_health_remain_available(client, example_request):
     assert scored.status_code == 200
     assert scored.json()["explanation"]["status"] == "available"
     assert client.post("/counterfactuals", json=example_request).json()["model_evaluated"] is True
+
+
+def test_copilot_dispute_intent_drafts_response(client):
+    result = client.post("/copilot/chat", json={
+        "message": "help me with my chargeback", "applicant_id": "PSC-PRIYA-001",
+    }).json()
+    assert result["tools"][0]["label"] == "disputes.draft"
+    assert result["analysis"]["kind"] == "dispute"
+    assert result["analysis"]["result"]["dispute_id"] == "DP-1001"
+    assert "draft" in result["analysis"]["result"]
+    assert result["approval"]["required"] is False
+    assert "DP-1001" in result["reply"]

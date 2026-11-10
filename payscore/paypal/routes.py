@@ -49,6 +49,21 @@ def _masked(client_id: str) -> str:
     return f"…{client_id[-4:]}" if len(client_id) >= 4 else "…"
 
 
+def _disputes_account_id(applicant_id: str) -> str:
+    """Resolve the PayPal account used to look up open disputes.
+
+    When a PayPal account is linked, disputes belong to that linked account's
+    paypal_account_id; otherwise fall back to the applicant id. Both the list and
+    draft endpoints resolve it the same way so drafting a dispute from a linked
+    account's list cannot 404 on a mismatched lookup.
+    """
+    account_id = linked_accounts.ACTIVE_ACCOUNT_ID
+    account = linked_accounts.LINKED_ACCOUNTS.get(account_id) if account_id else None
+    paypal_account_id = account.get("paypal_account_id") if account else None
+    return str(paypal_account_id or applicant_id)
+    return f"…{client_id[-4:]}" if len(client_id) >= 4 else "…"
+
+
 @router.get("/status", response_model=None, summary="PayPal sandbox credential check")
 async def status(client: ClientDep) -> dict | JSONResponse:
     if client is None:
@@ -182,12 +197,7 @@ async def income_profile(persona: str = Query(default="priya", pattern="^(priya|
 
 @router.get("/disputes/{applicant_id}", summary="List open chargebacks/disputes for an applicant")
 def list_disputes(applicant_id: str) -> dict:
-    account_id = linked_accounts.ACTIVE_ACCOUNT_ID
-    account = linked_accounts.LINKED_ACCOUNTS.get(account_id) if account_id else None
-    paypal_account_id = account.get("paypal_account_id") if account else None
-    if not paypal_account_id:
-        paypal_account_id = applicant_id
-    return list_open_chargebacks(str(paypal_account_id))
+    return list_open_chargebacks(_disputes_account_id(applicant_id))
 
 
 @router.post("/disputes/draft", response_model=None,
@@ -201,7 +211,7 @@ async def draft_dispute(request: Request) -> dict | JSONResponse:
         req = DisputeDraftRequest.model_validate(body)
     except Exception as exc:  # validation errors surface as a clear 422
         return JSONResponse(status_code=422, content={"error": "validation_error", "detail": str(exc)})
-    disputes_payload = list_open_chargebacks(req.applicant_id)
+    disputes_payload = list_open_chargebacks(_disputes_account_id(req.applicant_id))
     dispute = next(
         (d for d in disputes_payload.get("disputes", []) if str(d.get("dispute_id")) == req.dispute_id),
         None,

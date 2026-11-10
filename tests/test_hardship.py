@@ -34,6 +34,19 @@ def test_short_gap_does_not_flag():
     assert get_hardship(applicant)["status"] == "none"
 
 
+def test_silence_without_new_payment_flags_hardship():
+    """A 14-day silence is flagged even when no new payment arrives (backdated event)."""
+    applicant = "PSC-HARDSHIP-003"
+    record_income(applicant, 10000.0, _days_ago(15), "evt-silent")
+    case = get_hardship(applicant)
+    assert case["status"] == "flagged"
+    assert case["reason"] == "no_income_for_15_days"
+    assert case["gap_days"] >= 14
+    assert case["requires_approval"] is True
+    assert case["applied"] is False
+    assert case["offer"]["kind"] in {"payment_holiday", "reduce_revenue_share"}
+
+
 def test_propose_relief_is_approval_gated_no_op():
     applicant = "PSC-HARDSHIP-003"
     record_income(applicant, 10000.0, _days_ago(15), "evt-old")
