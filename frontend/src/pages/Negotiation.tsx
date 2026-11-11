@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, MetricCard, Icon } from '../components/ui/Workspace'
-import { money, postJson } from '../lib/api'
+import { money, postJson, rupees } from '../lib/api'
 import { useActivePersona } from '../lib/personas'
 
 
@@ -106,7 +106,7 @@ export function Negotiation() {
       <PageHeading
         eyebrow="Agent negotiation"
         title="Lender meets borrower."
-        detail="Two rule-based negotiation agents with simulated settlement. Same verified aggregates. No money moves."
+        detail="A lender agent and a borrower agent bargain over term, revenue share, and payment holidays using the same income evidence."
         action={<Button onClick={start} disabled={busy}>{busy ? 'Working…' : session ? 'Restart' : 'Start negotiation'}</Button>}
       />
 
@@ -215,7 +215,7 @@ export function Negotiation() {
         <GlassCard>
           <h2 className="font-semibold">Ready when you are</h2>
           <p className="mt-2 text-sm text-slate-500">
-            Starts from {persona.firstName}&apos;s fixture income aggregates and a {money(persona.requestedAmountInr)} / {persona.requestedTermMonths}-month request. Both agents cite the same evidence.
+            Starts from {persona.firstName}&apos;s fixture income aggregates and a {rupees(persona.requestedAmountInr)} / {persona.requestedTermMonths}-month request. Both agents cite the same evidence.
           </p>
         </GlassCard>
       )}

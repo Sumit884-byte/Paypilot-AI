@@ -2,18 +2,26 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
+import logging
 from calendar import monthrange
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-from .client import PayPalClient
+from .client import PayPalClient, PayPalError
 
 FIXTURES = Path(__file__).resolve().parents[2] / "fixtures" / "personas"
 PAYMENTS_PATH = "/v1/reporting/transactions"
 DISPUTES_PATH = "/v1/customer/disputes"
 INVOICES_PATH = "/v2/invoicing/invoices"
+# Transaction Search accepts at most 31 days per request, as whole-second UTC timestamps
+SEARCH_WINDOW_DAYS = 31
+# Windows are fetched in parallel; a small cap keeps the burst polite to PayPal
+MAX_PARALLEL_REQUESTS = 6
+
+log = logging.getLogger("payscore.paypal")
 INR_PER_CURRENCY = {"INR": 1.0, "USD": 83.0}
 
 
@@ -64,18 +72,54 @@ async def _pages(client: PayPalClient, path: str, token: str, params: dict,
     return collected
 
 
+def _stamp(moment: datetime) -> str:
+    return moment.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def search_windows(start: date, until: datetime) -> list[tuple[str, str]]:
+    """Consecutive [start, end] ranges of at most 31 days covering start..until, as PayPal requires."""
+    windows = []
+    cursor = datetime.combine(start, datetime.min.time(), timezone.utc)
+    until = until.replace(microsecond=0)
+    while cursor < until:
+        stop = min(cursor + timedelta(days=SEARCH_WINDOW_DAYS) - timedelta(seconds=1), until)
+        windows.append((_stamp(cursor), _stamp(stop)))
+        cursor = stop + timedelta(seconds=1)
+    return windows
+
+
+async def _optional_pages(client: PayPalClient, path: str, token: str, params: dict, result_key: str) -> list[dict]:
+    """Disputes and invoices enrich the profile; a permission gap there should not discard the transactions."""
+    try:
+        return await _pages(client, path, token, params, result_key)
+    except PayPalError as exc:
+        log.warning("PayPal %s unavailable (%s); continuing without it", path, exc.status)
+        return []
+
+
 async def paypal_profile(client: PayPalClient, token: str, *, today: date | None = None) -> dict:
-    today = today or datetime.now(timezone.utc).date()
+    now = datetime.now(timezone.utc)
+    today = today or now.date()
     start = _shift_month(today.replace(day=1), -11)
     end = today
-    start_iso = datetime.combine(start, datetime.min.time(), timezone.utc).isoformat().replace("+00:00", "Z")
-    end_iso = datetime.combine(end, datetime.max.time(), timezone.utc).isoformat().replace("+00:00", "Z")
-    transactions = await _pages(client, PAYMENTS_PATH, token, {
-        "start_date": start_iso, "end_date": end_iso, "page_size": 100,
-    }, "transaction_details")
-    disputes = await _pages(client, DISPUTES_PATH, token, {"page_size": 100}, "items")
-    invoices = await _pages(client, INVOICES_PATH, token,
-                            {"page_size": 100, "total_required": "true"}, "items")
+    until = min(now, datetime.combine(end, datetime.max.time(), timezone.utc))
+    # Twelve sequential 31-day searches plus disputes and invoices took 8-9 s; run them concurrently instead
+    gate = asyncio.Semaphore(MAX_PARALLEL_REQUESTS)
+
+    async def limited(coro):
+        async with gate:
+            return await coro
+
+    window_results = asyncio.gather(*(limited(_pages(client, PAYMENTS_PATH, token, {
+        "start_date": window_start, "end_date": window_end, "fields": "transaction_info,payer_info",
+        "page_size": 100,
+    }, "transaction_details")) for window_start, window_end in search_windows(start, until)))
+    # The disputes API caps page_size at 50 (100 is a 400)
+    disputes_result = limited(_optional_pages(client, DISPUTES_PATH, token, {"page_size": 50}, "items"))
+    invoices_result = limited(_optional_pages(client, INVOICES_PATH, token,
+                                              {"page_size": 100, "total_required": "true"}, "items"))
+    windows, disputes, invoices = await asyncio.gather(window_results, disputes_result, invoices_result)
+    transactions = [row for rows in windows for row in rows]
 
     return build_profile(transactions, disputes, invoices, start=start, end=end, source="paypal")
 
@@ -102,6 +146,7 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
     month_values = dict(months)
     sales: list[tuple[date, float]] = []
     refunds = 0
+    refund_dates: list[date] = []
     clients: set[str] = set()
     client_sales: dict[str, float] = {}
     sale_count = 0
@@ -123,10 +168,13 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
         if month_key not in month_values:
             continue
         is_refund = event in {"T1107", "T1115", "T1120"} or info.get("transaction_type") == "refund"
-        is_sale = (info.get("transaction_type") == "sale" or event in {"T0000", "T0001", "T0002", "T0003"}
+        # T00xx is PayPal's payment family (T0006 = Checkout/Orders API captures); a positive amount is money received,
+        # so payments the business sends (negative T00xx) are not sales
+        is_sale = (info.get("transaction_type") == "sale" or (event.startswith("T00") and amount > 0)
                    or (not event and str(info.get("transaction_debit_credit_code", "CR")).upper() == "CR"))
         if is_refund:
             refunds += 1
+            refund_dates.append(occurred)
             month_values[month_key] -= abs(amount)
         elif is_sale:
             sale_count += 1
@@ -182,6 +230,10 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
                 late_invoice_count += 1
 
     total_sales_amount = sum(s[1] for s in sales)
+    # The same 90-day sale metrics the model was trained on (payscore/derive.py), ending at the window end
+    since_90 = end - timedelta(days=90)
+    sales_90 = [amount for day, amount in sales if day > since_90]
+    refunds_90 = sum(1 for day in refund_dates if day > since_90)
     top_client_share = (
         round(max(client_sales.values()) / total_sales_amount, 4)
         if (client_sales and total_sales_amount > 0) else None
@@ -203,6 +255,9 @@ def build_profile(transactions: list[dict], disputes: list[dict], invoices: list
         "avg_client_turnaround_days_12m": avg_turnaround,
         "late_payment_rate_12m": late_rate,
         "refund_rate_12m": round(min(refunds / sale_count, 1.0), 4) if sale_count else 0.0,
+        "sale_count_90d": len(sales_90),
+        "avg_sale_value_90d_inr": round(sum(sales_90) / len(sales_90), 2) if sales_90 else None,
+        "refund_rate_90d": round(min(refunds_90 / len(sales_90), 1.0), 4) if sales_90 else None,
         "dispute_rate_12m": round(min(dispute_count / sale_count, 1.0), 4) if sale_count else 0.0,
         "longest_income_gap_days_12m": longest_gap, "income_trend_12m": trend,
         "outstanding_invoices_inr": round(outstanding, 2), "outstanding_invoice_count": invoice_count,

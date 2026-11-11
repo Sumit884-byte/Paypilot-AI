@@ -1,0 +1,24 @@
+# Never upload secrets or local-only files
+.env
+.env.*
+!.env.example
+NVIDIA-Nemotron-*/
+docs/Paypilot_Frontend.pdf
+docs/_frontend_status_pdf.py
+/package-lock.json
+
+# Local environments and build output (Vercel installs and builds its own)
+.venv/
+venv/
+**/node_modules/
+frontend/dist/
+*.egg-info/
+**/__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Not needed to run the app
+tests/
+docs/
+scripts/
+.github/

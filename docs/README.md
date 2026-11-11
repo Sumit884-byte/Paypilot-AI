@@ -9,6 +9,7 @@
 | [DEPLOY.md](DEPLOY.md) | Deploying with the Render Blueprint |
 | [PERSONAS.md](PERSONAS.md) | The synthetic demo personas and their scores |
 | [MODEL_CARD.md](MODEL_CARD.md) | Model, data, metrics, and limits |
+| [CLI_AND_MCP.md](CLI_AND_MCP.md) | The `paypilot` CLI and the MCP server for Claude, Cursor, and Arka |
 
 ## Features
 

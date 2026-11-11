@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from .client import SANDBOX_API_BASE, PayPalClient, PayPalError
+from .simulation import is_simulated, labelled, simulated_id, simulation_enabled
 
 router = APIRouter(tags=["disbursements"])
 PAYOUTS_PATH = "/v1/payments/payouts"
@@ -100,6 +101,16 @@ async def disburse(request: DisburseRequest, client: PayoutClient) -> dict | JSO
             "error": "amount_exceeds_approved_limit", "approved_amount_limit_inr": float(ceiling),
             "sandbox": True, "disclaimer": SANDBOX_DISCLAIMER,
         })
+    if client is None and simulation_enabled():
+        batch_id, sender_batch_id = simulated_id("PAYOUT"), f"ps-{uuid.uuid4().hex}"
+        DISBURSEMENT_LEDGER[batch_id] = {
+            "payout_batch_id": batch_id, "sender_batch_id": sender_batch_id,
+            "applicant_id": request.applicant_id, "amount_inr": float(amount),
+            "batch_status": "PENDING", "sandbox": True, "simulated": True,
+        }
+        return labelled({"payout_batch_id": batch_id, "sender_batch_id": sender_batch_id,
+                         "batch_status": "PENDING", "amount_inr": float(amount), "currency": "INR",
+                         "sandbox": True, "disclaimer": SANDBOX_DISCLAIMER})
     if client is None:
         return JSONResponse(status_code=503, content={"error": "paypal_not_configured",
                              "sandbox": True, "disclaimer": SANDBOX_DISCLAIMER})
@@ -138,6 +149,13 @@ async def get_disbursement(batch_id: str, client: PayoutClient) -> dict | JSONRe
     if batch_id not in DISBURSEMENT_LEDGER:
         return JSONResponse(status_code=404, content={"error": "disbursement_not_found",
                              "sandbox": True, "disclaimer": SANDBOX_DISCLAIMER})
+    if is_simulated(batch_id):
+        # A simulated payout settles on the first status poll, as a sandbox payout usually does within seconds
+        entry = DISBURSEMENT_LEDGER[batch_id]
+        entry["batch_status"] = "SUCCESS"
+        entry["items"] = [{"transaction_status": "SUCCESS", "payout_item_id": simulated_id("ITEM")}]
+        return labelled({"payout_batch_id": batch_id, "batch_status": "SUCCESS", "items": entry["items"],
+                         "sandbox": True, "disclaimer": SANDBOX_DISCLAIMER})
     if client is None:
         return JSONResponse(status_code=503, content={"error": "paypal_not_configured",
                              "sandbox": True, "disclaimer": SANDBOX_DISCLAIMER})

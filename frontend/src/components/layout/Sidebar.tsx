@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { NavLink, useLocation } from 'react-router-dom'
 import { cn } from '../../lib/cn'
@@ -19,11 +20,17 @@ const links = [
 export function Sidebar() {
   const location = useLocation()
   const persona = useActivePersona()
+  const tabsRef = useRef<HTMLDivElement>(null)
+
+  // The tab row scrolls sideways on phones; keep the active tab visible after navigation
+  useEffect(() => {
+    tabsRef.current?.querySelector('[aria-current="page"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+  }, [location.pathname])
 
   return (
     <nav aria-label="Main navigation" className="border-b border-[rgb(var(--line))] bg-[rgb(var(--surface))]">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-5 px-4 sm:px-6 lg:px-10">
-        <div className="flex min-w-0 flex-1 gap-1 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div ref={tabsRef} className="flex min-w-0 flex-1 gap-1 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {links.map((link) => (
           <NavLink
             key={link.to}
@@ -56,7 +63,7 @@ export function Sidebar() {
         </div>
         <div className="hidden shrink-0 items-center gap-2 py-2 text-[11px] text-slate-600 md:flex">
           <span className="grid h-7 w-7 place-items-center rounded-full bg-amber-50 font-semibold text-amber-800">{persona.initial}</span>
-          <span>{persona.firstName} · {persona.applicantId}</span>
+          <span>{persona.linked ? `${persona.firstName || 'You'} · PayPal account` : `${persona.firstName} · ${persona.applicantId}`}</span>
         </div>
       </div>
     </nav>

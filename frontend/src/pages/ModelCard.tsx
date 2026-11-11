@@ -201,7 +201,7 @@ export function ModelCard() {
             />
             <MetricCard
               label="Calibration"
-              value={card.calibration_status.startsWith('Not') ? 'Not yet evaluated' : 'See notes'}
+              value={card.calibration_status.startsWith('Not calibrated') ? 'Not calibrated' : 'See notes'}
               detail={card.calibration_status}
               icon={<Icon name="shield" />}
               tone="rose"
@@ -222,7 +222,7 @@ export function ModelCard() {
                   ['Log loss', metricDisplay(card.metrics.log_loss, card.metric_availability.log_loss)],
                   ['Brier', metricDisplay(card.metrics.brier, card.metric_availability.brier)],
                   ['KS', metricDisplay(card.metrics.ks, card.metric_availability.ks)],
-                  ['Last evaluation', card.last_evaluation_date || 'Not yet evaluated'],
+                  ['Last evaluation', card.last_evaluation_date ? new Date(card.last_evaluation_date).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : 'Not yet evaluated'],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-xl border border-[rgb(var(--line))] px-3 py-2">
                     <dt className="text-[11px] uppercase tracking-wide text-slate-500">{label}</dt>
@@ -333,7 +333,7 @@ export function ModelCard() {
                     <BarChart data={comparisonBars}>
                       <CartesianGrid strokeDasharray="3 3" opacity={0.35} />
                       <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-                      <YAxis domain={[0.7, 1]} tickFormatter={(v) => Number(v).toFixed(2)} />
+                      <YAxis domain={[0, 1]} tickFormatter={(v) => Number(v).toFixed(1)} />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="roc_auc" name="ROC-AUC" fill="#0070BA" radius={[6, 6, 0, 0]} />
@@ -350,7 +350,7 @@ export function ModelCard() {
                     ]}>
                       <CartesianGrid strokeDasharray="3 3" opacity={0.35} />
                       <XAxis dataKey="name" />
-                      <YAxis domain={[0.7, 1]} />
+                      <YAxis domain={[0, 1]} tickFormatter={(v) => Number(v).toFixed(1)} />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="roc_auc" name="ROC-AUC" fill="#0070BA" radius={[6, 6, 0, 0]} />

@@ -27,6 +27,13 @@ type OfferResult = {
   disclaimer?: string
 }
 
+// API field keys as people read them: "nominal_interest_rate_pct" -> "Nominal interest rate (%)"
+function fieldLabel(key: string) {
+  const unit = key.endsWith('_pct') ? ' (%)' : key.endsWith('_inr') ? ' (INR)' : ''
+  const words = key.replace(/_(pct|inr)$/, '').replaceAll('_', ' ').replace(/\bapr\b/, 'APR')
+  return words.charAt(0).toUpperCase() + words.slice(1) + unit
+}
+
 export function OfferGuard() {
   const [result, setResult] = useState<OfferResult | null>(null)
   const [file, setFile] = useState<File | null>(null)
@@ -130,7 +137,7 @@ export function OfferGuard() {
         <Toast message={toast} onDismiss={() => setToast(null)} />
       )}
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-2 lg:items-start">
         <GlassCard>
           <form onSubmit={submit} onChange={() => setToast(null)} className="space-y-4">
             <h2 className="font-semibold">Offer details</h2>
@@ -285,7 +292,7 @@ export function OfferGuard() {
                             : 'Calculated cost is within 1 point of the advertised APR'}
                       </p>
                       <p className="text-xs text-slate-600 dark:text-slate-400">
-                        {result.calculation?.formula || 'Monthly IRR of net proceeds and instalments. Not a legal finding.'}
+                        Effective annual cost from the monthly IRR of the cash flows. Not a legal finding.
                       </p>
                     </div>
                   </div>
@@ -319,10 +326,10 @@ export function OfferGuard() {
                     <div className="space-y-2">
                       {Object.entries(result.fields).filter(([, field]) => field.value != null).map(([name, field]) => (
                         <div key={name} className="flex items-start justify-between gap-3 rounded-xl bg-slate-100/60 p-3 text-sm dark:bg-white/5">
-                          <span>{name.replaceAll('_', ' ')}</span>
+                          <span>{fieldLabel(name)}</span>
                           <span className="text-right">
                             {String(field.value)}
-                            <span className="mt-1 block text-xs text-slate-500">{field.status}{field.verified ? '' : ' · not verified'}</span>
+                            <span className="mt-1 block text-xs text-slate-500">{field.status?.replaceAll('_', ' ')}{field.verified ? '' : ' · not verified'}</span>
                           </span>
                         </div>
                       ))}
@@ -335,7 +342,7 @@ export function OfferGuard() {
                   </div>
                 )}
                 {!!result.missing_or_unverified_fields?.length && (
-                  <p className="text-xs text-slate-500">Missing or unverified: {result.missing_or_unverified_fields.join(', ')}</p>
+                  <p className="text-xs text-slate-500">Missing or unverified: {result.missing_or_unverified_fields.map(fieldLabel).join(', ')}</p>
                 )}
 
                 {/* KFS Checklist */}

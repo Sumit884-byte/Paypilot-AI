@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=77"]  # PEP 639 license string
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paypilot-ai"
+description = "PayScore: cash-flow credit analysis for online sellers and freelancers (sandbox demo)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dynamic = ["version", "dependencies"]
+
+[project.scripts]
+paypilot = "payscore.cli:main"
+paypilot-mcp = "payscore.mcp_server:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "payscore.__version__" }
+# requirements.txt stays the single dependency list (Render and the launcher install from it)
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+include = ["payscore*"]

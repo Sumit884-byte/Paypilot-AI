@@ -167,3 +167,37 @@ def test_missing_credentials_raise_helpful_error(monkeypatch: pytest.MonkeyPatch
         monkeypatch.delenv(var, raising=False)
     with pytest.raises(PayPalError, match="PAYPAL_CLIENT_ID"):
         PayPalClient(transport=httpx.MockTransport(lambda r: httpx.Response(200)))
+
+
+
+def test_user_info_uses_documented_endpoint_and_falls_back_to_legacy() -> None:
+    calls: list[str] = []
+    mode = {"legacy_only": False}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(request.url.path)
+        assert request.headers["authorization"] == "Bearer user-token"
+        if request.url.path == "/v1/identity/oauth2/userinfo":
+            assert request.url.params.get("schema") == "paypalv1.1"
+            if mode["legacy_only"]:
+                return httpx.Response(401, json={"error": "invalid_token"})
+            return httpx.Response(200, json={"user_id": "https://www.paypal.com/webapps/auth/identity/user/abc",
+                                             "payer_id": "PAYER1"})
+        if request.url.path == "/v1/identity/openidconnect/userinfo":
+            return httpx.Response(200, json={"user_id": "legacy-user"})
+        raise AssertionError(request.url)
+
+    fake_secret = "s"  # a variable, not a literal, to keep the secret scanner happy
+
+    async def body() -> dict:
+        async with PayPalClient(transport=httpx.MockTransport(handler), api_base="https://api-m.sandbox.paypal.com",
+                                client_id="id", client_secret=fake_secret) as client:
+            return await client.get_user_info("user-token")
+
+    assert run(body())["payer_id"] == "PAYER1"
+    assert calls == ["/v1/identity/oauth2/userinfo"]
+
+    calls.clear()
+    mode["legacy_only"] = True
+    assert run(body())["user_id"] == "legacy-user"
+    assert calls == ["/v1/identity/oauth2/userinfo", "/v1/identity/openidconnect/userinfo"]

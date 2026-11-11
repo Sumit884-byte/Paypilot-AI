@@ -1,11 +1,13 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
-import { fetchPaypalStatus, paypalLoginUrl } from '../lib/api'
+import { apiUrl, fetchPaypalStatus, paypalLoginUrl } from '../lib/api'
 
 type Session = {
   linked: boolean
   demo: boolean
   persona: string
   at: string
+  /** What a PayPal-linked user asked to be called; PayPal sign-in deliberately shares no name */
+  displayName?: string
 }
 
 type AuthContextValue = {
@@ -14,6 +16,7 @@ type AuthContextValue = {
   loginWithPaypal: () => Promise<'redirect' | 'unavailable'>
   enterDemo: (persona?: string) => void
   completeLink: () => void
+  setDisplayName: (name: string) => void
   logout: () => void
 }
 
@@ -63,11 +66,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthed: Boolean(session?.linked),
       loginWithPaypal,
       enterDemo: (persona = 'priya') => {
-        if (session?.persona !== persona) clearWorkspaceState()
+        // The API answers from the linked PayPal cookie when one exists; a demo must not see the user's account
+        void fetch(apiUrl('/paypal/unlink'), { method: 'POST' }).catch(() => {})
+        if (session?.persona !== persona || !session?.demo) clearWorkspaceState()
         persist({ linked: true, demo: true, persona, at: new Date().toISOString() })
       },
-      completeLink: () => persist({ linked: true, demo: false, persona: 'priya', at: new Date().toISOString() }),
+      completeLink: () => {
+        clearWorkspaceState()
+        persist({ linked: true, demo: false, persona: 'priya', at: new Date().toISOString() })
+      },
+      setDisplayName: (name: string) => {
+        if (session) persist({ ...session, displayName: name.trim() })
+      },
       logout: () => {
+        // The linked PayPal account lives in an HttpOnly cookie only the API can clear
+        if (session && !session.demo) void fetch(apiUrl('/paypal/unlink'), { method: 'POST' }).catch(() => {})
         clearWorkspaceState()
         persist(null)
       },

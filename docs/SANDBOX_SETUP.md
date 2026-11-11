@@ -16,7 +16,11 @@ in your local `.env` (which is git-ignored; see `tests/test_no_secrets.py`).
   - [ ] **Invoicing**
   - [ ] **Orders**
   - [ ] **Disputes** (for the optional sandbox buyer-dispute seeding flow)
+- [ ] Under **Log in with PayPal**, enable it and add the return URL
+      `http://localhost:8000/oauth/callback` (and your deployed `https://<host>/oauth/callback`). It must match `PAYPAL_OAUTH_REDIRECT_URI` in `.env` exactly.
 - [ ] Copy the **Client ID** and **Secret** (secret is shown once — store it safely).
+- [ ] Ignore the dashboard notice "Upgrade your account to PayPal for Business to view live credentials".
+      This project uses sandbox credentials only, and its PayPal client refuses live mode.
 
 ## 2. Create sandbox test accounts
 
@@ -45,11 +49,16 @@ Developer dashboard → **Testing Tools → Sandbox accounts** (two are auto-cre
 
 - [ ] Note that the app must be publicly reachable to receive webhooks; for local dev use
       a tunnel (e.g. `ngrok http 8000`) or defer webhook testing.
-- [ ] Dashboard → your app → **Add Webhook**, point it at `https://<your-host>/webhooks/paypal`.
-- [ ] Subscribe to events needed by PayScore (e.g. `PAYMENT.SALE.COMPLETED`, `INVOICING.INVOICE.PAID`, `PAYMENT.PAYOUTS-ITEM.SUCCEEDED`).
+- [ ] Dashboard → your app → **Add Webhook**, point it at `https://<your-host>/paypal/webhook`.
+- [ ] Subscribe to the two events PayScore handles: `PAYMENT.CAPTURE.COMPLETED` (revenue share, hardship
+      detection, rescoring) and `INVOICING.INVOICE.PAID` (invoice-advance repayment). Other events are ignored.
 - [ ] Copy the **Webhook ID** (shown under the webhook) for signature verification.
 
 ## 4. Configure local environment
+
+Quickest way: `python3 scripts/configure_paypal.py` (Windows: `py scripts\configure_paypal.py`). It opens this
+dashboard in your browser, asks you to paste the Client ID and Secret with input hidden, writes them into `.env`, and
+checks them against PayPal's sandbox. The values are never printed. To do it by hand instead:
 
 - [ ] `cp .env.example .env` (or use your process manager's env config).
 - [ ] Fill in:

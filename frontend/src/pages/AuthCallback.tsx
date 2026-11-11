@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { AmbientBackground } from '../components/ui/AmbientBackground'
@@ -12,10 +12,16 @@ export function AuthCallback() {
   const { completeLink, enterDemo } = useAuth()
   const error = params.get('error')
   const linked = params.get('linked') === 'true'
+  // completeLink changes the session, which gives completeLink a new identity and re-runs this effect;
+  // link once so that loop cannot spin before the navigation to /app lands
+  const linkedOnce = useRef(false)
 
   useEffect(() => {
     if (linked) {
-      completeLink()
+      if (!linkedOnce.current) {
+        linkedOnce.current = true
+        completeLink()
+      }
       navigate('/app', { replace: true })
       return
     }

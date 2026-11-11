@@ -16,6 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from ..hardship import record_income
 from .client import SANDBOX_API_BASE, PayPalClient, PayPalError
+from .simulation import is_simulated, labelled, simulated_id, simulation_enabled
 
 router = APIRouter(prefix="/repayment", tags=["repayment"])
 webhook_router = APIRouter(prefix="/paypal", tags=["paypal webhooks"])
@@ -147,8 +148,51 @@ def create_plan_body(product_id: str, amount: Decimal, count: int, note: str) ->
     }
 
 
+def _simulated_subscription(request: RepaymentRequest) -> dict | JSONResponse:
+    try:
+        paypal_amount = inr_to_paypal_usd(request.emi_amount_inr)
+        schedule = monthly_schedule(request.emi_amount_inr, request.number_of_emis)
+    except ValueError as exc:
+        return JSONResponse(status_code=503, content={"error": "repayment_fx_not_configured", "detail": str(exc),
+                             "sandbox": True, "disclaimer": SANDBOX_NOTICE})
+    subscription_id, plan_id, product_id = simulated_id("SUB"), simulated_id("PLAN"), simulated_id("PROD")
+    record = {"subscription_id": subscription_id, "plan_id": plan_id, "product_id": product_id,
+              "applicant_id": request.applicant_id, "emi_amount_inr": float(request.emi_amount_inr),
+              "paypal_emi_amount_usd": float(paypal_amount), "number_of_emis": request.number_of_emis,
+              "schedule": schedule, "status": "ACTIVE", "simulated": True}
+    SUBSCRIPTIONS[subscription_id] = record
+    REPAYMENT_LEDGER[f"subscription:{subscription_id}"] = {**record, "mode": "fixed_emi"}
+    return labelled({"subscription_id": subscription_id, "plan_id": plan_id, "status": "ACTIVE",
+                     "emi_amount_inr": record["emi_amount_inr"], "number_of_emis": request.number_of_emis,
+                     "paypal_emi_amount_usd": float(paypal_amount), "paypal_currency": "USD",
+                     "total_repayment_inr": float(request.emi_amount_inr * request.number_of_emis),
+                     "repayment_schedule": schedule, "links": [], "sandbox": True, "disclaimer": SANDBOX_NOTICE})
+
+
+def _simulated_order(request: OneOffRequest) -> dict | JSONResponse:
+    try:
+        paypal_amount = inr_to_paypal_usd(request.emi_amount_inr)
+    except ValueError as exc:
+        return JSONResponse(status_code=503, content={"error": "repayment_fx_not_configured", "detail": str(exc),
+                             "sandbox": True, "disclaimer": SANDBOX_NOTICE})
+    order_id = simulated_id("ORDER")
+    schedule = [{"installment": 1, "due_date": datetime.now(timezone.utc).date().isoformat(),
+                 "amount_inr": float(request.emi_amount_inr), "paypal_amount_usd": float(paypal_amount)}]
+    record = {"order_id": order_id, "applicant_id": request.applicant_id,
+              "amount_inr": float(request.emi_amount_inr), "paypal_amount_usd": float(paypal_amount),
+              "capture_request_id": f"cap-{uuid.uuid4().hex}", "note": request.note,
+              "status": "CREATED", "schedule": schedule, "simulated": True}
+    ORDERS[order_id] = record
+    REPAYMENT_LEDGER[f"order:{order_id}"] = {**record, "mode": "one_off"}
+    return labelled({"orderId": order_id, "repayment_schedule": schedule, "status": "CREATED",
+                     "paypal_amount_usd": float(paypal_amount), "paypal_currency": "USD",
+                     "sandbox": True, "disclaimer": SANDBOX_NOTICE})
+
+
 @router.post("/subscription", response_model=None, summary="Create a fixed monthly EMI subscription")
 async def create_subscription(request: RepaymentRequest, client: RepaymentClient) -> dict | JSONResponse:
+    if client is None and simulation_enabled():
+        return _simulated_subscription(request)
     if client is None:
         return JSONResponse(status_code=503, content={"error": "paypal_not_configured", "sandbox": True,
                              "disclaimer": SANDBOX_NOTICE})
@@ -217,6 +261,11 @@ async def cancel_subscription(subscription_id: str, client: RepaymentClient,
     if not record:
         return JSONResponse(status_code=404, content={"error": "subscription_not_found", "sandbox": True,
                              "disclaimer": SANDBOX_NOTICE})
+    if is_simulated(subscription_id):
+        record["status"] = "CANCELLED"
+        REPAYMENT_LEDGER[f"subscription:{subscription_id}"]["status"] = "CANCELLED"
+        return labelled({"subscription_id": subscription_id, "status": "CANCELLED",
+                         "repayment_schedule": record["schedule"], "sandbox": True, "disclaimer": SANDBOX_NOTICE})
     if client is None:
         return JSONResponse(status_code=503, content={"error": "paypal_not_configured", "sandbox": True,
                              "disclaimer": SANDBOX_NOTICE})
@@ -240,6 +289,8 @@ async def cancel_subscription(subscription_id: str, client: RepaymentClient,
 
 @router.post("/order", response_model=None, summary="Create a one-off EMI order for PayPal JS SDK v6")
 async def create_order(request: OneOffRequest, client: RepaymentClient) -> dict | JSONResponse:
+    if client is None and simulation_enabled():
+        return _simulated_order(request)
     if client is None:
         return JSONResponse(status_code=503, content={"error": "paypal_not_configured", "sandbox": True,
                              "disclaimer": SANDBOX_NOTICE})
@@ -294,6 +345,12 @@ async def capture_order(order_id: str, client: RepaymentClient) -> dict | JSONRe
     if record["status"] == "COMPLETED":
         return {"orderId": order_id, "status": "COMPLETED", "repayment_schedule": record["schedule"],
                 "sandbox": True, "disclaimer": SANDBOX_NOTICE}
+    if is_simulated(order_id):
+        capture_id = simulated_id("CAPTURE")
+        record.update({"status": "COMPLETED", "capture_id": capture_id})
+        REPAYMENT_LEDGER[f"order:{order_id}"].update({"status": "COMPLETED", "capture_id": capture_id})
+        return labelled({"orderId": order_id, "status": "COMPLETED", "capture_id": capture_id,
+                         "repayment_schedule": record["schedule"], "sandbox": True, "disclaimer": SANDBOX_NOTICE})
     if client is None:
         return JSONResponse(status_code=503, content={"error": "paypal_not_configured", "sandbox": True,
                              "disclaimer": SANDBOX_NOTICE})

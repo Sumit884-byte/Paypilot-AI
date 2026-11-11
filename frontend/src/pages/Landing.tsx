@@ -91,7 +91,7 @@ export function Landing() {
             <span>A demo, not a bank decision. No guaranteed lending access.</span>
           </motion.div>
         </div>
-        <motion.div variants={fadeUp} className="relative min-w-0 rounded-[2rem] bg-[#eaf4fb] px-4 py-3 sm:px-8 lg:px-5">
+        <motion.div variants={fadeUp} className="relative min-w-0 rounded-[2rem] bg-[#eaf4fb] dark:bg-neutral-900 dark:ring-1 dark:ring-white/10 px-4 py-3 sm:px-8 lg:px-5">
           <FloatingCards />
         </motion.div>
       </motion.main>

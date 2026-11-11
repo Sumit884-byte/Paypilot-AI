@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "web": {
+      "root": "frontend/",
+      "framework": "vite",
+      "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+    },
+    "api": {
+      "root": "./",
+      "framework": "fastapi",
+      "entrypoint": "payscore.api:app"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(advance|affordability|api|copilot|counterfactuals|demo|disburse|explain|health|income-passport|income-profile|invoices|model-card|negotiate|oauth|offer-guard|paypal|repayment|revenue-volatility|score)(/.*)?",
+      "destination": { "service": "api" }
+    },
+    { "source": "/(docs|redoc|openapi.json)(/.*)?", "destination": { "service": "api" } },
+    { "source": "/(.*)", "destination": { "service": "web" } }
+  ]
+}

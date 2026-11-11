@@ -27,6 +27,29 @@ type RepaymentEntry = {
 }
 
 export function Repayment() {
+  const { linked } = useActivePersona()
+  return linked ? <LinkedRepayment /> : <DemoRepayment />
+}
+
+/** A linked PayPal account has no PayScore loan, so there is no schedule to show; never fall back to a persona's. */
+function LinkedRepayment() {
+  return (
+    <div className="space-y-6">
+      <PageHeading eyebrow="Repayment" title="Nothing to repay." detail="Repayment schedules appear once a PayScore loan is disbursed." />
+      <GlassCard interactive={false}>
+        <p className="text-sm">
+          Your linked PayPal account has no PayScore loan. Payouts need a verified PayPal email, and PayPal sign-in does
+          not share one with Paypilot, so no loan is disbursed to a linked account in this sandbox.
+        </p>
+        <p className="mt-3 text-sm text-slate-500">
+          To see fixed EMI, revenue-share and one-off repayments end to end, open a demo persona from the landing page.
+        </p>
+      </GlassCard>
+    </div>
+  )
+}
+
+function DemoRepayment() {
   const persona = useActivePersona()
   const applicant = persona.applicantId
   const [mode, setMode] = useState<'fixed' | 'revenue' | 'one-off'>('fixed')
@@ -34,6 +57,8 @@ export function Repayment() {
   const [_entries, setEntries] = useState<RepaymentEntry[]>([])
   const [confetti, setConfetti] = useState(false)
   const [error, setError] = useState('')
+  // Set when the API ran without PayPal credentials and answered in simulated mode
+  const [simulationNotice, setSimulationNotice] = useState('')
   const [liveScore, setLiveScore] = useState<any>(null)
   const [scoreUpdated, setScoreUpdated] = useState(false)
   const previousLiveScore = useRef<number | null>(null)
@@ -117,6 +142,7 @@ export function Repayment() {
         note: 'PayScore demo fixed EMI',
       })
       setSchedule(r.repayment_schedule ?? [])
+      setSimulationNotice(r.simulated ? r.simulation_notice : '')
       setError('')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Subscription needs configured sandbox credentials')
@@ -132,6 +158,7 @@ export function Repayment() {
       })
       setSchedule(r.repayment_schedule ?? [])
       setPaypalOrderId(r.orderId || r.order_id || '')
+      setSimulationNotice(r.simulated ? r.simulation_notice : '')
       setError('')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Order needs configured sandbox credentials')
@@ -154,7 +181,8 @@ export function Repayment() {
 
   // PayPal JS SDK v6 sandbox session, created only after the API returns an order id.
   useEffect(() => {
-    if (mode !== 'one-off' || !paypalOrderId) return
+    // A simulated order has no PayPal checkout to load; it is completed with completeSimulatedPayment
+    if (mode !== 'one-off' || !paypalOrderId || paypalOrderId.startsWith('SIM-')) return
     let active = true
     const initialize = async () => {
       try {
@@ -193,6 +221,16 @@ export function Repayment() {
     return () => { active = false; paypalSession.current = null }
   }, [mode, paypalOrderId])
 
+  async function completeSimulatedPayment() {
+    setError('')
+    try {
+      const result = await postJson<any>(`/repayment/order/${paypalOrderId}/capture`, {})
+      setSchedule(result.repayment_schedule ?? [])
+      setConfetti(true)
+      window.setTimeout(() => setConfetti(false), 4500)
+    } catch (err) { setError(err instanceof Error ? err.message : 'Simulated payment failed.') }
+  }
+
   async function startPaypalCheckout() {
     if (!paypalSession.current || !paypalOrderId) return
     setError('')
@@ -209,6 +247,7 @@ export function Repayment() {
         detail="Fixed EMI, revenue share, or one-off payments via PayPal."
       />
       <Notice>{demoNotice}</Notice>
+      {simulationNotice && <Notice tone="warning">{simulationNotice}</Notice>}
 
       {/* Mode Toggle */}
       <GlassCard>
@@ -289,7 +328,15 @@ export function Repayment() {
                 <Button onClick={createOrder} className="w-full">
                   Create order
                 </Button>
-                {paypalOrderId && (
+                {paypalOrderId && paypalOrderId.startsWith('SIM-') && (
+                  <div className="mt-4">
+                    <p className="mb-2 text-xs text-slate-500">Simulated checkout: no PayPal window opens and no money moves.</p>
+                    <Button variant="gold" onClick={completeSimulatedPayment} className="w-full">
+                      Complete simulated payment
+                    </Button>
+                  </div>
+                )}
+                {paypalOrderId && !paypalOrderId.startsWith('SIM-') && (
                   <div className="mt-4">
                     <p className="mb-2 text-xs text-slate-500">Approve this one-off EMI in PayPal sandbox checkout.</p>
                     <Button variant="gold" onClick={startPaypalCheckout} disabled={!paypalReady} className="w-full">

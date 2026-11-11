@@ -279,10 +279,11 @@ export function Cockpit() {
                         <span className="text-xs text-slate-600 dark:text-slate-300">Advertised</span>
                         <span className="font-semibold text-rose-600 dark:text-rose-400">{offer ? `${offer.advertised_apr_pct}%` : '—'}</span>
                       </div>
-                      <div className="flex items-center justify-between rounded-xl bg-emerald-500/10 p-3">
+                      <div className={`flex items-center justify-between rounded-xl p-3 ${offer?.red_flag ? 'bg-rose-500/10' : 'bg-emerald-500/10'}`}>
                         <span className="text-xs text-slate-600 dark:text-slate-300">Real</span>
-                        <span className="font-semibold text-emerald-600 dark:text-emerald-400">{offer ? `${offer.estimated_real_apr_pct}%` : '—'}</span>
+                        <span className={`font-semibold ${offer?.red_flag ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}`}>{offer ? `${offer.estimated_real_apr_pct}%` : '—'}</span>
                       </div>
+                      {!offer && <p className="text-xs text-slate-500">Analyze an offer in Offer guard to fill this widget.</p>}
                     </>
                   )}
 
@@ -292,7 +293,7 @@ export function Cockpit() {
                         <div className="h-8 w-8 rounded-full bg-paypal/20 text-paypal" />
                         <div className="flex-1">
                           <div className="h-2 rounded-full bg-slate-200 dark:bg-white/10">
-                            <div className="h-full w-3/4 rounded-full bg-gradient-to-r from-paypal to-amber-glow" />
+                            {score && <div className="h-full rounded-full bg-gradient-to-r from-paypal to-amber-glow" style={{ width: `${Math.max(0, Math.min(100, ((score.score - 300) / 550) * 100))}%` }} />}
                           </div>
                         </div>
                       </div>

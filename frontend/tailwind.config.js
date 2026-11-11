@@ -5,13 +5,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Neutral near-blacks: the dark theme is true dark, not blue-tinted
         navy: {
-          950: '#070B14',
-          900: '#0B1220',
-          800: '#111A2E',
-          700: '#1A2744',
-          600: '#243556',
+          950: '#0A0A0A',
+          900: '#111111',
+          800: '#181818',
+          700: '#222222',
+          600: '#2E2E2E',
         },
+        // Slate stays slate in light mode; .dark swaps it for neutral greys (see index.css)
+        slate: Object.fromEntries([50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map(
+          (shade) => [shade, `rgb(var(--slate-${shade}) / <alpha-value>)`])),
         paypal: {
           DEFAULT: '#0070BA',
           dark: '#003087',
@@ -27,8 +31,8 @@ export default {
         display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        glass: '0 8px 32px rgba(7, 11, 20, 0.28), inset 0 1px 0 rgba(255,255,255,0.08)',
-        'glass-lg': '0 24px 80px rgba(7, 11, 20, 0.45), inset 0 1px 0 rgba(255,255,255,0.1)',
+        glass: '0 8px 32px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255,255,255,0.08)',
+        'glass-lg': '0 24px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1)',
         glow: '0 0 40px rgba(0, 112, 186, 0.25)',
         'glow-gold': '0 0 36px rgba(245, 185, 66, 0.28)',
       },

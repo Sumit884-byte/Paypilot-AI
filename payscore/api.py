@@ -19,7 +19,9 @@ from typing import Optional
 from dotenv import load_dotenv
 
 # Load .env from the repo root (PayPal credentials etc.) before anything reads os.getenv.
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+# The test suite sets PAYSCORE_SKIP_DOTENV so a developer's real credentials never reach the tests.
+if os.getenv("PAYSCORE_SKIP_DOTENV") != "1":
+    load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -38,13 +40,14 @@ from .model import DEFAULT_MODEL_DIR, ModelUnavailableError, Scorer
 from .model_card import router as model_card_router
 from .negotiation import router as negotiation_router
 from .offer_guard import router as offer_guard_router
+from .linked_score import router as linked_score_router
 from .pay_later import router as pay_later_router
 from .paypal.advance import router as advance_router
 from .paypal.disbursements import record_approval
 from .paypal.disbursements import router as disbursements_router
 from .paypal.repayment import router as repayment_router
 from .paypal.repayment import webhook_router as paypal_webhook_router
-from .paypal.routes import income_router
+from .paypal.routes import income_router, oauth_router
 from .paypal.routes import router as paypal_router
 from .revenue_volatility import router as revenue_router
 from .schema import ErrorResponse, ScoreRequest, ScoreResponse
@@ -97,6 +100,7 @@ def create_app(
     )
     app.state.scorer = scorer
     app.include_router(paypal_router)
+    app.include_router(oauth_router)
     app.include_router(income_router)
     app.include_router(disbursements_router)
     app.include_router(repayment_router)
@@ -104,6 +108,7 @@ def create_app(
     app.include_router(advance_router)
     app.include_router(offer_guard_router)
     app.include_router(pay_later_router)
+    app.include_router(linked_score_router)
     app.include_router(copilot_router)
     app.include_router(explain_router)
     app.include_router(counterfactual_router)

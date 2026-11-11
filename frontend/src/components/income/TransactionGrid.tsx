@@ -31,7 +31,7 @@ function TypeCellRenderer({ value }: { value: any }) {
     expense: 'text-slate-600 dark:text-slate-400',
   }
   const icon: Record<string, string> = {
-    sale: '$',
+    sale: '+',
     refund: '↩',
     dispute: '⚠',
     expense: '–',
@@ -103,6 +103,7 @@ const columnDefs: ColDef<TransactionRow>[] = [
 ]
 
 const defaultColDef: ColDef<TransactionRow> = {
+  cellStyle: { display: 'flex', alignItems: 'center' },
   flex: 1,
   minWidth: 110,
   resizable: true,
@@ -159,20 +160,20 @@ export default function TransactionGrid({ rows }: { rows: TransactionRow[] }) {
         }
         .dark .paypilot-grid .ag-root-wrapper {
           border-color: rgb(255 255 255 / 0.1) !important;
-          background: rgb(17 26 46 / 0.6) !important;
+          background: rgb(23 23 23 / 0.6) !important;
         }
         .dark .paypilot-grid .ag-header {
-          background: rgb(0 112 186 / 0.1) !important;
+          background: rgb(255 255 255 / 0.04) !important;
           border-bottom-color: rgb(255 255 255 / 0.1) !important;
         }
         .dark .paypilot-grid .ag-header-cell {
           color: #009cde !important;
         }
         .dark .paypilot-grid .ag-row:hover {
-          background: rgb(0 112 186 / 0.08) !important;
+          background: rgb(255 255 255 / 0.05) !important;
         }
         .dark .paypilot-grid .ag-row-odd {
-          background: rgb(0 112 186 / 0.04) !important;
+          background: rgb(255 255 255 / 0.02) !important;
         }
         .dark .paypilot-grid .ag-cell {
           border-right-color: rgb(255 255 255 / 0.05) !important;

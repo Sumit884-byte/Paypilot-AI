@@ -13,5 +13,11 @@ __pycache__/
 data/
 *.csv
 .DS_Store
+*.egg-info/
+build/
 # Local model weights, never part of the repo
 NVIDIA-Nemotron-*/
+.vercel
+.env*
+
+!.env.example
