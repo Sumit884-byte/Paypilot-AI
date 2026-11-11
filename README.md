@@ -6,10 +6,10 @@ explicit borrower approval. **Sandbox only:** synthetic personas, PayPal sandbox
 
 ## For judges
 
-* **Watch the demo:** https://youtu.be/P1mrW-ilrVQ (2 min 50 s, with voiceover)
+* **Watch the demo:** https://youtu.be/S6RLEg1N8mg (2 min 50 s, with voiceover)
 * **Try it live:** https://paypilot-ai-chi.vercel.app
 
-[![Paypilot demo video](https://img.youtube.com/vi/P1mrW-ilrVQ/maxresdefault.jpg)](https://youtu.be/P1mrW-ilrVQ)
+[![Paypilot demo video](https://img.youtube.com/vi/S6RLEg1N8mg/maxresdefault.jpg)](https://youtu.be/S6RLEg1N8mg)
 
 ### Screenshots
 
