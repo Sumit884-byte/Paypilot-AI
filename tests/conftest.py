@@ -1,7 +1,14 @@
 import json
+import os
 from pathlib import Path
 
 import pytest
+
+# Tests must never see a developer's PayPal credentials or call real PayPal: skip .env and clear any exported values.
+# Tests that need credentials set fake ones themselves.
+os.environ["PAYSCORE_SKIP_DOTENV"] = "1"
+for _var in ("PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET", "PAYPAL_WEBHOOK_ID", "OPENAI_API_KEY"):
+    os.environ.pop(_var, None)
 
 ROOT = Path(__file__).resolve().parent.parent
 PERSONA_DIR = ROOT / "fixtures" / "personas"

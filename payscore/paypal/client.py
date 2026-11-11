@@ -186,9 +186,19 @@ class PayPalClient:
         return payload
 
     async def get_user_info(self, access_token: str) -> dict:
-        """Read the PayPal account subject using a delegated access token."""
-        return await self.get("/v1/identity/openidconnect/userinfo", params={"schema": "openid"},
-                              bearer_token=access_token)
+        """Read the PayPal account subject using a delegated access token.
+
+        Log in with PayPal documents /v1/identity/oauth2/userinfo; the older OpenID Connect path answers 401 for
+        tokens from that flow. Fall back to it only when the documented endpoint refuses, so either works.
+        """
+        try:
+            return await self.get("/v1/identity/oauth2/userinfo", params={"schema": "paypalv1.1"},
+                                  bearer_token=access_token)
+        except PayPalError as exc:
+            if exc.status not in (401, 403, 404):
+                raise
+            return await self.get("/v1/identity/openidconnect/userinfo", params={"schema": "openid"},
+                                  bearer_token=access_token)
 
     async def post(self, path: str, json: Optional[dict] = None, *, request_id: Optional[str] = None,
                    headers: Optional[dict[str, str]] = None) -> dict:

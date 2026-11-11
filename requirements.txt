@@ -15,3 +15,7 @@ python-dotenv>=1,<2
 shap>=0.45,<1
 pypdf>=5,<7
 python-multipart>=0.0.9,<1
+# MCP server (payscore/mcp_server.py); 2.x API (MCPServer)
+mcp>=2.3,<3
+# Encrypted linked-account cookies (payscore/paypal/session_cookie.py)
+cryptography>=42,<51

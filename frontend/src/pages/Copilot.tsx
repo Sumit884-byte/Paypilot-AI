@@ -35,6 +35,7 @@ const SUGGESTED_QUESTIONS = [
 export function Copilot() {
   const persona = useActivePersona()
   const applicant = persona.applicantId
+  const linked = Boolean(persona.linked)
   const [text, setText] = useState(DEFAULT_QUESTION)
   const [messages, setMessages] = useState<Message[]>([])
   const [busy, setBusy] = useState(false)
@@ -42,6 +43,7 @@ export function Copilot() {
   const [error, setError] = useState('')
   const [pendingApproval, setPendingApproval] = useState<Message | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const threadRef = useRef<HTMLDivElement>(null)
 
   // Cmd+K to focus copilot input when on copilot page
   useKeyboardShortcut('k', () => {
@@ -55,10 +57,15 @@ export function Copilot() {
     setError('')
 
     try {
-      const res = await postJson<any>('/copilot/chat', {
-        message: question,
-        applicant_id: applicant,
-      })
+      const res = await postJson<any>('/copilot/chat', linked
+        ? {
+            // Answer from the linked PayPal account, plus this user's own PayScore request if they ran one
+            message: question,
+            applicant_id: applicant,
+            mode: 'linked',
+            application: JSON.parse(sessionStorage.getItem('paypilot.linked_application') || 'null') ?? undefined,
+          }
+        : { message: question, applicant_id: applicant })
       await new Promise((r) => setTimeout(r, 450))
 
       const newMessage: Message = {
@@ -87,7 +94,13 @@ export function Copilot() {
     } finally {
       setBusy(false)
     }
-  }, [applicant])
+  }, [applicant, linked])
+
+  // Keep the newest message (and any approval card) in view
+  useEffect(() => {
+    const thread = threadRef.current
+    if (thread) thread.scrollTo({ top: thread.scrollHeight, behavior: 'smooth' })
+  }, [messages.length, busy, pendingApproval])
 
   // Auto-send the default question on first load for demo, unless the visitor edits it first
   useEffect(() => {
@@ -134,7 +147,7 @@ export function Copilot() {
         ...v,
         {
           from: 'agent',
-          text: `✓ Sandbox payout created · batch ${res.payout_batch_id} · ${res.batch_status}`,
+          text: `✓ ${res.simulated ? 'Simulated payout (PayPal not configured, no money moved)' : 'Sandbox payout created'} · batch ${res.payout_batch_id} · ${res.batch_status}`,
           approval: undefined,
           approved: true,
         },
@@ -169,11 +182,13 @@ export function Copilot() {
         detail="Ask about income, affordability, and your next step."
       />
       <Notice>
-        Money-related actions always wait for your explicit approval. Demo actions are sandbox only.
+        {linked
+          ? 'Answers come from your linked PayPal sandbox account. Run PayScore to unlock score explanations and what-ifs.'
+          : 'Money-related actions always wait for your explicit approval. Demo actions are sandbox only.'}
       </Notice>
 
       <GlassCard className="mx-auto max-w-3xl">
-        <div className="max-h-[52vh] min-h-72 space-y-4 overflow-y-auto p-4" aria-live="polite">
+        <div ref={threadRef} className="max-h-[52vh] min-h-72 space-y-4 overflow-y-auto p-4" aria-live="polite">
           {!messages.length && (
             <motion.div
               initial={{ opacity: 0 }}

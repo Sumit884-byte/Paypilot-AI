@@ -292,7 +292,8 @@ def analyse_counterfactual(scorer: Any, req: ScoreRequest, proposed_changes: Opt
     top = improving[:3]
     if top:
         best = top[0]
-        described = "; ".join(change["description"] for change in best["changes"])
+        # Each description is a full sentence already, so join them as sentences rather than with "; "
+        described = " ".join(change["description"] for change in best["changes"])
         summary = (
             f"Estimated model score could move from {current_score} to {best['estimated_score']} "
             f"({best['estimated_score_difference']:+d}) if: {described}"

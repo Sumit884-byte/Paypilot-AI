@@ -7,6 +7,7 @@ tool. Payouts are never created here; a disbursement request returns an approval
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from typing import Any, Optional
 
 from pydantic import ValidationError
@@ -16,6 +17,34 @@ from .applicant_context import application_for, revenues_for_applicant
 from .offer_analysis import analyse, manual_fields
 from .revenue_volatility import analyse as analyse_revenue
 from .schema import ScoreRequest
+
+LINKED_SOURCE = "your linked PayPal account (Transaction Search)"
+NEED_LINKED_SCORE = (
+    "I need your PayScore first. Open PayScore and run it: it combines your PayPal history with a few details PayPal "
+    "does not share (age, employment, existing repayments, the loan you want). I will not borrow a demo persona's figures."
+)
+
+
+@dataclass
+class LinkedContext:
+    """A real PayPal-linked user: answers come from their PayPal profile and their own PayScore request."""
+
+    profile: dict[str, Any]
+    application: Optional[dict[str, Any]] = None
+
+    def score_request(self) -> Optional[ScoreRequest]:
+        if not self.application:
+            return None
+        try:
+            return ScoreRequest.model_validate(self.application)
+        except ValidationError:
+            return None
+
+    def months(self) -> list[float]:
+        return [float(row.get("income_inr") or 0) for row in self.profile.get("monthly_income_12m") or []]
+
+    def window(self) -> str:
+        return f"{self.profile.get('window_start')} to {self.profile.get('window_end')}"
 
 DISCLAIMER = "Sandbox copilot. It cannot move money without an explicit Approve tap."
 
@@ -107,13 +136,34 @@ def _application(applicant_id: str) -> tuple[Optional[ScoreRequest], str, Option
         return None, source, "The stored application could not be validated, so I did not score it."
 
 
+def _resolve(applicant_id: str, linked: Optional[LinkedContext]) -> tuple[Optional[ScoreRequest], str, Optional[str]]:
+    """The application a score-based answer uses: a demo persona's fixture, or the linked user's own PayScore request."""
+    if linked is None:
+        return _application(applicant_id)
+    request = linked.score_request()
+    if request is None:
+        return None, LINKED_SOURCE, NEED_LINKED_SCORE
+    return request, "your PayScore inputs (PayPal history plus the details you entered)", None
+
+
 def _afford(message: str, applicant_id: str, *, emi_only: bool) -> dict[str, Any]:
     application, source, error = _application(applicant_id)
+    return _afford_with(
+        message, emi_only=emi_only, source=source,
+        income=None if application is None else application.monthly_income_inr,
+        debt=None if application is None else application.existing_monthly_debt_payments_inr,
+        default_amount=None if application is None else float(application.requested_loan_amount_inr),
+        default_note="The question did not name an amount, so this uses the requested amount on the synthetic application.",
+    )
+
+
+def _afford_with(message: str, *, emi_only: bool, source: str, income: Optional[float], debt: Optional[float],
+                 default_amount: Optional[float], default_note: str, extra_notes: tuple[str, ...] = ()) -> dict[str, Any]:
     amount = parse_amount_inr(message)
     amount_note = None
-    if amount is None and emi_only and application is not None:
-        amount = float(application.requested_loan_amount_inr)
-        amount_note = "The question did not name an amount, so this uses the requested amount on the synthetic application."
+    if amount is None and emi_only and default_amount is not None:
+        amount = default_amount
+        amount_note = default_note
     if amount is None:
         return _envelope(
             "I need an amount, such as Rs 50,000, before I can calculate an instalment. I did not assume one.",
@@ -126,8 +176,8 @@ def _afford(message: str, applicant_id: str, *, emi_only: bool) -> dict[str, Any
         tenure = 12
     payload = {
         "requested_amount_inr": amount,
-        "monthly_income_inr": None if application is None else application.monthly_income_inr,
-        "existing_monthly_debt_payments_inr": None if application is None else application.existing_monthly_debt_payments_inr,
+        "monthly_income_inr": income,
+        "existing_monthly_debt_payments_inr": debt,
         "essential_expenses_inr": None,
         "tenure_months": tenure,
         "annual_interest_rate_pct": rate,
@@ -158,6 +208,7 @@ def _afford(message: str, applicant_id: str, *, emi_only: bool) -> dict[str, Any
             f"Illustration at {illustrative['annual_interest_rate_pct']}% nominal: "
             f"{_money(illustrative['installment_inr'])} per period. {illustrative['note']}"
         )
+    bits.extend(extra_notes)
     bits.append(f"Profile source: {source}. Essential living expenses were not invented.")
     return _envelope(
         " ".join(bits),
@@ -166,8 +217,8 @@ def _afford(message: str, applicant_id: str, *, emi_only: bool) -> dict[str, Any
     )
 
 
-def _explain(applicant_id: str, scorer: Any) -> dict[str, Any]:
-    application, source, error = _application(applicant_id)
+def _explain(applicant_id: str, scorer: Any, linked: Optional[LinkedContext] = None) -> dict[str, Any]:
+    application, source, error = _resolve(applicant_id, linked)
     if application is None:
         return _envelope(error or "No application is available.", [{"label": "score.explain", "status": "error"}])
     result = scorer.score(application)
@@ -185,10 +236,10 @@ def _explain(applicant_id: str, scorer: Any) -> dict[str, Any]:
     return _envelope(" ".join(lines), [{"label": "shap.TreeExplainer", "status": "done"}], {"kind": "explanation", "result": explanation, "score": result})
 
 
-def _counterfactual(applicant_id: str, scorer: Any) -> dict[str, Any]:
+def _counterfactual(applicant_id: str, scorer: Any, linked: Optional[LinkedContext] = None) -> dict[str, Any]:
     from .counterfactual import analyse_counterfactual
 
-    application, source, error = _application(applicant_id)
+    application, source, error = _resolve(applicant_id, linked)
     if application is None:
         return _envelope(error or "No application is available.", [{"label": "counterfactual.search", "status": "error"}])
     result = analyse_counterfactual(scorer, application)
@@ -224,8 +275,49 @@ def _revenue(applicant_id: str) -> dict[str, Any]:
     return _envelope(reply, [{"label": "revenue_volatility.analyse", "status": "done"}], {"kind": "revenue_share", "result": result})
 
 
+def _trend_reply(values: list[float], source: str, window: str = "", partial_month: Optional[float] = None) -> dict[str, Any]:
+    """Describe the observed monthly income: total, recent vs earlier average, direction. No forecast.
+
+    `partial_month` is the current, unfinished month's income: it counts toward the total but not the trend, since a
+    month that is a third over would otherwise always read as a decline.
+    """
+    from .paypal.income import TREND_BAND, _trend
+
+    total = sum(values) + (partial_month or 0.0)
+    span = f" ({window})" if window else ""
+    if total <= 0:
+        return _envelope(
+            f"There are no completed incoming payments in the last {len(values)} months{span}, so there is no income "
+            f"trend to read. I did not fill the gap with example data. Source: {source}.",
+            [{"label": "income.trend", "status": "insufficient_data"}],
+            {"kind": "income_trend", "result": {"status": "no_income", "months": values}},
+        )
+    recent, earlier = values[-3:], values[-6:-3]
+    recent_avg = sum(recent) / len(recent)
+    earlier_avg = sum(earlier) / len(earlier) if earlier else None
+    trend = _trend(values)
+    active = sum(1 for value in values if value > 0)
+    compare = (f"averaging {_money(recent_avg)} a month over the last 3 months against {_money(earlier_avg)} in the 3 "
+               f"before, so the trend is {trend} (a change within {TREND_BAND:.0%} counts as stable)."
+               if earlier_avg is not None else f"averaging {_money(recent_avg)} a month recently.")
+    so_far = (f" This month so far: {_money(partial_month)}, left out of the trend because the month is not over."
+              if partial_month is not None else "")
+    return _envelope(
+        f"Income over the last {len(values)} full months{span}: {_money(total - (partial_month or 0.0))}, with income in "
+        f"{active} of them, {compare}{so_far} This describes what happened; it is not a forecast. Source: {source}.",
+        [{"label": "income.trend", "status": "done"}],
+        {"kind": "income_trend", "result": {"status": trend, "total_inr": round(total, 2), "active_months": active,
+                                            "recent_avg_inr": round(recent_avg, 2),
+                                            "earlier_avg_inr": None if earlier_avg is None else round(earlier_avg, 2)}},
+    )
+
+
 def _income(applicant_id: str) -> dict[str, Any]:
-    return _revenue(applicant_id)
+    loaded = revenues_for_applicant(applicant_id)
+    if loaded is None:
+        return _revenue(applicant_id)
+    values, source = loaded
+    return _trend_reply(values, source)
 
 
 def _offer(message: str) -> dict[str, Any]:
@@ -259,8 +351,8 @@ def _offer(message: str) -> dict[str, Any]:
     )
 
 
-def _score(applicant_id: str, scorer: Any) -> dict[str, Any]:
-    application, source, error = _application(applicant_id)
+def _score(applicant_id: str, scorer: Any, linked: Optional[LinkedContext] = None) -> dict[str, Any]:
+    application, source, error = _resolve(applicant_id, linked)
     if application is None:
         return _envelope(error or "No application is available.", [{"label": "score.score", "status": "error"}])
     result = scorer.score(application)
@@ -345,7 +437,146 @@ def _dispute(applicant_id: str) -> dict[str, Any]:
     )
 
 
-def handle_chat(message: str, applicant_id: str, scorer: Any) -> dict[str, Any]:
+def _linked_afford(message: str, linked: LinkedContext, *, emi_only: bool) -> dict[str, Any]:
+    request = linked.score_request()
+    months = linked.months()
+    paypal_average = round(sum(months) / len(months), 2) if months else 0.0
+    if request is not None:
+        income, source = request.monthly_income_inr, "your PayScore inputs (PayPal history plus the details you entered)"
+        notes: tuple[str, ...] = ()
+    else:
+        income, source = paypal_average, f"{LINKED_SOURCE}, {linked.window()}"
+        notes = ("Income is the 12-month PayPal average. Existing repayments are unknown until you run PayScore, "
+                 "so they are not counted.",)
+    if not income or income <= 0:
+        return _envelope(
+            "Your linked PayPal account shows no completed incoming payments in the last 12 months, so I cannot judge "
+            "whether a repayment is affordable. I did not substitute example income. Run PayScore with a declared "
+            "monthly income if PayPal is not where you get paid.",
+            [{"label": "affordability.assess", "status": "insufficient_data"}],
+            {"kind": "affordability", "result": {"status": "no_income"}, "profile_source": source},
+        )
+    return _afford_with(
+        message, emi_only=emi_only, source=source, income=float(income),
+        debt=None if request is None else request.existing_monthly_debt_payments_inr,
+        default_amount=None if request is None else float(request.requested_loan_amount_inr),
+        default_note="The question did not name an amount, so this uses the loan amount on your PayScore request.",
+        extra_notes=notes,
+    )
+
+
+def _linked_revenue(linked: LinkedContext) -> dict[str, Any]:
+    first = next((i for i, value in enumerate(linked.months()) if value > 0), None)
+    values = [] if first is None else linked.months()[first:]
+    result = analyse_revenue(values or None, source="paypal_transaction_search")
+    if not values:
+        return _envelope(
+            "Your linked PayPal account has no months with income yet, so there is no history to size a revenue share "
+            "from. I did not invent one.",
+            [{"label": "revenue_volatility.analyse", "status": "insufficient_data"}],
+            {"kind": "revenue_share", "result": result},
+        )
+    metrics = result.get("metrics") or {}
+    recommended = result.get("recommended_percentage")
+    share = "no percentage" if recommended is None else f"{recommended:.0f}%"
+    return _envelope(
+        f"From {metrics.get('n')} months of your PayPal income since your first sale, mean {_money(metrics.get('mean_inr'))}, "
+        f"coefficient of variation {metrics.get('coefficient_of_variation')}. Status {result.get('status')}, "
+        f"confidence {result.get('confidence')}. The deterministic policy illustrates {share}; it is not statistically "
+        f"validated. Source: {LINKED_SOURCE}, {linked.window()}.",
+        [{"label": "revenue_volatility.analyse", "status": "done"}],
+        {"kind": "revenue_share", "result": result},
+    )
+
+
+def _linked_trend(linked: LinkedContext) -> dict[str, Any]:
+    from calendar import monthrange
+    from datetime import date
+
+    months = linked.months()
+    try:
+        end = date.fromisoformat(str(linked.profile.get("window_end")))
+        partial = end.day < monthrange(end.year, end.month)[1]
+    except ValueError:
+        partial = False
+    if partial and months:
+        return _trend_reply(months[:-1], LINKED_SOURCE, linked.window(), partial_month=months[-1])
+    return _trend_reply(months, LINKED_SOURCE, linked.window())
+
+
+def _linked_disburse() -> dict[str, Any]:
+    return _envelope(
+        "I can't set up a payout for your linked account. PayPal sign-in doesn't share your PayPal email with "
+        "Paypilot, so there is no verified recipient, and I won't send money to a guessed address. The demo personas "
+        "show the full approve-then-pay flow in the sandbox.",
+        [{"label": "disbursement.approval", "status": "unavailable"}],
+    )
+
+
+def _linked_dispute(linked: LinkedContext) -> dict[str, Any]:
+    rate = linked.profile.get("dispute_rate_12m")
+    return _envelope(
+        f"Your linked PayPal account's dispute rate over the last 12 months is {rate if rate is not None else 'not available'} "
+        "(disputes per completed sale). Drafting a response needs the dispute's details, which Paypilot only has for "
+        "the demo personas; open the case in PayPal's Resolution Center to respond.",
+        [{"label": "disputes.summary", "status": "done"}],
+        {"kind": "dispute", "result": {"dispute_rate_12m": rate, "source": "paypal"}},
+    )
+
+
+def _linked_hardship(linked: LinkedContext) -> dict[str, Any]:
+    months = linked.months()
+    recent = months[-1] if months else 0.0
+    gap = linked.profile.get("longest_income_gap_days_12m")
+    return _envelope(
+        "Hardship relief applies to a PayScore loan, and your linked account has none, so there is nothing to pause. "
+        f"For context, PayPal shows {_money(recent)} of income this month and a longest gap of {gap} days between "
+        "payments in the last 12 months.",
+        [{"label": "hardship.review", "status": "none"}],
+        {"kind": "hardship", "result": {"status": "none", "source": "paypal"}},
+    )
+
+
+def _handle_linked(message: str, linked: LinkedContext, scorer: Any) -> dict[str, Any]:
+    """The same intents as the demo, answered from the linked account. A demo persona is never consulted."""
+    if _DISBURSE.search(message):
+        return _linked_disburse()
+    if _HARDSHIP.search(message):
+        return _linked_hardship(linked)
+    if _DISPUTE.search(message):
+        return _linked_dispute(linked)
+    if _AFFORD.search(message) or (_LOAN.search(message) and parse_amount_inr(message) is not None):
+        return _linked_afford(message, linked, emi_only=False)
+    if _COUNTER.search(message):
+        return _counterfactual("", scorer, linked)
+    if _EXPLAIN.search(message):
+        return _explain("", scorer, linked)
+    if _REVENUE.search(message):
+        return _linked_revenue(linked)
+    if _OFFER.search(message):
+        return _offer(message)
+    if _EMI.search(message):
+        return _linked_afford(message, linked, emi_only=True)
+    if _INCOME.search(message):
+        return _linked_trend(linked)
+    if _SCORE.search(message):
+        return _score("", scorer, linked)
+    return _envelope(
+        "I answer from your linked PayPal account: your income trend, whether a repayment fits, a revenue share from "
+        "your history, or an offer's real cost. Run PayScore to unlock score explanations and what-ifs.",
+        [{"label": "copilot.help", "status": "done"}],
+    )
+
+
+def handle_chat(message: str, applicant_id: str, scorer: Any, linked: Optional[LinkedContext] = None) -> dict[str, Any]:
+    if linked is not None:
+        try:
+            return _handle_linked(message, linked, scorer)
+        except Exception:
+            return _envelope(
+                "The tool failed before it finished. No money was moved and no figure was invented in its place.",
+                [{"label": "copilot", "status": "error"}],
+            )
     try:
         if _DISBURSE.search(message):
             return _disburse(message, applicant_id)

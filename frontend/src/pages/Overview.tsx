@@ -5,8 +5,9 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, Icon } from '../components/ui/Workspace'
 import { Skeleton } from '../components/ui/Skeleton'
-import { apiRequest, money, type Persona } from '../lib/api'
+import { apiRequest, fromFirstIncome, money, monthLabel, type Persona } from '../lib/api'
 import { useAuth } from '../context/AuthContext'
+import { useActivePersona } from '../lib/personas'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 type IncomeProfile = {
@@ -48,8 +49,18 @@ function useDemoProgress() {
   return { completed, mark }
 }
 
+/** The chart's headline follows the data: no cheerful copy over an empty account. */
+function incomeHeadline(profile: IncomeProfile | null) {
+  if (!profile) return 'Your income, month by month.'
+  if (profile.total_income_12m_inr <= 0) return 'No PayPal income yet.'
+  if (profile.income_trend_12m === 'increasing') return 'Your income is finding its stride.'
+  if (profile.income_trend_12m === 'decreasing') return 'Your income has dipped lately.'
+  return 'Your income is holding steady.'
+}
+
 export function Overview() {
   const { session } = useAuth()
+  const active = useActivePersona()
   const location = useLocation()
   const [profile, setProfile] = useState<IncomeProfile | null>(null)
   const [persona, setPersona] = useState<Persona | null>(null)
@@ -80,19 +91,25 @@ export function Overview() {
 
   return (
     <div className="space-y-6">
-      <PageHeading eyebrow="Your financial workspace" title={`Good morning${persona ? `, ${persona.display_name.split(' ')[0]}` : ''}.`}
+      <PageHeading eyebrow="Your financial workspace" title={`Good morning${active.linked ? (active.firstName ? `, ${active.firstName}` : '') : persona ? `, ${persona.display_name.split(' ')[0]}` : ''}.`}
         detail="Your work has a rhythm. Here’s the bigger picture, and a little help with what comes next." action={
           <Link to="/app/copilot"><Button><span>Continue with copilot</span><Icon name="arrow" size={16} /></Button></Link>
         } />
 
       {error && <Notice tone="warning">{error} · Start the API to load live demo data. The demo tour remains available below.</Notice>}
       {session?.demo && <Notice>Demo workspace · synthetic persona data only. No real credit decision, lending, or money movement.</Notice>}
+      {profile?.source === 'paypal' && profile.total_income_12m_inr === 0 && (
+        <Notice>
+          Your PayPal account is linked, but it has no completed incoming payments in the last 12 months yet.
+          New payments can take up to 3 hours to appear in PayPal's transaction search.
+        </Notice>
+      )}
 
       <div className="grid gap-4 border-y border-[rgb(var(--line))] py-4 sm:grid-cols-2 xl:grid-cols-4">
         {[
-          { label: '12-month income', value: profile ? money(profile.total_income_12m_inr, true) : '—', detail: 'Monthly average' },
+          { label: '12-month income', value: profile ? money(profile.total_income_12m_inr, true) : '—', detail: 'Total, trailing 12 months' },
           { label: 'Distinct clients', value: profile?.distinct_client_count_12m ?? '—', detail: 'Across the trailing year' },
-          { label: 'Refund rate', value: profile ? `${(profile.refund_rate_12m * 100).toFixed(1)}%` : '—', detail: 'Share of total receipts' },
+          { label: 'Refund rate', value: profile ? `${(profile.refund_rate_12m * 100).toFixed(1)}%` : '—', detail: 'Share of transactions' },
           { label: 'Longest payment gap', value: profile ? `${profile.longest_income_gap_days_12m} days` : '—', detail: 'Across earning months' },
         ].map((item) => (
           <div key={item.label} className="px-1 py-1">
@@ -107,25 +124,30 @@ export function Overview() {
         <GlassCard interactive={false} className="min-w-0 p-5 sm:p-6">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-sm font-semibold">Your income is finding its stride.</h2>
-              <p className="mt-1 text-xs text-slate-500">12 months of synthetic cashflow</p>
+              <h2 className="text-sm font-semibold">{incomeHeadline(profile)}</h2>
+              <p className="mt-1 text-xs text-slate-500">{active.linked || profile?.source === 'paypal' ? 'From your linked PayPal account' : '12 months of synthetic cashflow'}</p>
             </div>
             <span className="hidden text-[10px] uppercase text-slate-500 sm:block">Trailing 12 months</span>
           </div>
           {profile ? (
             <>
               <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
-                <p className="text-3xl font-bold">{money(profile.monthly_income_12m?.at(-1)?.income_inr ?? profile.total_income_12m_inr / 12, true)}</p>
+                <div>
+                  <p className="text-3xl font-bold">{money(profile.monthly_income_12m?.at(-1)?.income_inr ?? profile.total_income_12m_inr / 12, true)}</p>
+                  <p className="mt-1 text-[11px] text-slate-500">
+                    {profile.monthly_income_12m?.at(-1) ? `Latest month · ${monthLabel(profile.monthly_income_12m.at(-1)!.month)}` : 'Monthly average'}
+                  </p>
+                </div>
                 <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-800">{profile.income_trend_12m}</span>
               </div>
               {profile.monthly_income_12m?.length ? (
                 <div className="mt-3 h-56 min-w-0">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={profile.monthly_income_12m}>
+                    <AreaChart data={fromFirstIncome(profile.monthly_income_12m)}>
                       <defs><linearGradient id="overview-income" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#0070BA" stopOpacity="0.2" /><stop offset="100%" stopColor="#0070BA" stopOpacity="0" /></linearGradient></defs>
-                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#718096' }} />
+                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#718096' }} tickFormatter={monthLabel} interval="preserveStartEnd" minTickGap={18} />
                       <YAxis hide />
-                      <Tooltip formatter={(value) => [money(Number(value)), 'Income']} />
+                      <Tooltip formatter={(value) => [money(Number(value)), 'Income']} labelFormatter={(m) => monthLabel(String(m))} />
                       <Area type="monotone" dataKey="income_inr" stroke="#0070BA" strokeWidth={2} fill="url(#overview-income)" />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -133,7 +155,9 @@ export function Overview() {
               ) : <p className="py-16 text-center text-sm text-slate-500">Income trend is not available.</p>}
               <Link to="/app/income" className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-paypal">Explore the transactions <Icon name="arrow" size={13} /></Link>
             </>
-          ) : <div className="grid h-64 place-items-center text-center text-sm text-slate-500">{error ? 'Start the API to load the synthetic income profile.' : <Skeleton className="h-40 w-full" />}</div>}
+          ) : <div className="grid h-64 place-items-center text-center text-sm text-slate-500">{error ? 'Start the API to load the income profile.' : active.linked
+            ? <div className="w-full space-y-3"><Skeleton className="h-40 w-full" /><p>Loading your PayPal data…</p></div>
+            : <Skeleton className="h-40 w-full" />}</div>}
         </GlassCard>
 
         <GlassCard interactive={false} className="bg-[#eaf4fb] p-5 sm:p-6">
@@ -177,9 +201,8 @@ export function Overview() {
           >
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Progress</p>
-              <p className="text-xs font-mono text-paypal">{completed.size} / {DEMO_STEPS.length} steps</p>
             </div>
-            <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-2">
+            <div className="mt-3 flex items-start gap-2 overflow-x-auto pb-2">
               {DEMO_STEPS.map((step, i) => (
                 <motion.div
                   key={step.id}

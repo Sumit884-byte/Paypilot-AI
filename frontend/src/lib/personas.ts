@@ -12,6 +12,8 @@ export type DemoPersona = {
   paypalDemoId: string
   requestedAmountInr: number
   requestedTermMonths: number
+  /** True for a real PayPal-linked user: names come from them, not from a demo persona */
+  linked?: boolean
 }
 
 export const DEMO_PERSONAS: Record<DemoPersona['key'], DemoPersona> = {
@@ -46,5 +48,10 @@ export const isDemoPersonaKey = (value: string | undefined): value is DemoPerson
 
 export function useActivePersona(): DemoPersona {
   const { session } = useAuth()
-  return isDemoPersonaKey(session?.persona) ? DEMO_PERSONAS[session.persona] : DEMO_PERSONAS.priya
+  const base = isDemoPersonaKey(session?.persona) ? DEMO_PERSONAS[session.persona] : DEMO_PERSONAS.priya
+  if (!session?.linked || session.demo) return base
+  // A real PayPal user: never show a demo persona's name. The applicant id still drives the demo scoring calls.
+  const name = session.displayName || ''
+  return { ...base, name, firstName: name.split(' ')[0] || '', initial: (name[0] || 'Y').toUpperCase(),
+           tagline: 'PayPal account', linked: true }
 }

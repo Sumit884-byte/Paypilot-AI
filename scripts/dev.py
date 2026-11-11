@@ -77,12 +77,14 @@ def setup_python(skip: bool) -> None:
         say("Creating .venv")
         run([sys.executable, "-m", "venv", str(VENV)])
     stamp = VENV / ".requirements.sha256"
-    wanted = digest(ROOT / "requirements.txt")
+    wanted = digest(ROOT / "requirements.txt") + digest(ROOT / "pyproject.toml")
     if skip or stamp_matches(stamp, wanted):
         return
     say("Installing Python dependencies")
     run([VENV_PYTHON, "-m", "pip", "install", "--upgrade", "pip"])
     run([VENV_PYTHON, "-m", "pip", "install", "-r", ROOT / "requirements.txt"])
+    # Editable install adds the `paypilot` and `paypilot-mcp` commands to .venv
+    run([VENV_PYTHON, "-m", "pip", "install", "--no-deps", "-e", ROOT])
     stamp.write_text(wanted, encoding="utf-8")
 
 
@@ -181,7 +183,8 @@ def main() -> None:
         if not port_free(port):
             fail(f"Port {port} is already in use. Stop the other process or pass --api-port/--web-port.")
     if not (ROOT / ".env").exists():
-        say("No .env found: running in demo mode. Copy .env.example to .env to enable PayPal sandbox features.")
+        say("No .env found: demo mode, with PayPal payouts and checkout simulated. "
+            "Run scripts/configure_paypal.py to use the real PayPal sandbox.")
 
     web_url = f"http://localhost:{args.web_port}"
     env = {**os.environ, "PAYSCORE_FRONTEND_URL": os.environ.get("PAYSCORE_FRONTEND_URL", web_url)}

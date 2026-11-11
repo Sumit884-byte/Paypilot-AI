@@ -11,7 +11,9 @@ import { PersonaSwitch } from './PersonaSwitch'
 
 export function Topbar({ onMenu: _onMenu }: { onMenu: () => void }) {
   const { session, logout } = useAuth()
-  const { applicantId } = useActivePersona()
+  const { applicantId: personaApplicant, linked } = useActivePersona()
+  // A linked account has its own applicant id; until it runs PayScore there is no score to show
+  const applicantId = linked ? 'linked' : personaApplicant
   // Tagged with its applicant so a persona switch never shows the previous persona's score
   const [live, setLive] = useState<{ applicantId: string; score: number } | null>(null)
   const liveScore = live?.applicantId === applicantId ? live.score : null
@@ -22,6 +24,15 @@ export function Topbar({ onMenu: _onMenu }: { onMenu: () => void }) {
     if (!session) return
     previousScore.current = null
     const fetchScore = async () => {
+      if (linked) {
+        // Linked scores come from POST /score/linked and live in this tab, never from a demo persona
+        try {
+          const own = JSON.parse(sessionStorage.getItem('paypilot.score') || 'null')
+          if (own?.linked && typeof own.score === 'number') setLive({ applicantId, score: own.score })
+          else setLive(null)
+        } catch {}
+        return
+      }
       try {
         const data = await apiRequest<any>(`/score/live?applicant_id=${applicantId}`)
         if (data?.score !== undefined) {
@@ -35,9 +46,9 @@ export function Topbar({ onMenu: _onMenu }: { onMenu: () => void }) {
       } catch {}
     }
     fetchScore()
-    const timer = setInterval(fetchScore, 8000)
+    const timer = setInterval(fetchScore, linked ? 2000 : 8000)
     return () => clearInterval(timer)
-  }, [session, applicantId])
+  }, [session, applicantId, linked])
 
   return (
     <header className="z-20 border-b border-[rgb(var(--line))] bg-[rgb(var(--surface))] px-4 sm:px-6 lg:px-10">

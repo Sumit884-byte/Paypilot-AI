@@ -4,7 +4,7 @@ import { GlassCard } from '../components/ui/GlassCard'
 import { Button } from '../components/ui/Button'
 import { MetricCard, Notice, PageHeading, Icon, CountUp } from '../components/ui/Workspace'
 import type { TransactionRow } from '../components/income/TransactionGrid'
-import { apiRequest, money, type Persona } from '../lib/api'
+import { apiRequest, fromFirstIncome, money, monthLabel, type Persona } from '../lib/api'
 import { useActivePersona } from '../lib/personas'
 import { useAuth } from '../context/AuthContext'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
@@ -26,11 +26,12 @@ type Profile = {
 const demoNotice = 'Synthetic demo data · PayPal sandbox only · no real lending or money movement.'
 
 function usePersona() {
-  const { key } = useActivePersona()
+  const { key, linked } = useActivePersona()
   const [p, setP] = useState<Persona | null>(null)
   useEffect(() => {
-    apiRequest<Persona>(`/demo/persona/${key}`).then(setP).catch(() => {})
-  }, [key])
+    // A linked account never loads a demo persona, so its transactions cannot appear here
+    if (!linked) apiRequest<Persona>(`/demo/persona/${key}`).then(setP).catch(() => {})
+  }, [key, linked])
   return p
 }
 
@@ -99,7 +100,7 @@ export function Income() {
             <MetricCard
               label="Dispute rate"
               value={`${(profile.dispute_rate_12m * 100).toFixed(1)}%`}
-              detail={`Longest gap · ${profile.longest_income_gap_days_12m} days`}
+              detail="Share of transactions"
               icon={<Icon name="clock" />}
               tone="rose"
               delay={0.2}
@@ -115,7 +116,7 @@ export function Income() {
           {profile?.monthly_income_12m?.length ? (
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={profile.monthly_income_12m}>
+                <AreaChart data={fromFirstIncome(profile.monthly_income_12m)}>
                   <defs>
                     <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#0070BA" stopOpacity="0.35" />
@@ -127,6 +128,9 @@ export function Income() {
                     axisLine={false}
                     tickLine={false}
                     tick={{ fontSize: 11, fill: 'rgb(71 85 105)' }}
+                    tickFormatter={monthLabel}
+                    interval="preserveStartEnd"
+                    minTickGap={18}
                   />
                   <YAxis hide />
                   <Tooltip
@@ -185,12 +189,12 @@ export function Income() {
         </div>
       </GlassCard>
 
-      {/* AG Grid Transaction Feed */}
-      <GlassCard className="overflow-hidden p-0">
+      {/* AG Grid Transaction Feed: demo personas only; the linked profile returns aggregates, not rows */}
+      {rowData.length > 0 && <GlassCard className="overflow-hidden p-0">
         <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 p-5">
           <div>
             <h2 className="font-semibold">Transaction feed</h2>
-            <p className="mt-1 text-xs text-slate-500">Last 12 months · AG Grid powered</p>
+            <p className="mt-1 text-xs text-slate-500">Most recent transactions · AG Grid powered</p>
           </div>
           <span className="rounded-full bg-paypal/10 px-3 py-1 text-[11px] font-semibold text-paypal">
             {rowData.length} transactions
@@ -199,7 +203,7 @@ export function Income() {
         <Suspense fallback={<p className="py-16 text-center text-sm text-slate-500">Loading transactions…</p>}>
           <TransactionGrid rows={rowData} />
         </Suspense>
-      </GlassCard>
+      </GlassCard>}
     </div>
   )
 }

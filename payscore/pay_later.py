@@ -162,7 +162,8 @@ def compare(req: PayLaterRequest) -> dict[str, Any]:
         if cheapest["id"] == "loan_offer":
             summary = "No cheaper PayPal Pay Later option is available for this purchase."
         else:
-            summary = (f"{cheapest['name']} costs {cheapest_out['saving_vs_offer']:,.2f} less in credit costs than "
+            currency = MARKET_CURRENCY.get(market, "")
+            summary = (f"{cheapest['name']} costs {currency} {cheapest_out['saving_vs_offer']:,.2f} less in credit costs than "
                        f"the {req.lender_name} offer, before any late fees.")
             if cheapest["id"] == "paypal_pay_in_4":
                 summary += " It is repaid within 6 weeks, so each payment is larger."

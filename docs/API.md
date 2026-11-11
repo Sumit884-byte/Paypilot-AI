@@ -107,6 +107,23 @@ Scores a normalised applicant record using the trained LightGBM model (or labell
 
 ---
 
+### POST /score/linked
+PayScore for the browser's linked PayPal account. Transaction features (6-month revenue and volatility, 90-day sale
+count, average sale and refund rate, active months, dispute rate, invoice turnaround, top-client share) come from the
+account's PayPal history. The body carries only what PayPal sign-in does not share:
+
+```json
+{"age_years": 31, "employment_type": "self_employed", "requested_loan_amount_inr": 100000,
+ "requested_term_months": 12, "monthly_income_inr": null, "existing_monthly_debt_payments_inr": 0}
+```
+
+`monthly_income_inr` defaults to the 12-month PayPal average. The response is the normal score plus `application`
+(the scored request, with a hashed `PAYPAL-…` applicant id), `inputs` (each field labelled `paypal`, `you`, or
+`not_available`), and `payout_available: false`, since no verified recipient email is shared.
+Errors: `401 paypal_not_linked`, `422 no_income_evidence` (no PayPal income and no declared income), `502 paypal_unavailable`.
+
+**PayPal API:** Transaction Search, Disputes, Invoicing (with the linked account's token)
+
 ### GET /score/live?applicant_id=<id>
 Returns the latest stored score snapshot (updated by `POST /score` or webhook). For frontend polling of live score changes.
 
@@ -150,7 +167,7 @@ Redirects the buyer to PayPal OAuth consent screen (sandbox).
 
 ---
 
-### GET /paypal/auth/callback?code=&state=
+### GET /oauth/callback?code=&state= (alias: /paypal/auth/callback)
 Completes OAuth authorization-code exchange; stores linked account tokens.
 
 **Response:** redirect to frontend or `{"linked": true}`
@@ -406,7 +423,12 @@ Chooses one local tool (SHAP, counterfactuals, affordability, offer guard, reven
 {"message": "Can I afford ₹50k?", "applicant_id": "PSC-PRIYA-001"}
 ```
 
-**PayPal API:** none
+With `"mode": "linked"` the copilot answers from the browser's linked PayPal account and never reads a demo persona:
+income trend, affordability, and revenue share use the PayPal profile; score, explanation, and what-ifs use the
+`application` returned by `POST /score/linked` (sent back by the browser, re-validated and re-scored). A payout request
+in linked mode returns no approval card, because there is no verified recipient.
+
+**PayPal API:** none in demo mode; Transaction Search, Disputes, Invoicing in linked mode
 
 ### POST /explain
 Same explanation as `/score` for one `ScoreRequest`. Does not record disbursement approval.

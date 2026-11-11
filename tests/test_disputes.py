@@ -51,14 +51,15 @@ def test_dispute_endpoints(client, monkeypatch):
 
 
 def test_disputes_list_and_draft_use_linked_account(client, monkeypatch):
-    """List and draft must resolve the same PayPal account when one is linked."""
+    """List and draft must resolve the same PayPal account when this browser has one linked."""
+    from payscore.paypal import routes
+
     monkeypatch.delenv("DISPUTES_MCP_ENDPOINT", raising=False)
-    prior_active = linked_accounts.ACTIVE_ACCOUNT_ID
     linked_accounts.LINKED_ACCOUNTS.clear()
-    linked_accounts.ACTIVE_ACCOUNT_ID = None
     try:
         linked_accounts.store_account("linked-user", {"access_token": "tok"})
         linked_accounts.LINKED_ACCOUNTS["linked-user"]["paypal_account_id"] = "PSC-PRIYA-001"
+        monkeypatch.setattr(routes, "linked_account_id", lambda request: "linked-user")
 
         listed = client.get("/paypal/disputes/PSC-OTHER-001").json()
         assert listed["source"] == "local_fallback"
@@ -71,4 +72,15 @@ def test_disputes_list_and_draft_use_linked_account(client, monkeypatch):
         assert "DP-1001" in drafted["draft"]
     finally:
         linked_accounts.LINKED_ACCOUNTS.clear()
-        linked_accounts.ACTIVE_ACCOUNT_ID = prior_active
+
+
+def test_another_browsers_link_is_never_used(client, monkeypatch):
+    """An account linked on the server must not answer for a browser that did not link it."""
+    monkeypatch.delenv("DISPUTES_MCP_ENDPOINT", raising=False)
+    linked_accounts.LINKED_ACCOUNTS.clear()
+    try:
+        linked_accounts.store_account("someone-else", {"access_token": "tok"})
+        linked_accounts.LINKED_ACCOUNTS["someone-else"]["paypal_account_id"] = "PSC-PRIYA-001"
+        assert client.get("/paypal/disputes/PSC-OTHER-001").json()["disputes"] == []
+    finally:
+        linked_accounts.LINKED_ACCOUNTS.clear()

@@ -48,6 +48,14 @@ jobs:
       - name: First-run setup and smoke test (scripts/dev.py)
         run: python scripts/dev.py --smoke
 
+      - name: CLI and MCP commands are installed
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then BIN=.venv/Scripts; else BIN=.venv/bin; fi
+          "$BIN/paypilot" --version
+          "$BIN/paypilot" score rohan
+          "$BIN/paypilot" pay-later --amount 1200 --market US --apr 18 --fee 4 --months 12
+          test -e "$BIN/paypilot-mcp" || test -e "$BIN/paypilot-mcp.exe"
+
       - name: Test suite
         run: |
           if [ "$RUNNER_OS" = "Windows" ]; then PY=.venv/Scripts/python.exe; else PY=.venv/bin/python; fi

@@ -58,12 +58,12 @@ export function FloatingCards() {
       >
         <GlassCard interactive={false} className="p-6">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-paypal">PayScore</p>
-          <p className="mt-2 font-display text-5xl font-bold tracking-tight">742</p>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">low · Arjun, UX freelancer</p>
+          <p className="mt-2 font-display text-5xl font-bold tracking-tight">731</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Low risk · Priya, jewellery seller</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10">
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: '72%' }}
+              animate={{ width: '79%' }}
               transition={{ delay: 0.4, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
               className="h-full rounded-full bg-gradient-to-r from-paypal to-amber-glow"
             />
@@ -84,7 +84,7 @@ export function FloatingCards() {
       >
         <GlassCard interactive={false} className="p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">12-month PayPal income</p>
-          <p className="mt-1 text-2xl font-bold">₹ 4.82L</p>
+          <p className="mt-1 text-2xl font-bold">₹16.5L</p>
           <svg viewBox="0 0 160 48" className="mt-3 h-12 w-full">
             <motion.path
               d="M2 36 C 20 34, 28 22, 44 24 S 70 40, 88 18 S 120 8, 158 14"

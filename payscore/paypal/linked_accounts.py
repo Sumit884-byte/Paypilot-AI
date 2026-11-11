@@ -15,7 +15,6 @@ class OAuthAttempt:
 
 OAUTH_ATTEMPTS: dict[str, OAuthAttempt] = {}
 LINKED_ACCOUNTS: dict[str, dict] = {}
-ACTIVE_ACCOUNT_ID: str | None = None
 STATE_TTL_SECONDS = 600
 
 
@@ -38,14 +37,12 @@ def consume_attempt(state: str) -> str | None:
 
 
 def store_account(user_id: str, tokens: dict) -> None:
-    global ACTIVE_ACCOUNT_ID
     LINKED_ACCOUNTS[user_id] = {
         "access_token": tokens["access_token"],
         "refresh_token": tokens.get("refresh_token"),
         "expires_in": tokens.get("expires_in"),
         "stored_at": time.time(),
     }
-    ACTIVE_ACCOUNT_ID = user_id
 
 
 def update_tokens(user_id: str, tokens: dict) -> None:

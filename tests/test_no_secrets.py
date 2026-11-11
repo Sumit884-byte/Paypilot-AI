@@ -21,8 +21,10 @@ def _committable_files():
 
 
 def test_no_secrets_or_env_files():
-    assert not [p for p in ROOT.glob(".env") if p.is_file()]
-    for p in _committable_files():
+    # A local .env is how PayPal is configured; it just must never be committable
+    committable = _committable_files()
+    assert not [p for p in committable if p.name == ".env" or (p.name.startswith(".env.") and p.name != ".env.example")]
+    for p in committable:
         if not p.is_file() or SKIP_DIRS & set(p.relative_to(ROOT).parts) or p.suffix not in {
                 ".py", ".md", ".json", ".txt", ".example", ".toml", ".ini"}:
             continue

@@ -6,6 +6,9 @@ explicit borrower approval. **Sandbox only:** synthetic personas, PayPal sandbox
 
 ## For judges
 
+* **Watch the demo:** [docs/Paypilot_demo.mp4](docs/Paypilot_demo.mp4) (2 min 50 s, voiceover, dark theme).
+* **Try it live:** https://paypilot-ai-chi.vercel.app
+
 No login is needed. Open either link to land in the demo workspace as that persona:
 
 | Persona | Link | Committed-model score |
@@ -24,7 +27,26 @@ Things to try:
    in India, so INR purchases report it as unavailable. Choose the US market to see Pay in 4 and Pay Monthly priced
    from PayPal's published terms.
 3. **AI copilot:** ask "Can I afford ₹50k?" or "Please disburse Rs 50,000". Payouts wait for an explicit Approve.
-4. **Model card, Income Passport, Negotiation:** under the matching nav items.
+4. **Income Passport:** generate one, open its public verification page, then revoke it.
+5. **AG Studio:** type "show my income by client" or "show my score drivers" to add live widgets.
+6. **Model card, Negotiation, Repayment:** under the matching nav items.
+
+### Log in with PayPal (your own sandbox account)
+
+**Log in with PayPal** on the landing page links a PayPal sandbox account through OAuth (PKCE). Paypilot never sees the
+password, and the token can only read transaction history, disputes, and invoices. Once linked, every screen reads that
+account instead of a demo persona:
+
+* **Overview and Income** show the account's own 12-month income. An account with no sales says so; it is never filled
+  with demo figures.
+* **PayScore** asks only for what PayPal does not share (age, employment, the loan you want, and optionally a declared
+  income). `POST /score/linked` combines that with the PayPal history and labels every model input as *from PayPal*,
+  *from you*, or *not available*.
+* **AI copilot** answers affordability, income trend, and score questions from the linked account. It never offers a
+  payout for a linked account, because PayPal sign-in does not share a verified payout email.
+
+The link lives in an encrypted, HttpOnly cookie in that browser only. A server never uses one browser's PayPal account
+for another visitor, and switching to a demo persona unlinks it.
 
 ### Deploy the demo
 
@@ -53,7 +75,7 @@ python3 scripts/dev.py        # macOS / Linux
 py scripts\dev.py             # Windows (PowerShell or cmd)
 ```
 
-No `.env` is needed for demo mode. To use PayPal sandbox features, copy `.env.example` to `.env` and fill in section 1.
+No `.env` is needed: without PayPal credentials, payouts, subscriptions, and checkout run in a clearly labelled simulated mode (ids start with `SIM-`, no PayPal call). To use the real PayPal sandbox, run `python3 scripts/configure_paypal.py`, or copy `.env.example` to `.env` and fill in section 1.
 
 **Manual setup.** Only the virtual-environment activation differs by shell:
 
@@ -73,10 +95,26 @@ cd frontend && npm install && npm run dev      # in a second terminal
 
 If PowerShell refuses to run `Activate.ps1`, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once.
 
+## CLI and MCP server
+
+The same analysis is available without the web app. Both are installed into `.venv` by `scripts/dev.py`:
+
+```bash
+paypilot score rohan
+paypilot offer --apr 18 --fee 4 --principal 50000 --months 12
+paypilot pay-later --amount 1200 --market US --apr 18 --fee 4 --months 12
+claude mcp add paypilot -- /path/to/Paypilot-AI/.venv/bin/paypilot-mcp    # MCP for Claude Code
+```
+
+Ten read-only tools (score, what-if, income, offer and PDF checks, Pay Later, affordability, copilot, model card). Nothing
+moves money. Commands, tools, and client setup for Claude Desktop, Cursor, and Arka:
+[docs/CLI_AND_MCP.md](docs/CLI_AND_MCP.md).
+
 ## Repository layout
 
 ```text
 payscore/        FastAPI app and all backend logic (scoring, offers, copilot, passport, negotiation)
+                 cli.py (paypilot command), mcp_server.py (MCP server), tools.py (shared by both)
   paypal/        PayPal sandbox client, income, disbursements, repayment, webhooks
 frontend/        React + Vite app (see frontend/README.md)
 tests/           pytest suite
@@ -283,7 +321,7 @@ Required env: `PAYSCORE_API_URL`. Optional: `PAYPAL_WEBHOOK_ID` (webhook steps s
 
 Everything the smoke script hits is deployed via `render.yaml` (`payscore-ai-api` service, Python 3.12, free plan):
 
-- `GET /health`, `GET /paypal/status`, `GET /paypal/auth/login`, `GET /paypal/auth/callback`
+- `GET /health`, `GET /paypal/status`, `GET /paypal/auth/login`, `GET /oauth/callback` (alias `/paypal/auth/callback`)
 - `GET /paypal/public-config`, `GET /income-profile`
 - `POST /score`, `GET /score/live`
 - `POST /disburse`, `GET /disburse/{batch_id}`
@@ -427,6 +465,8 @@ Tests use synthetic fixtures, generated PDFs, and mocks. They do not call PayPal
 * Do not enable the external LLM for a private document. The default is off.
 * Scores, affordability, and revenue share are estimates on synthetic or caller-supplied numbers. They are not lending decisions.
 * Directory output never sets `confirmed_violation` to true.
+* A linked PayPal account is identified only by that browser's encrypted cookie. There is no server-wide "current
+  account", so one visitor's PayPal data cannot appear for another on a shared server instance.
 
 ### Known limits
 

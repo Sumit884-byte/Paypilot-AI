@@ -79,6 +79,20 @@ export const money = (amount: number, compact = false) =>
   new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: compact ? 0 : 2,
     notation: compact ? 'compact' : 'standard' }).format(Number.isFinite(amount) ? amount : 0)
 
+/** Whole rupees, for amounts that never carry paise (loan requests, limits). */
+export const rupees = (amount: number) =>
+  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Number.isFinite(amount) ? amount : 0)
+
+/** "2026-09" -> "Sep 26", for chart axes. */
+export const monthLabel = (month: string) =>
+  new Date(`${month}-01T00:00:00`).toLocaleDateString('en-IN', { month: 'short', year: '2-digit' })
+
+/** Drop the months before the first income, so a young business's chart starts when it started trading. */
+export const fromFirstIncome = <T extends { income_inr: number }>(rows: T[]) => {
+  const first = rows.findIndex((row) => row.income_inr > 0)
+  return first <= 0 ? rows : rows.slice(first)
+}
+
 export const percent = (ratio: number) => `${(Math.max(0, ratio) * 100).toFixed(1)}%`
 
 export const isDemoApplicant = (applicantId: string) => applicantId.startsWith('PSC-')

@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button'
 import { Notice, PageHeading, ProgressRing, Icon } from '../components/ui/Workspace'
 import { apiRequest, postJson, type Persona } from '../lib/api'
 import { useActivePersona } from '../lib/personas'
+import { LinkedScoreForm, ScoreInputs, type LinkedDetails, type ScoreInput } from '../components/score/LinkedScoreForm'
 
 type Factor = {
   feature?: string
@@ -34,21 +35,28 @@ type Score = {
     factors_raising_risk?: Factor[]
   }
   counterfactual_preview?: { status?: string; summary?: string } | null
+  /** Linked accounts: the scored request and where each input came from */
+  application?: Record<string, unknown>
+  inputs?: ScoreInput[]
+  linked?: boolean
 }
 
 const demoNotice = 'Synthetic demo data · PayPal sandbox only · no real lending or money movement.'
+const linkedNotice = 'Your PayPal sandbox account · a model trained on synthetic data · an estimate, not a lending decision.'
 
 function usePersona() {
-  const { key } = useActivePersona()
+  const { key, linked } = useActivePersona()
   const [p, setP] = useState<Persona | null>(null)
   useEffect(() => {
-    apiRequest<Persona>(`/demo/persona/${key}`).then(setP).catch(() => {})
-  }, [key])
+    // A linked PayPal user is scored on their own data; no demo persona is loaded
+    if (!linked) apiRequest<Persona>(`/demo/persona/${key}`).then(setP).catch(() => {})
+  }, [key, linked])
   return p
 }
 
 export function Score() {
   const p = usePersona()
+  const { linked } = useActivePersona()
   const [score, setScore] = useState<Score | null>(() => {
     try {
       return JSON.parse(sessionStorage.getItem('paypilot.score') || 'null')
@@ -75,11 +83,31 @@ export function Score() {
     }
   }
 
+  async function runLinked(details: LinkedDetails) {
+    setBusy(true)
+    setError('')
+    setOptions([])
+    try {
+      const v = await postJson<Score>('/score/linked', details)
+      setScore(v)
+      sessionStorage.setItem('paypilot.score', JSON.stringify(v))
+      // The copilot sends this back so it explains the same request; serverless instances share no memory
+      sessionStorage.setItem('paypilot.linked_application', JSON.stringify(v.application))
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not score this profile')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  // What-ifs run on the same inputs the score used
+  const scoredInput = linked ? score?.application : p?.model_input
+
   async function loadOptions() {
-    if (!p) return
+    if (!scoredInput) return
     setError('')
     try {
-      const result = await postJson<{ suggestions?: typeof options; summary?: string; status?: string }>('/counterfactuals', p.model_input)
+      const result = await postJson<{ suggestions?: typeof options; summary?: string; status?: string }>('/counterfactuals', scoredInput)
       setOptions(result.suggestions ?? [])
       if (!result.suggestions?.length) setError(result.summary || 'No eligible model-scored change raised the score.')
     } catch (e) {
@@ -96,15 +124,17 @@ export function Score() {
       <PageHeading
         eyebrow="PayScore"
         title="A score with a story."
-        detail="Review the signals behind this sandbox estimate."
-        action={<Button onClick={run} disabled={!p || busy}>{busy ? 'Scoring…' : 'Run PayScore'}</Button>}
+        detail={linked ? 'Scored from your linked PayPal history and the details you add.' : 'Review the signals behind this sandbox estimate.'}
+        action={linked ? undefined : <Button onClick={run} disabled={!p || busy}>{busy ? 'Scoring…' : 'Run PayScore'}</Button>}
       />
-      <Notice>{demoNotice}</Notice>
+      <Notice>{linked ? linkedNotice : demoNotice}</Notice>
+      {linked && <LinkedScoreForm busy={busy} onSubmit={(details) => { void runLinked(details) }} />}
       {error && <Notice tone="error">{error}</Notice>}
 
       <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-        <GlassCard className="grid place-items-center py-8">
-          <div className="relative">
+        <GlassCard className="grid place-items-center self-start py-8">
+          <div>
+            <div className="relative" style={{ width: 220, height: 220 }}>
             <ProgressRing
               value={score ? Math.max(0, Math.min(1, (score.score - 300) / 550)) : 0}
               size={220}
@@ -112,13 +142,7 @@ export function Score() {
               label={score?.score ?? '—'}
               sublabel="PayScore"
             />
-            <motion.div
-              aria-hidden="true"
-              initial={{ rotate: -135 }}
-              animate={{ rotate: score ? -135 + ((score.score - 300) / 550) * 270 : -135 }}
-              transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
-              className="pointer-events-none absolute left-1/2 top-1/2 z-10 h-[72px] w-[3px] -translate-x-1/2 -translate-y-full origin-bottom rounded-full bg-gradient-to-t from-paypal to-amber-400 shadow-[0_0_12px_rgba(0,112,186,.45)]"
-            />
+            </div>
             <div className="mt-4 text-center">
               <AnimatePresence mode="wait">
                 {score && (
@@ -155,7 +179,7 @@ export function Score() {
           </p>
           <div className="mt-5 space-y-3">
             <AnimatePresence mode="popLayout">
-              {(shapReady ? [...lowering, ...raising] : score?.drivers ?? []).map((d, i) => (
+              {(shapReady ? [...lowering, ...raising] : score?.drivers ?? []).slice().sort((a, b) => Math.abs(Number(b.contribution) || 0) - Math.abs(Number(a.contribution) || 0)).map((d, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: 18 }}
@@ -166,7 +190,7 @@ export function Score() {
                 >
                   <div className="flex gap-3">
                     <span className="grid h-9 w-9 place-items-center rounded-xl bg-paypal/10 text-paypal">
-                      <Icon name={i === 0 ? 'trend' : 'shield'} />
+                      <Icon name={d.direction === 'lowers_risk' ? 'shield' : 'trend'} />
                     </span>
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{d.label || d.name || d.feature}</p>
@@ -201,7 +225,7 @@ export function Score() {
                     To move up
                   </p>
                   <p className="mt-1 text-sm">{score.to_move_up}</p>
-                  <Button variant="ghost" className="mt-3" onClick={() => { void loadOptions() }} disabled={!p}>See eligible changes</Button>
+                  <Button variant="ghost" className="mt-3" onClick={() => { void loadOptions() }} disabled={!scoredInput}>See eligible changes</Button>
                   {options.length > 0 && (
                     <ul className="mt-3 space-y-2 text-sm">
                       {options.map((option, index) => (
@@ -218,6 +242,8 @@ export function Score() {
         </GlassCard>
       </div>
 
+      {score?.inputs && <ScoreInputs inputs={score.inputs} />}
+
       {score && (
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -232,6 +258,7 @@ export function Score() {
                   {score.disbursement_eligible
                     ? 'Score meets the threshold for sandbox disbursement'
                     : 'Score below threshold for disbursement'}
+                  {score.linked && ' · Payouts need a verified PayPal email, which sign-in does not share, so none is offered here.'}
                 </p>
               </div>
               <span
