@@ -6,15 +6,28 @@ explicit borrower approval. **Sandbox only:** synthetic personas, PayPal sandbox
 
 ## For judges
 
-* **Watch the demo:** [docs/Paypilot_demo.mp4](docs/Paypilot_demo.mp4) (2 min 50 s, voiceover, dark theme).
+* **Watch the demo:** https://youtu.be/P1mrW-ilrVQ (2 min 50 s, with voiceover)
 * **Try it live:** https://paypilot-ai-chi.vercel.app
+
+[![Paypilot demo video](https://img.youtube.com/vi/P1mrW-ilrVQ/maxresdefault.jpg)](https://youtu.be/P1mrW-ilrVQ)
+
+### Screenshots
+
+| | |
+|---|---|
+| ![Landing page with Log in with PayPal and the two demo personas](docs/screenshots/landing.png) | ![Priya's dashboard: 12-month income, clients, refunds and payment gaps](docs/screenshots/overview.png) |
+| **Landing:** log in with PayPal or try a demo persona | **Overview:** 12 months of income at a glance |
+| ![PayScore 731 with TreeSHAP drivers](docs/screenshots/payscore.png) | ![AI copilot answering an income question and asking approval before a payout](docs/screenshots/copilot.png) |
+| **PayScore:** a 300–850 score with TreeSHAP drivers | **AI copilot:** real tools, and payouts wait for approval |
+| ![Offer Guard showing an 18% advertised APR costs 27.55% a year](docs/screenshots/offer-guard.png) | ![Income Passport with a verification link](docs/screenshots/passport.png) |
+| **Offer Guard:** the real annual cost behind an advertised rate | **Income Passport:** shareable proof of income, revocable |
 
 No login is needed. Open either link to land in the demo workspace as that persona:
 
 | Persona | Link | Committed-model score |
 |---|---|---|
-| Priya Nair, stable online seller | `<frontend-url>/try/priya` | 731 (low risk) |
-| Rohan Kulkarni, risky borrower | `<frontend-url>/try/rohan` | 465 (high risk) |
+| Priya Nair, stable online seller | https://paypilot-ai-chi.vercel.app/try/priya | 731 (low risk) |
+| Rohan Kulkarni, risky borrower | https://paypilot-ai-chi.vercel.app/try/rohan | 465 (high risk) |
 
 The landing page has the same two buttons, and the top bar has a toggle to switch persona mid-demo. Switching clears
 the previous persona's score, offer, and payout state.
